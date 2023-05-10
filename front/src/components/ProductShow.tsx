@@ -1,6 +1,6 @@
 import { FaLocationArrow } from 'react-icons/fa';
 
-function ProductShow() {
+function ProductShow() { 
 	return (
 		<>
 			<div className="relative text-center mr-10 ml-10">
