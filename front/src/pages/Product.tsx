@@ -1,4 +1,4 @@
-import { FaLocationArrow, FaEdit } from 'react-icons/fa';
+import { FaLocationArrow } from 'react-icons/fa';
 
 function Product() {
   return (
