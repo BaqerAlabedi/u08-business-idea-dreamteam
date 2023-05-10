@@ -3,7 +3,7 @@ interface Props {
 	placeHolder: string;
 	inputID: string;
 	
-	
+
 	opacity?: number;
 	labelText?: string;
 	
@@ -17,7 +17,7 @@ export default function Input(props:Props)
 	
 	return (
 		
-		<div className="flex flex-col font-inter">
+		<div className="flex flex-col">
 		{props.labelText ? 
 		<label htmlFor={props.inputID}>{props.labelText}</label>
 		:

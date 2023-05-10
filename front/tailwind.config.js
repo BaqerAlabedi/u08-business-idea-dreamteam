@@ -3,9 +3,7 @@ export default {
   content: ["./src/**/*.tsx"],
   theme: {
     extend: {
-		fontFamily: {
-			'inter': ['Inter']
-		},
+
 	},
   },
   plugins: [],
