@@ -12,11 +12,11 @@ function ProductShow() {
 					<h6 className="font-bold">Maträtt rubrik</h6>
 					<span className="text-black">Lorem ipsum dolor sit amet...</span>
 				</div>
-				<div className="bg-emerald-600 w-24 h-12 p-3 rounded-lg absolute top-6 left-4">
+				<div className="bg-teal-700 w-24 h-10 pt-2 rounded-lg absolute top-6 left-4">
 					<span className="font-bold text-white">20 kr</span>
 				</div>
 
-				<div className="p-3 w-32 h-12 backdrop-opacity-70 backdrop-invert bg-white/30 transparent rounded-lg absolute top-6 right-4">
+				<div className="p-3 w-32 h-10 pt-2 backdrop-opacity-70 backdrop-invert bg-white/30 transparent rounded-lg absolute top-6 right-4">
 
 					{/* If statement for location-symbol or edit-btn*/}
 
