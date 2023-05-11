@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Table, { DataItem } from "./Table";
 import { TableProps } from "./Table";
-import { GoArrowSmallUp, GoArrowSmallDown } from "react-icons/go";
+import { FaSort, FaSortDown, FaSortUp} from "react-icons/fa";
 
 
 
@@ -80,21 +80,19 @@ function getIcons(label: string, sortBy: string, sortOrder: string) {
 	if (label !== sortBy){
 		return (
 			<div>
-				<GoArrowSmallUp></GoArrowSmallUp>
-				<GoArrowSmallDown></GoArrowSmallDown>
+				<FaSort></FaSort>
 			</div>
 		);
-	}
-	if (sortOrder === "asc") {
+	} else if (sortOrder === "asc") {
 		return (
 			<div>
-				<GoArrowSmallUp></GoArrowSmallUp>
+				<FaSortDown></FaSortDown>
 			</div>
 		);
 	} else if (sortOrder === "desc"){
 		return (
 			<div>
-				<GoArrowSmallDown></GoArrowSmallDown>
+				<FaSortUp></FaSortUp>
 			</div>
 		);
 	}

@@ -45,7 +45,7 @@ function Table({ data, config, getKey }: TableProps) {
 
     // Returns the table component with the rendered headers and rows
 	return (
-		<table className="mx-auto table-auto border-spacing-2">
+		<table className="table-auto w-full mx-auto">
 			<thead>
 				<tr className="border-b-2">{renderedHeaders}</tr>
 			</thead>
