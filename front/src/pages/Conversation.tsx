@@ -29,8 +29,11 @@ function Conversation () {
 	const getKey = (item: DataItem) => item.dishes || "";
 
 	return(
-		<div>
-			<SortTable data={data} config={config} getKey={getKey}></SortTable>
+		<div className="w-10/12 mx-auto">
+			<section className="">
+				<h2>Historiska köp</h2>
+				<SortTable data={data} config={config} getKey={getKey}></SortTable>
+			</section>
 		</div>
 	);
 }
