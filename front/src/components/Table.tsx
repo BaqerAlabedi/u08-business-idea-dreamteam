@@ -46,8 +46,8 @@ function Table({ data, config, getKey }: TableProps) {
     // Returns the table component with the rendered headers and rows
 	return (
 		<table className="table-auto w-full mx-auto">
-			<thead>
-				<tr className="border-b-2">{renderedHeaders}</tr>
+			<thead className="mt-8">
+				<tr>{renderedHeaders}</tr>
 			</thead>
 			<tbody>{renderedRows}</tbody>
 		</table>
