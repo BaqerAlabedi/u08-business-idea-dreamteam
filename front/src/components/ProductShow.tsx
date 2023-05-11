@@ -1,6 +1,6 @@
-import { FaLocationArrow } from 'react-icons/fa';
+import { FaLocationArrow } from "react-icons/fa";
 
-function ProductShow() { 
+function ProductShow() {
 	return (
 		<>
 			<div className="relative text-center mr-10 ml-10">
@@ -20,12 +20,12 @@ function ProductShow() {
 
 					{/* If statement for location-symbol or edit-btn*/}
 
-					<FaLocationArrow className="inline"/> 
+					<FaLocationArrow className="inline"/>
 					<span className="ml-2 text-black ">
 						<b>1.2</b> km
 					</span>
 
-					{/*<button><FaEdit/></button> */} 
+					{/*<button><FaEdit/></button> */}
 				</div>
 			</div>
 		</>
