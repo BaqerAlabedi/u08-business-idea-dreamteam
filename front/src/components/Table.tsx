@@ -9,21 +9,18 @@ interface ColumnConfig {
     sortValue?: ((item: DataItem) => JSX.Element | string | undefined | number) | undefined;
 }
 
-
 // Defines the props for the Table component
 export interface TableProps {
-    data: DataItem[]; // The data to display in the table
-    config: ColumnConfig[]; // The configuration for each column in the table
-    getKey: (item: DataItem) => Key; // A function to extract a unique key for each row in the table
+    data: DataItem[];
+    config: ColumnConfig[];
+    getKey: (item: DataItem) => Key;
 }
 
 // Defines the data item type for the table
 export interface DataItem {
-    name?: string;
-    color?: string;
-    score?: number;
-    weight?: number;
-    cost?: number;
+    dishes: string;
+    adress: string;
+    time: number;
 }
 
 function Table({ data, config, getKey }: TableProps) {
