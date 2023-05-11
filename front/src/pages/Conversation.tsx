@@ -1,7 +1,11 @@
+import { useState } from "react";
 import SortTable from "../components/SortTable";
 import { DataItem } from "../components/Table";
+import { FaAngleDown, FaAngleUp} from "react-icons/fa";
+
 
 function Conversation () {
+	const [toggle, setToggle] = useState(false)
 	// FAKE DATA - ta bort när man har data
 	const data: DataItem[] = [
 		{dishes: "Maträtt 1", adress: "Adress 1 med gata 1", time: Date.now()},
@@ -28,11 +32,18 @@ function Conversation () {
 	];
 	const getKey = (item: DataItem) => item.dishes || "";
 
+	const handleToggle = () => {
+		setToggle(!toggle);
+	};
+
 	return(
 		<div className="w-10/12 mx-auto">
 			<section className="">
-				<h2>Historiska köp</h2>
-				<SortTable data={data} config={config} getKey={getKey}></SortTable>
+				<div className="flex">
+					{toggle ? <FaAngleDown onClick={handleToggle} className="self-center"></FaAngleDown> : <FaAngleUp onClick={handleToggle} className="self-center"></FaAngleUp>}
+					<h2 className="m-3">Historiska köp</h2>
+				</div>
+				{toggle && (<SortTable data={data} config={config} getKey={getKey}></SortTable>)}
 			</section>
 		</div>
 	);
