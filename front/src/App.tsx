@@ -5,7 +5,8 @@ function App() {
 	return (
 		<>
 			<h1 className="underline">Frontend</h1>
-			<Button onClick={() => console.log("hello")} className="bg-red-700 text-white">Example btn</Button>
+			<Button onClick={() => console.log("hello")} className="w-32 h-8">Def+Class btn</Button>
+			<Button onClick={() => console.log("hello")} red>Red btn</Button>
 			<ProductShow></ProductShow>
 		</>
 	);
