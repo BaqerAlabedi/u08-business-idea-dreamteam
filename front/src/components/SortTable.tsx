@@ -5,7 +5,7 @@ import { GoArrowSmallUp, GoArrowSmallDown } from "react-icons/go";
 
 
 
-function SortableTable(props : TableProps) {
+function SortTable(props : TableProps) {
 	const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc"); // set initial value to "asc"
 	const [sortBy, setSortBy] = useState<string>(""); // set initial value to ""
 
@@ -100,4 +100,4 @@ function getIcons(label: string, sortBy: string, sortOrder: string) {
 	}
 }
 
-export default SortableTable;
+export default SortTable;
