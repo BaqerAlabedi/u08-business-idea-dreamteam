@@ -33,6 +33,11 @@ function Chat() {
 		]
 	};
 
+	const formatTime = (time: number) => {
+		const date = new Date(time);
+		return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+	};
+
 	return (
 		<div className="w-10/12 mx-auto max-w-5xl">
 			<section className="mt-5 flex justify-between">
@@ -54,7 +59,10 @@ function Chat() {
 								message.user === 111 ? "bg-teal-700/50" : "bg-gray-200"
 							} rounded-lg p-3 max-w-xs`}
 						>
-							{message.msg}
+							<div className="flex flex-col">
+								<span className="text-sm">{message.msg}</span>
+								<span className="mt-1 text-xs text-gray-700 text-right">{formatTime(message.time)}</span>
+							</div>
 						</div>
 					</div>
 				))}
