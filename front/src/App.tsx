@@ -1,4 +1,5 @@
 import Button from "./components/Button";
+import Index from "./pages/Index";
 import ProductShow from "./components/ProductShow";
 import Index from "./pages/Index";
 
@@ -7,6 +8,7 @@ function App() {
 		<>
 			<h1 className="underline">Frontend</h1>
 			<Button onClick={() => console.log("hello")} className="bg-red-700 text-white">Example btn</Button>
+			<Index></Index>
 			<ProductShow></ProductShow>
 			<Index></Index>
 		</>
