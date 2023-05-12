@@ -1,8 +1,10 @@
 function Index() {
 	return(
-		<>
-			<img className="" src="src/assets/index.jpg"/>
-		</>
+
+		<div className="h-screen bg-cover bg-center bg-index">
+		</div>
+
+
 	);
 }
 
