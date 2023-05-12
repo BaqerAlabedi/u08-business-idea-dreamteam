@@ -68,6 +68,8 @@ function Chat() {
 				))}
 			</section>
 			<hr />
+			{/* Ta bort sen */}
+			<div className="m-3 mx-auto w-72 h-11 bg-gray-200 rounded"></div>
 		</div>
 	);
 }
