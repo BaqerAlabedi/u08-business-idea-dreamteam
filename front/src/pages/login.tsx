@@ -3,14 +3,14 @@ import Input from "../components/Input";
 
 function Login() {
 	return (
-		<div className="relative h-screen bg-cover bg-center bg-login ">
-			<div className="absolute rounded-md sm:w-1/2 md:w-1/3 h-3/5 lg:bg-white opacity-80 lg:p-12 top-1/2 left-2/4 transform -translate-x-1/2 -translate-y-1/2">
-				<div className="ml-2 flex flex-col justify-center justify-items-center mb-12">
-					<div className="lg:ml-8 mb-4">
-						<h1 className="mb-0 font-bold">Logga in</h1><br></br>
-						<h2 className="w-48 mt-0 mb-2">till GrannskapsRätten</h2>
+		<div className="h-screen bg-cover bg-center bg-login ">
+			<div className="mx-auto  rounded-md md:w-1/3 h-3/5 lg:bg-white/80 lg:p-12 ">
+				<div className="flex flex-col justify-center mb-12">
+					<div className="mx-auto">
+						<h1 className="w-72 font-bold">Logga in</h1>
+						<h2 className="w-72 mb-2">till GrannskapsRätten</h2>
 					</div>
-					<form className="lg:ml-12 ">
+					<form className="mx-auto">
 						<Input inputID="email" labelText="Email" opacity={1} placeHolder=""></Input>
 						<Input inputID="password" labelText="Password" opacity={1} placeHolder=""></Input>
 						<Button className="w-72 mt-4 mb-4 bg-teal-700 text-white" >Login</Button>
