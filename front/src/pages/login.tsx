@@ -4,7 +4,7 @@ import Input from "../components/Input";
 function Login() {
 	return (
 		<div className="relative h-screen bg-cover bg-center bg-login ">
-			<div className="absolute rounded-md sm:w-1/2 lg:w-1/3 h-3/5 lg:bg-white opacity-80 lg:p-12 top-1/2 left-2/4 transform -translate-x-1/2 -translate-y-1/2">
+			<div className="absolute rounded-md sm:w-1/2 md:w-1/3 h-3/5 lg:bg-white opacity-80 lg:p-12 top-1/2 left-2/4 transform -translate-x-1/2 -translate-y-1/2">
 				<div className="ml-2 flex flex-col justify-center justify-items-center mb-12">
 					<div className="lg:ml-8 mb-8">
 						<h1 className="mb-0 font-bold">Logga in</h1><br></br>
