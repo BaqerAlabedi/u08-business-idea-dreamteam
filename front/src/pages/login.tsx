@@ -11,12 +11,12 @@ function Login() {
 						<h2 className="w-48 mt-0 mb-4">till GrannskapsRätten</h2>
 					</div>
 					<form className="lg:ml-10">
-						<Input inputID="" labelText="" opacity={1} placeHolder=""></Input>
-						<Input inputID="" labelText="" opacity={1} placeHolder=""></Input>
+						<Input inputID="" labelText="Email" opacity={1} placeHolder=""></Input>
+						<Input inputID="" labelText="Password" opacity={1} placeHolder=""></Input>
 						<Button className="w-72 mt-4 mb-4" >Login</Button>
 					</form>
 					<div className="flex flex-row justify-center gap-8">
-						<h3 className="mr-8 font-bold">Inte kund än?</h3>
+						<h3 className="mr-10 font-bold">Inte kund än?</h3>
 						<a className="underline font-bold text-teal-700">Registrera dig</a>
 					</div>
 				</div>
