@@ -10,9 +10,9 @@ function Login() {
 						<h1 className="mb-0 font-bold">Logga in</h1><br></br>
 						<h2 className="w-48 mt-0 mb-4">till GrannskapsRätten</h2>
 					</div>
-					<form className="lg:ml-10">
-						<Input inputID="" labelText="Email" opacity={1} placeHolder=""></Input>
-						<Input inputID="" labelText="Password" opacity={1} placeHolder=""></Input>
+					<form className="lg:ml-10 ">
+						<Input inputID="email" labelText="Email" opacity={1} placeHolder="Email"></Input>
+						<Input inputID="password" labelText="Password" opacity={1} placeHolder="Password"></Input>
 						<Button className="w-72 mt-4 mb-4" >Login</Button>
 					</form>
 					<div className="flex flex-row justify-center gap-8">
