@@ -1,4 +1,5 @@
 import { FaAngleLeft, FaExclamation } from "react-icons/fa";
+import Input from "../components/Input";
 
 function Chat() {
 	const props = {
@@ -68,8 +69,9 @@ function Chat() {
 				))}
 			</section>
 			<hr />
-			{/* Ta bort sen */}
-			<div className="m-3 mx-auto w-72 h-11 bg-gray-200 rounded"></div>
+			<div className="mx-auto mt-5 flex justify-center">
+				<Input placeHolder="Chat meddelande input" inputID="chatID"></Input>
+			</div>
 		</div>
 	);
 }
