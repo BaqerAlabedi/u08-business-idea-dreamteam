@@ -13,7 +13,7 @@ function Login() {
 					<form className="lg:ml-10">
 						<Input inputID="" labelText="" opacity={1} placeHolder=""></Input>
 						<Input inputID="" labelText="" opacity={1} placeHolder=""></Input>
-						<Button className="def" children></Button>
+						<Button className="w-72 mt-4 mb-4" >Login</Button>
 					</form>
 					<div className="flex flex-row justify-center gap-8">
 						<h3 className="mr-8 font-bold">Inte kund än?</h3>
