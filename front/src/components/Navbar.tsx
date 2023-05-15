@@ -5,7 +5,7 @@ import { ImCross } from "react-icons/im";
 
 const closed = (<>
 	<div className="bg-black w-8 h-[.2rem]"/>
-	<div className="bg-black w-8 h-[.2rem] my-[.35rem]"/>
+	<div className="bg-black w-8 h-[.2rem] my-[.30rem]"/>
 	<div className="bg-black w-8 h-[.2rem]"/>
 </>);
 let is_open = false;
