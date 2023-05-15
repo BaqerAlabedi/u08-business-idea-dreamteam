@@ -24,9 +24,10 @@ function Product(){
 			return `${minutes} m sen`;
 		}
 	}
+
 	return(
-		<div>
-			<section className="relative">
+		<div className="relative">
+			<section >
 				<img src={data.img} alt="Image of food" className="w-screen h-full object-cover " />
 				<FaAngleLeft className="absolute top-2 left-2 text-2xl bg-white/50 rounded-lg"></FaAngleLeft>
 				<div className="absolute top-2 right-2 flex bg-white/50 rounded-lg p-2 gap-2 items-center">
@@ -34,10 +35,10 @@ function Product(){
 					<p><span className="font-semibold">1.2</span> km</p>
 				</div>
 			</section>
-			<div className="mx-auto w-10/12 mt-5">
+			<div className="mx-auto w-10/12 mt-5 mb-28">
 				<section className="flex justify-between items-center">
 					<h2 className="text-lg font-semibold">{data.title}</h2>
-					<h3 className="bg-teal-700 px-4 py-2 rounded-lg text-white">{data.price} kr</h3>
+					<h3 className="bg-teal-700 px-5 py-1.5 rounded-lg text-white">{data.price} kr</h3>
 				</section>
 				<p className="my-5">{data.desc}</p>
 				<div className="flex justify-between">
@@ -48,9 +49,18 @@ function Product(){
 					<p>Annons lades ut:</p>
 					<p className="font-semibold">{getTimeAgo(data.created)}</p>
 				</div>
-				<section>
-
+				<section className="grid grid-cols-3 gap-3 my-5">
+					{data.tags.map((tag, index) => (
+						<h4 key={index}
+							className="border-teal-700 px-3 py-1 border-2 rounded-lg text-center whitespace-nowrap overflow-hidden overflow-ellipsis">
+							{tag.charAt(0).toUpperCase() + tag.slice(1)}
+						</h4>
+					))}
 				</section>
+			</div>
+			<div className="bg-gray-200 py-3 fixed bottom-0 left-0 right-0">
+				{/* Ta bort sen */}
+				<div className="m-3 mx-auto w-72 h-11 bg-teal-700 rounded"></div>
 			</div>
 		</div>
 	);
