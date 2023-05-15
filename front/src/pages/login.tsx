@@ -7,7 +7,7 @@ function Login() {
 			<div className="rounded-md md:w-1/3 h-3/5 lg:bg-white/80 lg:p-12 ">
 				<div className="flex flex-col justify-center mb-12">
 					<div className="mx-auto">
-						<h1 className="w-72 font-bold">Logga in</h1>
+						<h1 className=" text-lg w-72 font-bold">Logga in</h1>
 						<h2 className="w-72 mb-2">till GrannskapsRätten</h2>
 					</div>
 					<form className="mx-auto">
