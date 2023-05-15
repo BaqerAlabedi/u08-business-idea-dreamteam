@@ -12,7 +12,7 @@ function Login() {
 					</div>
 					<form className="mx-auto">
 						<Input inputID="email" labelText="Email" opacity={1} placeHolder=""></Input>
-						<Input inputID="password" labelText="Password" opacity={1} placeHolder=""></Input>
+						<Input inputID="password" labelText="Lösenord" opacity={1} placeHolder=""></Input>
 						<Button className="w-72 mt-4 mb-4 bg-teal-700 text-white" >Login</Button>
 					</form>
 					<div className="flex flex-row justify-center gap-8">
