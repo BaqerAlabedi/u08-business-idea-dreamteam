@@ -10,3 +10,5 @@ export default function Button({children, onClick, className}:Props) {
 		<button onClick={onClick} className={def + className}>{children}</button>
 	);
 }
+
+
