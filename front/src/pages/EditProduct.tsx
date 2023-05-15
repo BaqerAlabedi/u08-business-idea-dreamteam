@@ -9,7 +9,7 @@ export function EditProduct() {
 			<div className="flex justify-center items-center my-4">
 				<div className="min-[800px]:mr-72">
 					<a href="/">
-						<button className="lg:hidden mr-20 max-[400px]:mr-30">
+						<button className="min-[800px]:hidden mr-20 max-[400px]:mr-30">
 							<BsArrowLeft size={25}></BsArrowLeft>
 						</button>
 						<button className="max-[800px]:hidden">
@@ -48,7 +48,7 @@ export function EditProduct() {
 							</select>
 							<input type="date" id="dates" className="block mt-2 mb-5 px-6 box-border h-11 rounded border-solid border-gray-300 border"/>
 
-							<div className="block my-2">
+							<div className="flex justify-center min-[800px]:block">
 								<Button children={"Uppdatera annons"} className={""}></Button>
 							</div>
 						</div>
