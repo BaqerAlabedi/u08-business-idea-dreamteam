@@ -3,8 +3,8 @@ import Input from "../components/Input";
 
 function Login() {
 	return (
-		<div className="h-screen bg-cover bg-center bg-login ">
-			<div className="mx-auto  rounded-md md:w-1/3 h-3/5 lg:bg-white/80 lg:p-12 ">
+		<div className="flex items-center justify-center h-screen bg-cover bg-center bg-login ">
+			<div className="rounded-md md:w-1/3 h-3/5 lg:bg-white/80 lg:p-12 ">
 				<div className="flex flex-col justify-center mb-12">
 					<div className="mx-auto">
 						<h1 className="w-72 font-bold">Logga in</h1>
