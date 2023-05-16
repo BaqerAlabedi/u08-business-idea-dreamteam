@@ -1,16 +1,10 @@
-import React from "react";
 import Button from "../components/Button";
 import { HiPencil } from "react-icons/hi";
 
-interface ProfilbildProps {
-  imageUrl: string;
-}
-
-// eslint-disable-next-line no-empty-pattern
-const Profilbild: React.FC<ProfilbildProps> = ({}) => {
+function Profile() {
 	return (
 		<>
-			<div className="flex flex-row w-screen justify-evenly">
+			<div className="flex flex-col w-screen justify-evenly lg:flex-row">
 				<div className="flex justify-start">
 					<img
 						src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBw8PDw8PDw8PDw0PDw8PDw8PDQ8PDQ8PFRUWFhURFRUYHSggGBolGxUVITEhJSkrLi4uFx8zODMtNygtLisBCgoKBQUFDgUFDisZExkrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrK//AABEIAOEA4QMBIgACEQEDEQH/xAAXAAEBAQEAAAAAAAAAAAAAAAAAAQYC/8QAFhABAQEAAAAAAAAAAAAAAAAAAAER/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAL/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwDTgqkoAAAAAAACiACoAoIAKACAAKCAAAAAAC4AgAAAAAAEAAAVFBAAVBQQUBQEAAAAAAABRAAAAAAAAAFQAVFQBUUASKAIoAAIKgAAAAAAGgAAAAAAAAAAAKgCiAKAAAAgAAAAAAAAAAAAAAAAAAAAoICgiooAigAAgAAKCAoIAAAAAAAACggqAAACoCiKCKAAAAAIKgAAAAAqAAoIAAogCgCAAAAAAKgAKAigAACKgAAAAAACgAYACKAAgAKAIqAqKAGCAqKgAAAAAACgAACKACKgAAKACCoAoAAAAAAAgKCAAAAAoAigAAAAgoCaKAgKAioAoAAAAACAKgAAAAAAAKIAoAiooIogAuAIAAACgAiooAFAEAAAAAAAAACCgIKCAAAoAYAioAoAAAAAAigiooAIAqAAKCAAAoCCgioAoAIKAgACoAqCggqAoAIKAIqAAAAAqAABAVAAABRAFABAAAABUoCoACgIKAIoCAAAAAAAAAAAAAACgIoAgAAAKgAqgDlQAqAAAAUAVAAUAQoAqUAAAUAH//Z"
@@ -33,7 +27,6 @@ const Profilbild: React.FC<ProfilbildProps> = ({}) => {
 						<dd>Glannshammarsgatan 48</dd>
 					</dl>
 				</div>
-				<hr className="" />
 
 				<div className="flex justify-end">
 					<button>
@@ -41,7 +34,7 @@ const Profilbild: React.FC<ProfilbildProps> = ({}) => {
 					</button>
 				</div>
 			</div>
-
+			<hr className="w-10/12 mx-auto"/>
 			<div className="flex justify-center">
 				<Button
 					children={"Ny annons"}
@@ -51,8 +44,9 @@ const Profilbild: React.FC<ProfilbildProps> = ({}) => {
 						}
 				/>
 			</div>
+
 		</>
 	);
-};
+}
 
-export default Profilbild;
+export default Profile;
