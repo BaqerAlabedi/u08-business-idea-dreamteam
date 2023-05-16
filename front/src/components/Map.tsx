@@ -1,4 +1,4 @@
-import {GoogleMap, useJsApiLoader} from "@react-google-maps/api";
+import {GoogleMap, Marker, useJsApiLoader} from "@react-google-maps/api";
 
 
 export default function Map() {
@@ -9,7 +9,7 @@ export default function Map() {
 	return(
 		<>
 			<GoogleMap zoom={10} center={{lat: 59.33, lng: 18.06}} mapContainerClassName="w-screen h-96">
-
+				
 			</GoogleMap>
 		</>
 

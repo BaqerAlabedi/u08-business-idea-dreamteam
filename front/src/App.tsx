@@ -8,10 +8,12 @@ import ProductShow from "./components/ProductShow";
 import Search from "./components/Search";
 import Product from "./pages/Product";
 import Login from "./pages/login";
+import Map from "./components/Map";
 
 function App() {
 	return (
 		<>
+			<Map></Map>
 			<Conversation></Conversation>
 			<Chat></Chat>
 			<Login></Login>
