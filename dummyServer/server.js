@@ -7,6 +7,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Använd bara om man vill få ut ALLT
 app.get("/products/:userID", async (req, res) => {
     res.status(200).json({
         "message": "success",
@@ -25,7 +26,7 @@ app.get("/products/:userID", async (req, res) => {
 					"location": [45.123, 47.232],
 					"free": false,
 					"price": 20,
-					"img": "food.jpg",
+					"img": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c",
 					"expire": ["Tillagningsdatum", Date.now()],
 					"tags": ["vegan", "middag", "hemmagjord", "soppa"],
 					"sold_to": "222222222222222222222222",
@@ -76,20 +77,21 @@ app.post("/login", async (req, res) => {
 
 // Register -> skicka in email, förnamn, efternamn och password
 app.post("/register", async (req, res) => {
-	const { email, firstname, surname, pass } = req.body
+	const { email, firstname, surname, pass, pass_confirmed } = req.body
     res.status(201).json({
         "message": "Registration successfull",
 		"email": email,
 		"password": pass,
 		"firstname": firstname,
-		"surname": surname
+		"surname": surname,
+		"pass_confirmed": pass_confirmed
     })
 }) 
 
 // Products excludes own include a fake ID tag -> filter out sold_to 
 app.get("/products/:productID", async (res) => {
     res.status(200).json({
-        "message": "Sucess of products",
+        "message": "Success of products",
         "foods": [{
 			"_id": "AAAA",
 			"title": "Food title",
@@ -97,7 +99,7 @@ app.get("/products/:productID", async (res) => {
 			"location": [45.123, 47.232],
 			"free": false,
 			"price": 20,
-			"img": "food.jpg",
+			"img": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c",
 			"expire": ["Tillagningsdatum", Date.now()],
 			"tags": ["vegan", "middag", "hemmagjord", "soppa"],
 			"sold_to": false,
@@ -109,7 +111,7 @@ app.get("/products/:productID", async (res) => {
 			"location": [12.345, 67.890],
 			"free": true,
 			"price": 0,
-			"img": "another.jpg",
+			"img": "https://img.freepik.com/free-photo/buddha-bowl-dish-with-vegetables-legumes-top-view_1150-42589.jpg",
 			"expire": ["Expiration date", Date.now()],
 			"tags": ["fruit", "snack"],
 			"sold_to": false,
@@ -121,7 +123,7 @@ app.get("/products/:productID", async (res) => {
 			"location": [98.765, 43.210],
 			"free": false,
 			"price": 10,
-			"img": "third.jpg",
+			"img": "https://images.unsplash.com/photo-1504674900247-0877df9cc836",
 			"expire": ["Best before", Date.now()],
 			"tags": ["dessert", "chocolate"],
 			"sold_to": "2333333333333333",
@@ -157,7 +159,7 @@ app.get("/conversations/:productID/:userID", async (req, res) => {
 					"location": [45.123, 47.232],
 					"free": false,
 					"price": 20,
-					"img": "food.jpg",
+					"img": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c",
 					"expire": ["Tillagningsdatum", Date.now()],
 					"tags": ["vegan", "middag", "hemmagjord", "soppa"],
 					"sold_to": "222222222222222222222222",
@@ -287,7 +289,7 @@ app.get("/conversations/:userID", async (req, res) => {
 					"location": [45.123, 47.232],
 					"free": false,
 					"price": 20,
-					"img": "food.jpg",
+					"img": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c",
 					"expire": ["Tillagningsdatum", Date.now()],
 					"tags": ["vegan", "middag", "hemmagjord", "soppa"],
 					"sold_to": "222222222222222222222222",
@@ -345,7 +347,7 @@ app.get("/users/:userID", async (req, res) => {
 					"location": [45.123, 47.232],
 					"free": false,
 					"price": 20,
-					"img": "food.jpg",
+					"img": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c",
 					"expire": ["Tillagningsdatum", Date.now()],
 					"tags": ["vegan", "middag", "hemmagjord", "soppa"],
 					"sold_to": "222222222222222222222222",
