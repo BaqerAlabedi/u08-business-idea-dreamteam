@@ -5,7 +5,7 @@ import { MdKeyboardArrowLeft } from "react-icons/md";
 
 export function CreateProduct() {
 	return (
-		<div className="m-6">
+		<div className="m-0 min-[350px]:m-9">
 			<div className="flex justify-center items-center my-4">
 				<div className="min-[800px]:mr-72">
 					<a href="/">
@@ -17,7 +17,7 @@ export function CreateProduct() {
 						</button>
 					</a>
 				</div>
-				<h2 className="flex min-[800px]:mr-72 max-[350px]:mr-16 text-xl font-bold mr-28">Ny annons</h2>
+				<h2 className="flex min-[800px]:mr-72 text-xl font-bold mr-28">Ny annons</h2>
 			</div>
 			<div className="flex justify-center items-center mb-10">
 				<div className="flex justify-center items-center">
