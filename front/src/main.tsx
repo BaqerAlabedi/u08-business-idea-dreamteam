@@ -11,6 +11,7 @@ import Dashboard from "./pages/Dashboard";
 import Conversation from "./pages/Conversation";
 import Chat from "./pages/Chat";
 import Product from "./pages/Product";
+import Profile from "./pages/Profile";
 import Login from "./pages/login";
 
 
@@ -41,10 +42,10 @@ const router = createBrowserRouter([
 				path: "/product/:productID",
 				element: <Product/>,
 			},
-			// {
-			// 	path: "/profile",
-			// 	element: <Profile/>,
-			// },
+			{
+				path: "/profile",
+				element: <Profile/>,
+			},
 			// {
 			// 	path: "/profile/edit",
 			// 	element: <EditProfile/>,
