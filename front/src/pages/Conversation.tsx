@@ -3,6 +3,7 @@ import SortTable from "../components/SortTable";
 import { DataItem } from "../components/Table";
 import { FaAngleDown, FaAngleUp} from "react-icons/fa";
 import ConversationWidget from "../components/ConversationWidget";
+import Search from "../components/Search";
 
 
 function Conversation () {
@@ -49,9 +50,7 @@ function Conversation () {
 		<div className="w-10/12 mx-auto max-w-5xl">
 			<section className="flex flex-col justify-center">
 				<h2 className="m-3 text-xl font-semibold text-center md:text-start">Konversationer</h2>
-				{/* Ta bort sen */}
-				<div className="m-3 mx-auto w-72 h-11 bg-gray-200 rounded"></div>
-
+				<Search name="Sök efter meddelande"></Search>
 				<ConversationWidget></ConversationWidget>
 				<ConversationWidget></ConversationWidget>
 				<ConversationWidget></ConversationWidget>

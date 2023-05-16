@@ -6,7 +6,7 @@ import {
 } from "react-router-dom";
 import App from "./App";
 import Index from "./pages/Index";
-import Login from "./pages/login";
+import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import Conversation from "./pages/Conversation";
