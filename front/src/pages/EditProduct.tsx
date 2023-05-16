@@ -5,20 +5,22 @@ import { MdKeyboardArrowLeft } from "react-icons/md";
 
 export function EditProduct() {
 	return (
-		<div className="m-6">
-			<div className="flex justify-center items-center my-4">
-				<div className="min-[800px]:mr-72">
-					<a href="/">
-						<button className="min-[800px]:hidden mr-20 max-[400px]:mr-30">
-							<BsArrowLeft size={25}></BsArrowLeft>
-						</button>
-						<button className="max-[800px]:hidden">
-							<MdKeyboardArrowLeft size={40}></MdKeyboardArrowLeft>
-						</button>
-					</a>
-				</div>
-				<h2 className="flex min-[800px]:mr-72 max-[400px]:mr-9 text-xl font-bold mr-28">
+		<div className="m-8">
+			<div className="block float-left">
+				<a href="/">
+					<button className="min-[800px]:hidden">
+						<BsArrowLeft size={25}></BsArrowLeft>
+					</button>
+					<button className="max-[800px]:hidden">
+						<MdKeyboardArrowLeft size={40}></MdKeyboardArrowLeft>
+					</button>
+				</a>
+			</div>
+			<div className="flex justify-center items-center my-2">
+				<div className="flex">
+					<h2 className="text-xl font-bold">
                     Ändra annons</h2>
+				</div>
 			</div>
 			<div className="flex justify-center items-center mb-10">
 				<div className="flex justify-center items-center">
