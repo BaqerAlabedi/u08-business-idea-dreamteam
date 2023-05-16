@@ -1,7 +1,7 @@
+import Conversation from "./pages/Conversation";
 import Chat from "./pages/Chat";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
-// import Button from "./components/Button";
 import Index from "./pages/Index";
 import Button from "./components/Button";
 import Navbar from "./components/Navbar";
@@ -12,6 +12,7 @@ import Product from "./pages/Product";
 function App() {
 	return (
 		<>
+			<Conversation></Conversation>
 			<Chat></Chat>
 			<Login></Login>
 			<Register></Register>
