@@ -4,11 +4,20 @@ export type MyErrorResponse = {
 	errors: { detail: string }[];
   };
 
-export function loginAPI() {
-	return console.log("hej");
-}
+export const userLogin = async (email: string, pass: string) => {
+	try {
+		const response = await axios.post("http://localhost:4000/login", {
+			email,
+			pass,
+		});
+		return response.data;
+	} catch (error) {
+		throw new Error(`userLogin request failed: ${error}`);
+	}
+};
 
-export const chatAPI = async (productID:string, userID:string) => {
+
+export const getChatMessages = async (productID:string, userID:string) => {
 	try {
 		const response = await axios.get(`http://localhost:4000/conversations/${productID}/${userID}`);
 		return response.data;
