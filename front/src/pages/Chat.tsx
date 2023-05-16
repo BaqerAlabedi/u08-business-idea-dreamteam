@@ -1,7 +1,7 @@
 import { FaAngleLeft, FaExclamation } from "react-icons/fa";
 import Input from "../components/Input";
 import { Link } from "react-router-dom";
-import { getChatMessages, userLogin } from "../functions/api";
+import { getAllUserInfo, getChatMessages, userLogin, userRegister } from "../functions/api";
 import { useEffect } from "react";
 
 function Chat() {
@@ -46,7 +46,7 @@ function Chat() {
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const data = await userLogin("dehhe", "heher");
+				const data = await getAllUserInfo("dehhe");
 				console.log(data);
 			} catch (error) {
 				console.error(error);
