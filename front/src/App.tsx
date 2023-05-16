@@ -1,3 +1,4 @@
+import Chat from "./pages/Chat";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 // import Button from "./components/Button";
@@ -11,6 +12,7 @@ import Product from "./pages/Product";
 function App() {
 	return (
 		<>
+			<Chat></Chat>
 			<Login></Login>
 			<Register></Register>
 			{/* <h1 className="underline">Frontend</h1>
