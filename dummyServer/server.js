@@ -8,7 +8,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Använd bara om man vill få ut ALLT
-app.get("/products/:userID", async (req, res) => {
+app.get("/users/:userID/info", async (req, res) => {
     res.status(200).json({
         "message": "success",
         "user":
@@ -89,7 +89,7 @@ app.post("/register", async (req, res) => {
 }) 
 
 // Products excludes own include a fake ID tag -> filter out sold_to 
-app.get("/products/:productID", async (res) => {
+app.get("/products/:productID", async (req, res) => {
     res.status(200).json({
         "message": "Success of products",
         "foods": [{
@@ -146,6 +146,81 @@ app.get("/products/:productID", async (res) => {
 
 // Chat
 app.get("/conversations/:productID/:userID", async (req, res) => {
+    res.status(200).json({
+        "message": "success",
+        "user":
+            {
+                "_id": "645b7cc3424d43eee1ea75ff",
+                "first_name": "Cattis",
+                "surname": "Gustafsson",
+				"foods": [{
+					"_id": "AAAA",
+					"title": "Food title",
+					"location": [45.123, 47.232],
+					"free": false,
+					"price": 20,
+					"img": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c",
+					"expire": ["Tillagningsdatum", Date.now()],
+					"tags": ["vegan", "middag", "hemmagjord", "soppa"],
+					"sold_to": "222222222222222222222222",
+					"conversation": [
+						{
+							"conversation_id": 12345,
+							"time": Date.now(),
+							"buyer": "222222222222222222222222",
+							"messages": [
+								{
+									"sender": "user1",
+									"message": "Hello World",
+									"timestamp": Date.now()
+								},
+								{
+									"sender": "user1",
+									"message": "Hello",
+									"timestamp": Date.now()
+								},
+								{
+									"sender": "user2",
+									"message": "Hello World",
+									"timestamp": Date.now()
+								},
+								{
+									"sender": "user1",
+									"message": "Hello",
+									"timestamp": Date.now()
+								}
+							]
+						}
+					]
+            		}
+        		]
+    		}
+    })
+})
+
+// Ny chat
+app.post("/conversations/:productID/:userID", async (req, res) => {
+    res.status(200).json({
+        "message": "New chat started"
+    })
+})
+
+// Lägg till en chat
+app.put("/conversations/:productID/:userID", async (req, res) => {
+    res.status(200).json({
+        "message": "Update successfull"
+    })
+})
+
+// Klicka på såld knapp
+app.put("/conversations/:productID", async (req, res) => {
+    res.status(200).json({
+        "message": "The product is now sold"
+    })
+})
+
+// Konversationer
+app.get("/conversations/:userID", async (req, res) => {
     res.status(200).json({
         "message": "success",
         "user":
@@ -252,82 +327,6 @@ app.get("/conversations/:productID/:userID", async (req, res) => {
     })
 })
 
-// Ny chat
-app.post("/conversations/:productID/:userID", async (req, res) => {
-    res.status(200).json({
-        "message": "New chat started"
-    })
-})
-
-// Lägg till en chat
-app.put("/conversations/:productID/:userID", async (req, res) => {
-    res.status(200).json({
-        "message": "Update successfull"
-    })
-})
-
-
-// Klicka på såld knapp
-app.put("/conversations/:productID", async (req, res) => {
-    res.status(200).json({
-        "message": "The product is now sold"
-    })
-})
-
-// Konversationer
-app.get("/conversations/:userID", async (req, res) => {
-    res.status(200).json({
-        "message": "success",
-        "user":
-            {
-                "_id": "645b7cc3424d43eee1ea75ff",
-                "first_name": "Cattis",
-                "surname": "Gustafsson",
-				"foods": [{
-					"_id": "AAAA",
-					"title": "Food title",
-					"location": [45.123, 47.232],
-					"free": false,
-					"price": 20,
-					"img": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c",
-					"expire": ["Tillagningsdatum", Date.now()],
-					"tags": ["vegan", "middag", "hemmagjord", "soppa"],
-					"sold_to": "222222222222222222222222",
-					"conversation": [
-						{
-							"conversation_id": 12345,
-							"time": Date.now(),
-							"buyer": "222222222222222222222222",
-							"messages": [
-								{
-									"sender": "user1",
-									"message": "Hello World",
-									"timestamp": Date.now()
-								},
-								{
-									"sender": "user1",
-									"message": "Hello",
-									"timestamp": Date.now()
-								},
-								{
-									"sender": "user2",
-									"message": "Hello World",
-									"timestamp": Date.now()
-								},
-								{
-									"sender": "user1",
-									"message": "Hello",
-									"timestamp": Date.now()
-								}
-							]
-						}
-					]
-            }
-        ]
-    }
-    })
-})
-
 // Profil -> visa inte sålda produkter
 app.get("/users/:userID", async (req, res) => {
     res.status(200).json({
@@ -371,36 +370,45 @@ app.get("/users/:userID", async (req, res) => {
 // Edit profil
 app.put("/users/:userID", async (req, res) => {
     res.status(200).json({
-        "message": "success",
+        "message": "Updated the profile successfull",
     })
 })
 
 app.delete("/users/:userID", async (req, res) => {
     res.status(200).json({
-        "message": "delete success",
+        "message": "deleted the profile successfull",
     })
 })
 
 // Edit product
 app.put("/products/:productID", async (req, res) => {
     res.status(200).json({
-        "message": "success",
+        "message": "Updated the product successfull",
     })
 })
 
 app.delete("/products/:productID", async (req, res) => {
     res.status(200).json({
-        "message": "delete success",
+        "message": "deleted the product successfull",
     })
 })
 
 // New product
-app.post("/products/:productID", async (req, res) => {
-    res.status(200).json({
-        "message": "Product created",
+app.post("/products", async (req, res) => {
+    const { title, desc, location, free, price, img, expire, tags } = req.body
+    res.status(201).json({
+        "message": "New product created successfull",
+		"id": "12323212",
+		"title": title,
+		"desc": desc,
+		"location": location,
+		"free": free,
+		"price": price,
+		"img": img,
+		"expire": expire,
+		"tags": tags
     })
 })
-
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`)
