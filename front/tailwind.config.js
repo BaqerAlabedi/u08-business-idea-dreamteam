@@ -15,6 +15,7 @@ export default {
       "poof": "poof .3s ease-in-out forwards"
       }
     }
+	},
   },
   plugins: []
 }
