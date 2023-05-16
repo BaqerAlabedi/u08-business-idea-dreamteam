@@ -3,6 +3,9 @@ export default {
   content: ["./src/**/*.tsx"],
   theme: {
     extend: {
+		backgroundImage: {
+			"index": "url('./src/assets/index.jpg')"
+		}
       keyframes: {
         "drop": {
           "0%": {transform: "scaleY(0) translateY(-100px)", filter: "opacity(0) blur(10px)", border: "solid 20px black"},
