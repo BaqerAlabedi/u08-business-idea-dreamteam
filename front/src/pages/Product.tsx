@@ -1,4 +1,6 @@
 import { FaAngleLeft, FaLocationArrow } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import Button from "../components/Button";
 
 
 function Product(){
@@ -29,8 +31,10 @@ function Product(){
 	return(
 		<div className="relative max-w-5xl mx-auto">
 			<section>
-				<img src={data.img} alt="Image of food" className="w-screen h-full object-cover h-[25rem]" />
-				<FaAngleLeft className="absolute top-2 left-2 text-2xl bg-white/30 rounded-lg"></FaAngleLeft>
+				<img src={data.img} alt="Image of food" className="w-screen object-cover h-[25rem]" />
+				<Link to={"/dashboard"}>
+					<FaAngleLeft className="absolute top-2 left-2 text-2xl bg-white/30 rounded-lg"></FaAngleLeft>
+				</Link>
 				<div className="absolute top-2 right-2 flex bg-white/50 rounded-lg p-2 gap-2 items-center">
 					<FaLocationArrow className="text-sm"></FaLocationArrow>
 					<p><span className="font-semibold">1.2</span> km</p>
@@ -66,7 +70,7 @@ function Product(){
 			</section>
 			<div className="bg-gray-200 py-3 fixed bottom-0 left-0 right-0">
 				{/* Ta bort sen */}
-				<div className="m-3 mx-auto w-72 h-11 bg-teal-700 rounded"></div>
+				<Link to={"/conversation/236632"} className="flex flex-col items-center"><Button>Kontakta säljare</Button></Link>
 			</div>
 		</div>
 	);

@@ -1,5 +1,6 @@
 import { FaAngleLeft, FaExclamation } from "react-icons/fa";
 import Input from "../components/Input";
+import { Link } from "react-router-dom";
 
 function Chat() {
 	const props = {
@@ -39,10 +40,13 @@ function Chat() {
 		return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 	};
 
+
 	return (
 		<div className="w-10/12 mx-auto max-w-5xl">
 			<section className="mt-5 flex justify-between">
-				<FaAngleLeft className="text-2xl" />
+				<Link to={"/conversation"}>
+					<FaAngleLeft className="text-2xl"/>
+				</Link>
 				<div className="flex flex-col text-center">
 					<h2 className="text-xl font-semibold">{props.title}</h2>
 					<h3 className="text-lg">{props.buyer}</h3>

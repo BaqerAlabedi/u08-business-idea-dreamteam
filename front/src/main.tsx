@@ -2,9 +2,7 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import {
 	createBrowserRouter,
-	Route,
 	RouterProvider,
-	Routes,
 } from "react-router-dom";
 import App from "./App";
 import Index from "./pages/Index";

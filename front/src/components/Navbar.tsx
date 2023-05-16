@@ -41,7 +41,9 @@ export default function Navbar() {
 	return (
 		<header className="w-full bg-white/90 sticky top-0 z-10">
 			<section className="flex justify-between items-center p-4">
-				<h1 className="text-lg font-medium">GrannskapsRätten</h1>
+				<Link to={is_login() ? "/dashboard" : "/"}>
+					<h1 className="text-lg font-semibold">GrannskapsRätten</h1>
+				</Link>
 				<BsChatLeftTextFill className={`${is_login() ? "" : "hidden "}fill-teal-700 cursor-pointer text-2xl`}/>
 				<div>
 					<button onClick={menu} id="menu" className="md:hidden w-9 h-[20px]">

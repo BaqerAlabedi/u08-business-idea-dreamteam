@@ -6,7 +6,7 @@ interface Props {
 	className?: string;
 }
 
-const def = "font-semibold rounded-sm shadow-md ";
+const def = "font-semibold rounded shadow-md ";
 export default function Button({children, onClick, red, white, className}:Props) {
 	let style = (red)
 		? def + "border-2 border-red-700 bg-white hover:bg-red-700 text-black hover:text-white "
