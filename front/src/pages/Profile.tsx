@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Button from "../components/Button";
 import { HiPencil } from "react-icons/hi";
 
@@ -36,13 +37,7 @@ function Profile() {
 			</div>
 			<hr className="w-10/12 mx-auto"/>
 			<div className="flex justify-center">
-				<Button
-					children={"Ny annons"}
-					className
-						={
-							"mt-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
-						}
-				/>
+				<Link to={"/product/new"}><Button>Lägg till ny annons</Button></Link>
 			</div>
 
 		</>
