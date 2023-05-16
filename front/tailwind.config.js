@@ -6,7 +6,7 @@ export default {
 		backgroundImage: {
 			"login": "url('./src/assets/login.jpg')",
 			"register": "url('./src/assets/register.jpg')"
-      "index": "url('./src/assets/index.jpg')"
+			"index": "url('./src/assets/index.jpg')"
 		}
       keyframes: {
         "drop": {

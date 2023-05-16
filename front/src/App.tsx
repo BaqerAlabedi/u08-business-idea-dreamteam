@@ -1,5 +1,7 @@
 import Register from "./pages/Register";
 import Login from "./pages/Login";
+// import Button from "./components/Button";
+import Index from "./pages/Index";
 import Button from "./components/Button";
 import Navbar from "./components/Navbar";
 import ProductShow from "./components/ProductShow";
@@ -11,6 +13,9 @@ function App() {
 		<>
 			<Login></Login>
 			<Register></Register>
+			{/* <h1 className="underline">Frontend</h1>
+			<Button onClick={() => console.log("hello")} className="bg-red-700 text-white">Example btn</Button> */}
+			<Index></Index>
 			<Navbar/>
 			<h1 className="underline">Frontend</h1>
 			<Button onClick={() => console.log("hello")} className="w-32 h-8">Def+Class btn</Button>
