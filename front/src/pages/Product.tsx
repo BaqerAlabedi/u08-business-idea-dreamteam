@@ -4,10 +4,26 @@ import Button from "../components/Button";
 import { useEffect, useState } from "react";
 import { getOneProduct } from "../functions/api";
 
+export interface FoodResponse {
+    foods: [{
+        _id: string,
+        title: string,
+        desc: string,
+        location: [number, number],
+        free: boolean,
+        price: number,
+        img: string,
+        expire: [string, number],
+		created: number,
+        tags: string[],
+        sold_to: boolean,
+    }
+ ]
+}
 
 function Product(){
 
-	const [data, setData] = useState({});
+	const [data, setData] = useState<FoodResponse[]>([]);
 
 	//fake data
 	// const data = {
@@ -39,7 +55,7 @@ function Product(){
 			try {
 				const res = await getOneProduct("hejh");
 				console.log(res.foods[0]);
-				setData(res.foods[0])
+				setData(res.foods[0]);
 			} catch (error) {
 				console.error(error);
 			}
