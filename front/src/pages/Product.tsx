@@ -39,7 +39,7 @@ function Product(){
 			try {
 				const res = await getOneProduct("hejh");
 				console.log(res.foods[0]);
-				setData(res.foods[0])
+				setData(res.foods[0]);
 			} catch (error) {
 				console.error(error);
 			}
@@ -89,7 +89,7 @@ function Product(){
 
 			<hr className="mx-auto w-10/12" />
 
-			{data && (
+			{data.tags && (
 				<section className="mx-auto w-10/12 grid grid-cols-3 xl:grid-cols-4 gap-3 my-5 mb-28">
 					{data.tags.map((tag, index) => (
 						<h4 key={index}
