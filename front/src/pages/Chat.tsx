@@ -1,6 +1,8 @@
 import { FaAngleLeft, FaExclamation } from "react-icons/fa";
 import Input from "../components/Input";
 import { Link } from "react-router-dom";
+import { createOneProduct, deleteOneProduct, deleteOneUser, getAllUserInfo, getChatMessages, getConversations, getOneUser, getProducts, newChat, newChatMessages, updateOneProduct, updateOneUser, updateProductSoldStatus, userLogin, userRegister } from "../functions/api";
+import { useEffect } from "react";
 
 function Chat() {
 	const props = {
@@ -40,6 +42,30 @@ function Chat() {
 		return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 	};
 
+
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				const data = await createOneProduct(
+					{
+						title: "string",
+						desc: "string",
+						location: [12.23, 1.343],
+						free: false,
+						price: 12,
+						img: "string",
+						expire: ["tillagning", Date.now()],
+						tags: ["hejejr", "herhr", "hehejr"]
+					}
+				);
+				console.log(data);
+			} catch (error) {
+				console.error(error);
+			}
+		};
+
+		fetchData();
+	}, []);
 
 	return (
 		<div className="w-10/12 mx-auto max-w-5xl">
