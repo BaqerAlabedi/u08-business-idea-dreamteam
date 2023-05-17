@@ -39,8 +39,8 @@ function menu() {
 
 export default function Navbar() {
 	return (
-		<header className="w-full bg-white/90 sticky top-0 z-10">
-			<section className="flex justify-between items-center p-4">
+		<header className="w-screen bg-white/90 sticky top-0 z-10">
+			<section className="w-11/12 mx-auto flex justify-between items-center p-4">
 				<Link to={is_login() ? "/dashboard" : "/"}>
 					<h1 className="text-lg font-semibold">GrannskapsRätten</h1>
 				</Link>
