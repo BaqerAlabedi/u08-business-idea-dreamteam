@@ -1,7 +1,7 @@
 import { FaAngleLeft, FaExclamation } from "react-icons/fa";
 import Input from "../components/Input";
 import { Link } from "react-router-dom";
-import { createOneProduct, deleteOneProduct, deleteOneUser, getAllUserInfo, getChatMessages, getConversations, getOneUser, getProducts, newChat, newChatMessages, updateOneProduct, updateOneUser, updateProductSoldStatus, userLogin, userRegister } from "../functions/api";
+import { createOneProduct, deleteOneProduct, deleteOneUser, getAllUserInfo, getChatMessages, getConversations, getOneProduct, getOneUser, getProducts, newChat, newChatMessages, updateOneProduct, updateOneUser, updateProductSoldStatus, userLogin, userRegister } from "../functions/api";
 import { useEffect } from "react";
 
 function Chat() {
@@ -46,18 +46,7 @@ function Chat() {
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const data = await createOneProduct(
-					{
-						title: "string",
-						desc: "string",
-						location: [12.23, 1.343],
-						free: false,
-						price: 12,
-						img: "string",
-						expire: ["tillagning", Date.now()],
-						tags: ["hejejr", "herhr", "hehejr"]
-					}
-				);
+				const data = await getOneProduct("hejh");
 				console.log(data);
 			} catch (error) {
 				console.error(error);

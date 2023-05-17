@@ -89,7 +89,7 @@ app.post("/register", async (req, res) => {
 }) 
 
 // Products excludes own include a fake ID tag -> filter out sold_to 
-app.get("/products/:productID", async (req, res) => {
+app.get("/products", async (req, res) => {
     res.status(200).json({
         "message": "Success of products",
         "foods": [{
@@ -138,6 +138,29 @@ app.get("/products/:productID", async (req, res) => {
 			"img": "fourth.jpg",
 			"expire": ["Expiry date", Date.now()],
 			"tags": ["beverage", "refreshment"],
+			"sold_to": false,
+		}
+	 ]
+    })
+})
+
+
+
+
+// Products excludes own include a fake ID tag -> filter out sold_to 
+app.get("/products/:productsID", async (req, res) => {
+    res.status(200).json({
+        "message": "Success of one product",
+        "foods": [{
+			"_id": "AAAA",
+			"title": "Food title",
+			"desc": "Lorem ipsum",
+			"location": [45.123, 47.232],
+			"free": false,
+			"price": 20,
+			"img": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c",
+			"expire": ["Tillagningsdatum", Date.now()],
+			"tags": ["vegan", "middag", "hemmagjord", "soppa"],
 			"sold_to": false,
 		}
 	 ]
