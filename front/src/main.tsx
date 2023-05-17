@@ -13,6 +13,9 @@ import Chat from "./pages/Chat";
 import Product from "./pages/Product";
 import Profile from "./pages/Profile";
 import Login from "./pages/login";
+import EditProfile from "./pages/EditProfile";
+import EditProduct from "./pages/EditProduct";
+import CreateProduct from "./pages/CreateProduct";
 
 
 
@@ -46,18 +49,18 @@ const router = createBrowserRouter([
 				path: "/profile",
 				element: <Profile/>,
 			},
-			// {
-			// 	path: "/profile/edit",
-			// 	element: <EditProfile/>,
-			// },
-			// {
-			// 	path: "/product/edit",
-			// 	element: <EditProduct/>,
-			// },
-			// {
-			// 	path: "/product/create",
-			// 	element: <CreateProduct/>,
-			// },
+			{
+				path: "/profile/edit",
+				element: <EditProfile/>,
+			},
+			{
+				path: "/product/edit/:productID",
+				element: <EditProduct/>,
+			},
+			{
+				path: "/product/create",
+				element: <CreateProduct/>,
+			},
 			{
 				path: "/conversation",
 				element: <Conversation/>,
