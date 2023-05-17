@@ -39,7 +39,7 @@ function Product(){
 			try {
 				const res = await getOneProduct("hejh");
 				console.log(res.foods[0]);
-				setData(res.foods[0]);
+				setData(res.foods[0])
 			} catch (error) {
 				console.error(error);
 			}
@@ -96,7 +96,7 @@ function Product(){
 							className="border-teal-700 px-3 py-1 border-2 rounded-lg text-center whitespace-nowrap overflow-hidden overflow-ellipsis">
 							{tag.charAt(0).toUpperCase() + tag.slice(1)}
 						</h4>
-					))}  *
+					))}
 				</section>
 			)}
 
