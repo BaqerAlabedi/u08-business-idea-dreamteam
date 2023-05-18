@@ -4,11 +4,11 @@ interface Props {
 	type?: string;
 	opacity?: number;
 	labelText?: string;
-	value?: any;
+	value?: string;
 	onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   }
 
-const styling = "box-border h-11 w-72 rounded border-solid border-gray-300 border";
+const styling = "box-border h-11 w-72 rounded border-solid border-gray-300 border p-2";
 
 export default function Input(props: Props) {
 	return (
