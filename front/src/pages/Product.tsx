@@ -74,7 +74,7 @@ function Product(){
 						<section>
 							<div className="flex justify-between lg:flex-col lg:text-right">
 								<p>Utgångsdatum:</p>
-								<p className="font-semibold"></p>
+								<p className="font-semibold">{data.foods[0].expire[1]}</p>
 							</div>
 							<div className="flex justify-between my-5 lg:flex-col lg:text-right">
 								<p>Annons lades ut:</p>
