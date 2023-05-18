@@ -159,7 +159,7 @@ app.get("/products/:productsID", async (req, res) => {
 			"free": false,
 			"price": 20,
 			"img": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c",
-			"expire": ["Tillagningsdatum", Date.now()],
+			"expire": ["Tillagningsdatum", 1684396659263],
 			"created": Date.now() - 1000000,
 			"tags": ["vegan", "middag", "hemmagjord", "soppa"],
 			"sold_to": false,
