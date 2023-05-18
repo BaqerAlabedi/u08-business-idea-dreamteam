@@ -17,7 +17,7 @@ function Register() {
 		console.log(formData);
 	};
 
-	const handleInputChange = (event: React.FormEvent<HTMLFormElement>) => {
+	const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const { id, value } = event.target;
 		setFormData((prevFormData) => ({
 			...prevFormData,
