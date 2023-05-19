@@ -1,7 +1,7 @@
 import { FaAngleLeft, FaExclamation } from "react-icons/fa";
 import Input from "../components/Input";
 import { Link } from "react-router-dom";
-import { createOneProduct, deleteOneProduct, deleteOneUser, getAllUserInfo, getChatMessages, getConversations, getOneProduct, getOneUser, getProducts, newChat, newChatMessages, updateOneProduct, updateOneUser, updateProductSoldStatus, userLogin, userRegister } from "../functions/api";
+import { getOneProduct } from "../functions/api";
 import { useEffect } from "react";
 
 function Chat() {
