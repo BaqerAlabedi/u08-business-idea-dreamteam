@@ -65,6 +65,7 @@ function Register() {
 						/>
 						<Input
 							inputID="firstname"
+							minLength={3}
 							labelText="Förnamn"
 							opacity={1}
 							placeHolder=""
@@ -73,6 +74,7 @@ function Register() {
 						/>
 						<Input
 							inputID="lastname"
+							minLength={3}
 							labelText="Efternamn"
 							opacity={1}
 							placeHolder=""
@@ -81,6 +83,7 @@ function Register() {
 						/>
 						<Input
 							type="password"
+							minLength={4}
 							inputID="pass"
 							labelText="Nytt lösenord"
 							opacity={1}
@@ -90,6 +93,7 @@ function Register() {
 						/>
 						<Input
 							type="password"
+							minLength={4}
 							inputID="pass_confirmed"
 							labelText="Bekräfta lösenord"
 							opacity={1}
