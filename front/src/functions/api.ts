@@ -2,10 +2,10 @@ import axios from "axios";
 
 interface RegisterProps {
 	email: string,
-	firstname: string,
-	lastname: string,
-	pass: string,
-	pass_confirmed: string,
+	first_name: string,
+	surname: string,
+	password: string,
+	password_confirmed: string,
 }
 
 interface ProductProps{
@@ -41,14 +41,14 @@ export const userLogin = async (email: string, pass: string) => {
 };
 
 export const userRegister = async (props : RegisterProps) => {
-	const {email, firstname, lastname, pass, pass_confirmed} = props;
+	const {email, first_name, surname, password, password_confirmed} = props;
 	try {
 		const response = await axios.post("http://localhost:4000/register", {
 			email,
-			firstname,
-			lastname,
-			pass,
-			pass_confirmed,
+			first_name,
+			surname,
+			password,
+			password_confirmed,
 		});
 		return response.data;
 	} catch (error) {

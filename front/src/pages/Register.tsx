@@ -10,13 +10,13 @@ function Register() {
 
 	const [formData, setFormData] = useState({
 		email: "",
-		firstname: "",
-		lastname: "",
-		pass: "",
-		pass_confirmed: ""
+		first_name: "",
+		surname: "",
+		password: "",
+		password_confirmed: ""
 	});
 
-	const { email, firstname, lastname, pass, pass_confirmed } = formData;
+	const { email, first_name, surname, password, password_confirmed } = formData;
 
 	const [errorMessage, setErrorMessage] = useState("");
 
@@ -24,11 +24,11 @@ function Register() {
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 
-		if (pass !== pass_confirmed) {
+		if (password !== password_confirmed) {
 			return setErrorMessage("Passwords do not match");
 		}
 
-		if (!email || !firstname || !lastname || !pass || !pass_confirmed) {
+		if (!email || !first_name || !surname || !password || !password_confirmed) {
 			return setErrorMessage("Please fill in all fields");
 		}
 
@@ -68,41 +68,41 @@ function Register() {
 							onChange={handleInputChange}
 						/>
 						<Input
-							inputID="firstname"
+							inputID="first_name"
 							minLength={3}
 							labelText="Förnamn"
 							opacity={1}
 							placeHolder=""
-							value={firstname}
+							value={first_name}
 							onChange={handleInputChange}
 						/>
 						<Input
-							inputID="lastname"
+							inputID="surname"
 							minLength={3}
 							labelText="Efternamn"
 							opacity={1}
 							placeHolder=""
-							value={lastname}
+							value={surname}
 							onChange={handleInputChange}
 						/>
 						<Input
 							type="password"
 							minLength={4}
-							inputID="pass"
+							inputID="password"
 							labelText="Nytt lösenord"
 							opacity={1}
 							placeHolder=""
-							value={pass}
+							value={password}
 							onChange={handleInputChange}
 						/>
 						<Input
 							type="password"
 							minLength={4}
-							inputID="pass_confirmed"
+							inputID="password_confirmed"
 							labelText="Bekräfta lösenord"
 							opacity={1}
 							placeHolder=""
-							value={pass_confirmed}
+							value={password_confirmed}
 							onChange={handleInputChange}
 						/>
 						<Button>Login</Button>
