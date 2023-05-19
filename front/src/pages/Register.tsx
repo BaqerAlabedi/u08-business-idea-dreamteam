@@ -29,8 +29,7 @@ function Register() {
 		}
 
 		try {
-			const data = await userRegister(formData);
-			console.log(data);
+			await userRegister(formData);
 			navigate("/dashboard");
 		} catch (error) {
 			return setErrorMessage("Try again, something went wrong");
