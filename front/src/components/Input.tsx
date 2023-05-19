@@ -5,6 +5,7 @@ interface Props {
 	opacity?: number;
 	labelText?: string;
 	value?: string;
+	minLength?: number;
 	onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   }
 
@@ -17,6 +18,7 @@ export default function Input(props: Props) {
 				<label htmlFor={props.inputID}>{props.labelText}</label>
 			) : null}
 			<input
+				minLength={props.minLength ?? 0}
 				type={props.type}
 				style={{ opacity: props.opacity }}
 				id={props.inputID}
