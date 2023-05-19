@@ -28,6 +28,10 @@ function Register() {
 			return setErrorMessage("Passwords do not match");
 		}
 
+		if (!email || !firstname || !lastname || !pass || !pass_confirmed) {
+			return setErrorMessage("Please fill in all fields");
+		}
+
 		try {
 			await userRegister(formData);
 			navigate("/dashboard");
