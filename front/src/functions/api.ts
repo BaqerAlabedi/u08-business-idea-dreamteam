@@ -1,5 +1,13 @@
 import axios from "axios";
 
+interface RegisterProps {
+	email: string,
+	firstname: string,
+	lastname: string,
+	pass: string,
+	pass_confirmed: string,
+}
+
 interface ProductProps{
 	title: string,
 	desc: string,
@@ -32,12 +40,13 @@ export const userLogin = async (email: string, pass: string) => {
 	}
 };
 
-export const userRegister = async (email: string, firstname:string, surname:string, pass: string, pass_confirmed:boolean) => {
+export const userRegister = async (props : RegisterProps) => {
+	const {email, firstname, lastname, pass, pass_confirmed} = props;
 	try {
 		const response = await axios.post("http://localhost:4000/register", {
 			email,
 			firstname,
-			surname,
+			lastname,
 			pass,
 			pass_confirmed,
 		});

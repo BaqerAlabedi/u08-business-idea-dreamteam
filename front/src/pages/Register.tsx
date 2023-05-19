@@ -1,31 +1,40 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import { MdError } from "react-icons/md";
+import { userRegister } from "../functions/api";
 
 function Register() {
+	const navigate = useNavigate();
+
 	const [formData, setFormData] = useState({
 		email: "",
-		surname: "",
+		firstname: "",
 		lastname: "",
-		password: "",
-		confirmPassword: ""
+		pass: "",
+		pass_confirmed: ""
 	});
+
+	const { email, firstname, lastname, pass, pass_confirmed } = formData;
 
 	const [errorMessage, setErrorMessage] = useState("");
 
 
-	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 
-		if (formData.password !== formData.confirmPassword) {
-			console.log("Passwords do not match");
+		if (pass !== pass_confirmed) {
 			return setErrorMessage("Passwords do not match");
 		}
 
-
-		console.log(formData);
+		try {
+			const data = await userRegister(formData);
+			console.log(data);
+			navigate("/dashboard");
+		} catch (error) {
+			return setErrorMessage("Try again, something went wrong");
+		}
 	};
 
 	const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -52,15 +61,15 @@ function Register() {
 							labelText="Email"
 							opacity={1}
 							placeHolder=""
-							value={formData.email}
+							value={email}
 							onChange={handleInputChange}
 						/>
 						<Input
-							inputID="surname"
+							inputID="firstname"
 							labelText="Förnamn"
 							opacity={1}
 							placeHolder=""
-							value={formData.surname}
+							value={firstname}
 							onChange={handleInputChange}
 						/>
 						<Input
@@ -68,25 +77,25 @@ function Register() {
 							labelText="Efternamn"
 							opacity={1}
 							placeHolder=""
-							value={formData.lastname}
+							value={lastname}
 							onChange={handleInputChange}
 						/>
 						<Input
 							type="password"
-							inputID="password"
+							inputID="pass"
 							labelText="Nytt lösenord"
 							opacity={1}
 							placeHolder=""
-							value={formData.password}
+							value={pass}
 							onChange={handleInputChange}
 						/>
 						<Input
 							type="password"
-							inputID="confirmPassword"
+							inputID="pass_confirmed"
 							labelText="Bekräfta lösenord"
 							opacity={1}
 							placeHolder=""
-							value={formData.confirmPassword}
+							value={pass_confirmed}
 							onChange={handleInputChange}
 						/>
 						<Button>Login</Button>
