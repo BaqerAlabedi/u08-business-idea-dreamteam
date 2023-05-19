@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import Button from "../components/Button";
 import Input from "../components/Input";
+import { MdError } from "react-icons/md";
 
 function Register() {
 	const [formData, setFormData] = useState({
@@ -12,13 +13,24 @@ function Register() {
 		confirmPassword: ""
 	});
 
+	const [errorMessage, setErrorMessage] = useState("");
+
+
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
+
+		if (formData.password !== formData.confirmPassword) {
+			console.log("Passwords do not match");
+			return setErrorMessage("Passwords do not match");
+		}
+
+
 		console.log(formData);
 	};
 
 	const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const { id, value } = event.target;
+		setErrorMessage("");
 		setFormData((prevFormData) => ({
 			...prevFormData,
 			[id]: value,
@@ -69,7 +81,7 @@ function Register() {
 							onChange={handleInputChange}
 						/>
 						<Input
-							type={"password"}
+							type="password"
 							inputID="confirmPassword"
 							labelText="Bekräfta lösenord"
 							opacity={1}
@@ -79,6 +91,12 @@ function Register() {
 						/>
 						<Button>Login</Button>
 					</form>
+					{errorMessage && (
+						<div className="flex justify-center items-center my-4 border-2 border-red-700 p-1">
+							<MdError className="text-xl mr-3 text-red-700"></MdError>
+							<p className="font-semibold">{errorMessage}</p>
+						</div>
+					)}
 					<div className="flex flex-row justify-center gap-8 my-4">
 						<h3 className="lg:mr-10 font-bold">Redan kund?</h3>
 						<Link to={"/login"} className="underline font-bold text-teal-700">
