@@ -44,7 +44,7 @@ function Login() {
 		<div className="absolute top-0 flex items-center justify-center h-screen w-screen bg-cover bg-center bg-login ">
 			<div className="rounded-md md:w-1/3  lg:bg-white/80 lg:p-12 ">
 				<div className="flex flex-col justify-center">
-					<div className="mx-auto">
+					<div className="mx-auto mb-4">
 						<h1 className=" text-lg w-72 font-bold">Logga in</h1>
 						<h2 className="w-72 mb-2">till GrannskapsRätten</h2>
 					</div>
