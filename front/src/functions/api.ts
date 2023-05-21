@@ -1,5 +1,10 @@
 import axios from "axios";
 
+interface LoginProps {
+	email: string,
+	password: string,
+}
+
 interface RegisterProps {
 	email: string,
 	first_name: string,
@@ -28,11 +33,12 @@ export const getAllUserInfo = async (userID: string) => {
 	}
 };
 
-export const userLogin = async (email: string, pass: string) => {
+export const userLogin = async (props: LoginProps) => {
+	const {email, password} = props;
 	try {
 		const response = await axios.post("http://localhost:4000/login", {
 			email,
-			pass,
+			password,
 		});
 		return response.data;
 	} catch (error) {
