@@ -164,10 +164,10 @@ function CreateProduct() {
 						/>
 						<div>
 							<label htmlFor="price" className="block my-2">
-                Pris
+								Pris
 							</label>
 							<label htmlFor="free" className="text-sm mx-2">
-                Bortskänkes
+								Bortskänkes
 							</label>
 							<input
 								type="checkbox"
