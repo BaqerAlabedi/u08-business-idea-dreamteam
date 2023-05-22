@@ -1,5 +1,5 @@
 interface Props {
-	placeHolder: string;
+	placeHolder?: string;
 	inputID: string;
 	type?: string;
 	opacity?: number;
