@@ -381,7 +381,7 @@ app.get("/users/:userID", async (req, res) => {
 				"location": [23.456, 78.901],
 				"free": true,
 				"price": 0,
-				"img": "fourth.jpg",
+				"img": "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
 				"expire": ["Expiry date", Date.now()],
 				"tags": ["beverage", "refreshment"],
 				"sold_to": false,
