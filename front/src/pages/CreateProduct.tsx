@@ -7,6 +7,8 @@ import { useState } from "react";
 import { createOneProduct } from "../functions/api";
 
 function CreateProduct() {
+	const categoryTags = ["Vegan", "Soppa", "Middag", "Hemmagjord"];
+	const [selectedTags, setSelectedTags] = useState<string[]>([]);
 	const [hideInput, setHideInput] = useState(false);
 	const [formData, setFormData] = useState({
 		title: "",
@@ -16,10 +18,27 @@ function CreateProduct() {
 		price: 0,
 		img: "",
 		expire: ["", ""],
-		tags: [],
+		tags: [] as string[],
 	});
 
 	const [errorMessage, setErrorMessage] = useState("");
+
+	const handleTagCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const { id, checked } = event.target;
+		let updatedTags = [...selectedTags];
+
+		if (checked) {
+			updatedTags.push(id);
+		} else {
+			updatedTags = updatedTags.filter((tag) => tag !== id);
+		}
+
+		setSelectedTags(updatedTags);
+		setFormData((prevFormData) => ({
+			...prevFormData,
+			tags: updatedTags,
+		}));
+	};
 
 	const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setHideInput(event.target.checked);
@@ -89,7 +108,7 @@ function CreateProduct() {
 					</Link>
 				</div>
 				<h2 className="flex min-[800px]:mr-72 text-xl font-bold mr-28">
-          Ny annons
+					Ny annons
 				</h2>
 			</div>
 			<div className="flex justify-center items-center">
@@ -112,6 +131,21 @@ function CreateProduct() {
 								onChange={handleTextareaChange}
 							></textarea>
 						</div>
+						<label htmlFor="">Kategori</label>
+						{categoryTags.map((tag: string) => (
+							<div key={tag} className="my-2">
+								<input
+									className="text-sm"
+									type="checkbox"
+									id={tag}
+									checked={selectedTags.includes(tag)}
+									onChange={handleTagCheckboxChange}
+								/>
+								<label htmlFor={tag} className="ml-2 my-2">{tag}</label>
+							</div>
+						))}
+
+
 					</div>
 
 					<div className="flex flex-col gap-4">
