@@ -3,8 +3,14 @@ import Button from "../components/Button";
 import { BsArrowLeft } from "react-icons/bs";
 import { MdKeyboardArrowLeft } from "react-icons/md";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 function CreateProduct() {
+	const [hideInput, setHideInput] = useState(false);
+	const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		setHideInput(event.target.checked);
+	};
+
 	return (
 		<div className="max-w-5xl mx-auto">
 			<div className="flex justify-center items-center my-4">
@@ -35,10 +41,14 @@ function CreateProduct() {
 						<Input inputID="address" labelText="Address"></Input>
 						<Input type="file" inputID="img" labelText="Välj en bild"></Input>
 						<div>
-							<label htmlFor="price" className="block my-2">Pris</label>
-							<label htmlFor="free" className="text-sm mx-2">Bortskänkes</label>
-							<input type="checkbox" id="free"/>
-							<input type="number" id="price" className="block my-2 box-border h-11 w-72 rounded border-solid border-gray-300 border"/>
+							<label htmlFor="price" className="block my-2">
+							Pris
+							</label>
+							<label htmlFor="free" className="text-sm mx-2">
+							Bortskänkes
+							</label>
+							<input type="checkbox" id="free" onChange={handleCheckboxChange} />
+							{!hideInput && <Input type="number" inputID="price" />}
 						</div>
 
 						<label htmlFor="dates" className="block my-2">Tillagning/utgångsdatum</label>
