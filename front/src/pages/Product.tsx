@@ -3,7 +3,11 @@ import { Link } from "react-router-dom";
 import Button from "../components/Button";
 import { useEffect, useState } from "react";
 import { getOneProduct } from "../functions/api";
+import { useParams } from "react-router-dom";
 
+type ProductParam = {
+	productID: string
+}
 export interface FoodResponse {
 	foods: [{
 		_id: string,
@@ -23,6 +27,7 @@ export interface FoodResponse {
 
 function Product(){
 	const [data, setData] = useState<FoodResponse | null>(null);
+	const { productID } = useParams<ProductParam>();
 
 	function getTimeAgo(time:number) {
 		const timeDiff = Date.now() - time;
@@ -36,17 +41,18 @@ function Product(){
 		}
 	}
 	useEffect(() => {
-		const fetchData = async () => {
-			try {
-				const response = await getOneProduct("hejh");
-				console.log(response);
-				setData(response);
-			} catch (error) {
-				console.error(error);
-			}
-		};
-
-		fetchData();
+		if(productID) {
+			const fetchData = async () => {
+				try {
+					const response = await getOneProduct(productID);
+					console.log(response);
+					setData(response);
+				} catch (error) {
+					console.error(error);
+				}
+			};
+			fetchData();
+		}
 	}, []);
 
 	return(
