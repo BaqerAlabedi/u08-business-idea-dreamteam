@@ -31,17 +31,6 @@ function CreateProduct() {
 		}));
 	};
 
-	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-		event.preventDefault();
-
-		try {
-			const data = await createOneProduct(formData);
-			console.log(data);
-		} catch (error) {
-			setErrorMessage("Try again, something went wrong");
-		}
-	};
-
 	const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const { id, value } = event.target;
 		setErrorMessage("");
@@ -73,6 +62,17 @@ function CreateProduct() {
 			...prevFormData,
 			expire: [prevFormData.expire[0], value],
 		}));
+	};
+
+	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+		event.preventDefault();
+
+		try {
+			const data = await createOneProduct(formData);
+			console.log(data);
+		} catch (error) {
+			setErrorMessage("Try again, something went wrong");
+		}
 	};
 
 	return (
