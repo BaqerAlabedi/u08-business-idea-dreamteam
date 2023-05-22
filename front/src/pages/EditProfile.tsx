@@ -2,10 +2,51 @@ import Input from "../components/Input";
 import Button from "../components/Button";
 import { BsArrowLeft } from "react-icons/bs";
 import { MdKeyboardArrowLeft } from "react-icons/md";
+import { useEffect, useState } from "react";
+export interface UserId {
+	map(arg0: (data: {
+        data: Element;
+        _id: string;  img: string; first_name: string; surname: string; address: string | null;
+}) => import("react/jsx-runtime").JSX.Element): import("react").ReactNode;
+	_id: string;
+	first_name: string;
+	surname: string;
+	address: string;
+	img: string;
+
+  }
+
+
 
 function EditProfile() {
+	const [result, setResult] = useState<UserId|null>(null);
+
+	const getOneuser = async () => {
+		const response = await fetch("http://localhost:4000/users/${userID}");
+		const res = await response.json();
+		console.log(res);
+		setResult(res.user);
+	};
+
+	useEffect(() => {
+		const GetuserInfo = async () => {
+			await getOneuser();
+		};
+		GetuserInfo();
+	}, []);
+	console.log(result);
 	return (
+
 		<div className="m-6">
+			{/* {result && Object.values(result).map((data) => (
+				<article key={data._id}>
+					<h2>{data.first_name}</h2>
+					<p>{data.surname}</p>
+					<p> {data.adress}</p>
+				</article>
+			))} */}
+
+
 			<div className="block float-left">
 				<a href="/">
 					<button className="min-[800px]:hidden">
@@ -19,7 +60,7 @@ function EditProfile() {
 			<div className="flex justify-center items-center my-2">
 				<div className="flex">
 					<h2 className="text-xl font-bold">
-                    Ändra annons</h2>
+                    Ändra profil</h2>
 				</div>
 			</div>
 			<div className="min-[800px]:flex justify-center items-start">
@@ -32,27 +73,29 @@ function EditProfile() {
 					<div className="flex justify-center items-center">
 						<form className="lg:flex min-[320px]:block">
 							<div className="lg:mr-20">
-								<div className="min-[800px]:flex">
-									<div className="min-[800px]:mx-2">
-										<Input placeHolder={""} inputID={"email"} labelText={"Email"}></Input>
-									</div>
-									<div className="min-[800px]:mx-2">
-										<Input placeHolder={""} inputID={"firstName"} labelText={"Förnamn"}></Input>
-									</div>
-								</div>
-								<div className="min-[800px]:flex">
-									<div className="min-[800px]:mx-2">
-										<Input placeHolder={""} inputID={"lastName"} labelText={"Efternamn"}></Input>
-									</div>
-									<div className="min-[800px]:mx-2">
-										<Input placeHolder={""} inputID={"address"} labelText={"Adress"}></Input>
-									</div>
-								</div>
-								<div className="flex justify-center mt-2 min-[800px]:justify-end">
-									<div className="block m-2">
-										<Button children={"Spara uppgifter"} className={""}></Button>
-									</div>
-								</div>
+								{result && Object.values(result).map((data) =>
+									<><div className="min-[800px]:flex">
+
+										<div className="min-[800px]:mx-2">
+
+											<Input placeHolder={""} inputID={"email"} labelText={"Email"}></Input>
+										</div>
+										<div className="min-[800px]:mx-2">
+											<Input placeHolder={data.first_name} inputID={""} labelText={"Förnamn"}></Input>
+										</div>
+									</div><div className="min-[800px]:flex">
+										<div className="min-[800px]:mx-2">
+											<Input placeHolder={data.surname} inputID={""} labelText={"Efternamn"}></Input>
+										</div>
+										<div className="min-[800px]:mx-2">
+											<Input placeHolder={data.address} inputID={""} labelText={"Adress"}></Input>
+										</div>
+									</div><div className="flex justify-center mt-2 min-[800px]:justify-end">
+										<div className="block m-2">
+											<Button children={"Spara uppgifter"} className={""}></Button>
+										</div>
+									</div></>
+								)};
 							</div>
 						</form>
 					</div>
@@ -60,7 +103,7 @@ function EditProfile() {
 			</div>
 			<hr className="w-full" />
 			<div className="flex justify-center my-5">
-				<Button children={"Ta bort konto"} className={""}></Button>
+				<Button red>Ta bort konto</Button>
 			</div>
 		</div>
 	);

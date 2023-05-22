@@ -1,5 +1,10 @@
 import axios from "axios";
 
+interface UpdateUserProps {
+    first_name: string,
+    surname: string,
+    address: string
+}
 interface ProductProps{
 	title: string,
 	desc: string,
@@ -119,14 +124,14 @@ export const getOneUser = async (userID:string) => {
 	}
 };
 
-export const updateOneUser = async (userID:string) => {
-	try {
-		const response = await axios.put(`http://localhost:4000/users/${userID}`);
-		return response.data;
-	} catch (error) {
-		throw new Error(`chatAPI request failed: ${error}`);
-	}
-};
+// export const updateOneUser = async (userID:string) => {
+// 	try {
+// 		const response = await axios.put(`http://localhost:4000/users/${userID}`);
+// 		return response.data;
+// 	} catch (error) {
+// 		throw new Error(`chatAPI request failed: ${error}`);
+// 	}
+// };
 
 export const deleteOneUser = async (userID:string) => {
 	try {
@@ -170,5 +175,21 @@ export const createOneProduct = async ({title, desc, location, free, price, img,
 		return response.data;
 	} catch (error) {
 		throw new Error(`chatAPI request failed: ${error}`);
+	}
+};
+
+
+export const updateOneUser = async (_userID:string, props:UpdateUserProps) => {
+	const { first_name, surname, address }  = props;
+
+	try {
+		const response = await axios.put("http://localhost:4000/users/${userID}", {
+			first_name,
+			surname,
+			address,
+		});
+		return response.data;
+	} catch (error) {
+		throw new Error("chatAPI request failed: ${error}");
 	}
 };
