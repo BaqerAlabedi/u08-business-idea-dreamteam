@@ -11,7 +11,7 @@ interface RegisterProps {
 interface ProductProps{
 	title: string,
 	desc: string,
-	location: number[],
+	location: string,
 	free: boolean,
 	price: number,
 	img: string,
