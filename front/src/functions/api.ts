@@ -11,11 +11,11 @@ interface RegisterProps {
 interface ProductProps{
 	title: string,
 	desc: string,
-	location: [number, number],
+	location: number[],
 	free: boolean,
 	price: number,
 	img: string,
-	expire: [string, number],
+	expire: string[],
 	tags: string[]
 }
 

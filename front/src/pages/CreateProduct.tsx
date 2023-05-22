@@ -4,11 +4,51 @@ import { BsArrowLeft } from "react-icons/bs";
 import { MdKeyboardArrowLeft } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { createOneProduct } from "../functions/api";
 
 function CreateProduct() {
 	const [hideInput, setHideInput] = useState(false);
+	const [formData, setFormData] = useState({
+		title: "",
+		desc: "",
+		location: [1, 1],
+		free: false,
+		price: 0,
+		img: "",
+		expire: ["", ""],
+		tags: []
+	});
+
+	const [errorMessage, setErrorMessage] = useState("");
+
 	const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setHideInput(event.target.checked);
+		const { id } = event.target;
+
+		setFormData((prevFormData) => ({
+			...prevFormData,
+			[id]: event.target.checked,
+		}));
+	};
+
+	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+		event.preventDefault();
+
+		try {
+			const data = await createOneProduct(formData);
+			console.log(data)
+		} catch (error) {
+			return setErrorMessage("Try again, something went wrong");
+		}
+	};
+
+	const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const { id, value } = event.target;
+		setErrorMessage("");
+		setFormData((prevFormData) => ({
+			...prevFormData,
+			[id]: value,
+		}));
 	};
 
 	return (
@@ -27,7 +67,7 @@ function CreateProduct() {
 				<h2 className="flex min-[800px]:mr-72 text-xl font-bold mr-28">Ny annons</h2>
 			</div>
 			<div className="flex justify-center items-center">
-				<form className="lg:flex min-[320px]:block">
+				<form onSubmit={handleSubmit} className="lg:flex min-[320px]:block">
 					<div className="lg:mr-20">
 						<Input inputID={"titel"} labelText={"Rubrik"}></Input>
 						<div className="flex flex-col my-4">
@@ -38,17 +78,17 @@ function CreateProduct() {
 					</div>
 
 					<div className="flex flex-col gap-4">
-						<Input inputID="address" labelText="Address"></Input>
-						<Input type="file" inputID="img" labelText="Välj en bild"></Input>
+						<Input onChange={handleInputChange} inputID="location" labelText="Address"></Input>
+						<Input onChange={handleInputChange} type="file" inputID="img" labelText="Välj en bild"></Input>
 						<div>
 							<label htmlFor="price" className="block my-2">
-							Pris
+								Pris
 							</label>
 							<label htmlFor="free" className="text-sm mx-2">
-							Bortskänkes
+								Bortskänkes
 							</label>
 							<input type="checkbox" id="free" onChange={handleCheckboxChange} />
-							{!hideInput && <Input type="number" inputID="price" />}
+							{!hideInput && <Input onChange={handleInputChange} type="number" inputID="price" />}
 						</div>
 
 						<label htmlFor="dates" className="block my-2">Tillagning/utgångsdatum</label>
@@ -56,7 +96,7 @@ function CreateProduct() {
 							<option value="tillagning">Tillagningsdatum</option>
 							<option value="utgångsdatum">Utgångsdatum</option>
 						</select>
-						<input type="date" id="dates" className="block mt-2 mb-5 px-6 box-border h-11 rounded border-solid border-gray-300 border"/>
+						<input onChange={handleInputChange} type="date" id="dates" className="block mt-2 mb-5 px-6 box-border h-11 rounded border-solid border-gray-300 border"/>
 
 						<div className="block">
 							<Button>Spara annons</Button>
