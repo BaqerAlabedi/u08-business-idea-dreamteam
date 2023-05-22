@@ -2,7 +2,7 @@ import { useState } from "react";
 import { HiMagnifyingGlass } from "react-icons/hi2";
 import { BsFilter } from "react-icons/bs";
 
-export const Search = (props: { name?: string | undefined, filtered?: true, func?: string, onClick?: () => void; } ) => {
+export const Search = (props: { name?: string | undefined, filtered?: true, func?: string, selectedFilters?: string[], onFilterButtonClick?: (filter: string) => void; } ) => {
 	const [visible, setVisible] = useState(false);
 
 	return (
@@ -27,19 +27,19 @@ export const Search = (props: { name?: string | undefined, filtered?: true, func
 					<div className="flex justify-center">
 						<ul className="flex">
 							<li>
-								<button className="mx-2 mt-2 mb-5 px-6 rounded-lg font-medium text-black border-2 border-teal-700 hover:bg-teal-700 hover:text-white" onClick={props.onClick}>Refreshment/Snack</button>
+								<button className="mx-2 mt-2 mb-5 px-6 rounded-lg font-medium text-black border-2 border-teal-700 hover:bg-teal-700 hover:text-white" onClick={() => props.onFilterButtonClick}>Refreshment/Snack</button>
 							</li>
 							<li>
-								<button className="mx-2 mt-2 mb-5 px-6 rounded-lg font-medium text-black border-2 border-teal-700 hover:bg-teal-700 hover:text-white" onClick={props.onClick}>Lunch/Dinner</button>
+								<button className="mx-2 mt-2 mb-5 px-6 rounded-lg font-medium text-black border-2 border-teal-700 hover:bg-teal-700 hover:text-white" onClick={() => props.onFilterButtonClick}>Lunch/Dinner</button>
 							</li>
 							<li>
-								<button className="mx-2 mt-2 mb-5 px-6 rounded-lg font-medium text-black border-2 border-teal-700 hover:bg-teal-700 hover:text-white" onClick={props.onClick}>Dessert</button>
+								<button className="mx-2 mt-2 mb-5 px-6 rounded-lg font-medium text-black border-2 border-teal-700 hover:bg-teal-700 hover:text-white" onClick={() => props.onFilterButtonClick}>Dessert</button>
 							</li>
 							<li>
-								<button className="mx-2 mt-2 mb-5 px-6 rounded-lg font-medium text-black border-2 border-teal-700 hover:bg-teal-700 hover:text-white" onClick={props.onClick}>Vegetarian</button>
+								<button className="mx-2 mt-2 mb-5 px-6 rounded-lg font-medium text-black border-2 border-teal-700 hover:bg-teal-700 hover:text-white" onClick={() => props.onFilterButtonClick}>Vegetarian</button>
 							</li>
 							<li>
-								<button className="mx-2 mt-2 mb-5 px-6 rounded-lg font-medium text-black border-2 border-teal-700 hover:bg-teal-700 hover:text-white" onClick={props.onClick}>Vegan</button>
+								<button className="mx-2 mt-2 mb-5 px-6 rounded-lg font-medium text-black border-2 border-teal-700 hover:bg-teal-700 hover:text-white" onClick={() => props.onFilterButtonClick}>Vegan</button>
 							</li>
 						</ul>
 					</div>
