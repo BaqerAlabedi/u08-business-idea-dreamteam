@@ -2,11 +2,13 @@ import Input from "../components/Input";
 import Button from "../components/Button";
 import { BsArrowLeft } from "react-icons/bs";
 import { MdKeyboardArrowLeft, MdError } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { createOneProduct } from "../functions/api";
 
 function CreateProduct() {
+	const navigate = useNavigate();
+
 	const categoryTags = ["Vegan", "Soppa", "Middag", "Hemmagjord"];
 	const [selectedTags, setSelectedTags] = useState<string[]>([]);
 	const [hideInput, setHideInput] = useState(false);
@@ -83,28 +85,12 @@ function CreateProduct() {
 		}));
 	};
 
-	const handleImage = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const { value } = event.target;
-		console.log(value)
-		const fileInput = event.target;
-		const file = fileInput.files[0];
-		const reader = new FileReader();
-		console.log(reader)
-
-		reader.onload = function(event) {
-			const binaryData = event.target.result;
-		// Send binaryData to the backend
-	};
-
-reader.readAsArrayBuffer(file);
-	};
-
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 
 		try {
-			const data = await createOneProduct(formData);
-			console.log(data);
+			await createOneProduct(formData);
+			navigate("/profile");
 		} catch (error) {
 			setErrorMessage("Try again, something went wrong");
 		}
@@ -172,7 +158,7 @@ reader.readAsArrayBuffer(file);
 							require
 						/>
 						<Input
-							onChange={handleImage}
+							onChange={handleInputChange}
 							type="file"
 							inputID="img"
 							labelText="Välj en bild"
