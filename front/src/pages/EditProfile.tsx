@@ -3,50 +3,41 @@ import Button from "../components/Button";
 import { BsArrowLeft } from "react-icons/bs";
 import { MdKeyboardArrowLeft } from "react-icons/md";
 import { useEffect, useState } from "react";
+import { getOneUser } from "../functions/api";
 export interface UserId {
-	map(arg0: (data: {
-        data: Element;
-        _id: string;  img: string; first_name: string; surname: string; address: string | null;
-}) => import("react/jsx-runtime").JSX.Element): import("react").ReactNode;
 	_id: string;
 	first_name: string;
 	surname: string;
 	address: string;
 	img: string;
-
   }
 
 
 
 function EditProfile() {
-	const [result, setResult] = useState<UserId|null>(null);
-
-	const getOneuser = async () => {
-		const response = await fetch("http://localhost:4000/users/${userID}");
-		const res = await response.json();
-		console.log(res);
-		setResult(res.user);
-	};
+	const [result, setResult] = useState<UserId>({
+		_id: "",
+		first_name: "",
+		surname: "",
+		address: "",
+		img: ""
+	});
 
 	useEffect(() => {
-		const GetuserInfo = async () => {
-			await getOneuser();
+		const fetchData = async () => {
+			try {
+				const data = await getOneUser("hejh");
+				setResult(data.user);
+			} catch (error) {
+				console.error(error);
+			}
 		};
-		GetuserInfo();
+
+		fetchData();
 	}, []);
-	console.log(result);
 	return (
 
 		<div className="m-6">
-			{/* {result && Object.values(result).map((data) => (
-				<article key={data._id}>
-					<h2>{data.first_name}</h2>
-					<p>{data.surname}</p>
-					<p> {data.adress}</p>
-				</article>
-			))} */}
-
-
 			<div className="block float-left">
 				<a href="/">
 					<button className="min-[800px]:hidden">
@@ -73,29 +64,22 @@ function EditProfile() {
 					<div className="flex justify-center items-center">
 						<form className="lg:flex min-[320px]:block">
 							<div className="lg:mr-20">
-								{result && Object.values(result).map((data) =>
-									<><div className="min-[800px]:flex">
-
-										<div className="min-[800px]:mx-2">
-
-											<Input placeHolder={""} inputID={"email"} labelText={"Email"}></Input>
-										</div>
-										<div className="min-[800px]:mx-2">
-											<Input placeHolder={data.first_name} inputID={""} labelText={"Förnamn"}></Input>
-										</div>
-									</div><div className="min-[800px]:flex">
-										<div className="min-[800px]:mx-2">
-											<Input placeHolder={data.surname} inputID={""} labelText={"Efternamn"}></Input>
-										</div>
-										<div className="min-[800px]:mx-2">
-											<Input placeHolder={data.address} inputID={""} labelText={"Adress"}></Input>
-										</div>
-									</div><div className="flex justify-center mt-2 min-[800px]:justify-end">
-										<div className="block m-2">
-											<Button children={"Spara uppgifter"} className={""}></Button>
-										</div>
-									</div></>
-								)};
+								<div className="min-[800px]:flex">
+									<div className="min-[800px]:mx-2">
+										<Input placeHolder={result.first_name} inputID={""} labelText={"Förnamn"}></Input>
+									</div>
+								</div><div className="min-[800px]:flex">
+									<div className="min-[800px]:mx-2">
+										<Input placeHolder={result.surname} inputID={""} labelText={"Efternamn"}></Input>
+									</div>
+									<div className="min-[800px]:mx-2">
+										<Input placeHolder={result.address} inputID={""} labelText={"Adress"}></Input>
+									</div>
+								</div><div className="flex justify-center mt-2 min-[800px]:justify-end">
+									<div className="block m-2">
+										<Button children={"Spara uppgifter"} className={""}></Button>
+									</div>
+								</div>
 							</div>
 						</form>
 					</div>
