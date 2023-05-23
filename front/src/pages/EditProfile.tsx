@@ -2,24 +2,79 @@ import Input from "../components/Input";
 import Button from "../components/Button";
 import { BsArrowLeft } from "react-icons/bs";
 import { MdKeyboardArrowLeft } from "react-icons/md";
+import { useEffect, useState } from "react";
+import { getOneUser, updateOneUser } from "../functions/api";
+import { Link, useNavigate } from "react-router-dom";
+
+export interface UserId {
+	_id: string;
+	first_name: string;
+	surname: string;
+	address: string;
+	img: string;
+  }
+
+
 
 function EditProfile() {
+	const navigate = useNavigate();
+	const [result, setResult] = useState<UserId>({
+		_id: "",
+		first_name: "",
+		surname: "",
+		address: "",
+		img: ""
+	});
+
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				const data = await getOneUser("hejh");
+				setResult(data.user);
+			} catch (error) {
+				console.error(error);
+			}
+		};
+
+		fetchData();
+	}, []);
+
+	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+		event.preventDefault();
+
+		try {
+			await updateOneUser(result);
+			navigate("/profile");
+		} catch (error) {
+			return console.log("Try again, something went wrong");
+		}
+	};
+
+	const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const { id, value } = event.target;
+		setResult((prevResult) => ({
+			...prevResult,
+			[id]: value,
+		}));
+	};
+	console.log(result);
 	return (
+
 		<div className="m-6">
 			<div className="block float-left">
-				<a href="/">
+				<Link to={"/profile"} className="underline font-bold text-teal-700">
 					<button className="min-[800px]:hidden">
 						<BsArrowLeft size={25}></BsArrowLeft>
 					</button>
 					<button className="max-[800px]:hidden">
 						<MdKeyboardArrowLeft size={40}></MdKeyboardArrowLeft>
 					</button>
-				</a>
+				</Link>
 			</div>
 			<div className="flex justify-center items-center my-2">
 				<div className="flex">
 					<h2 className="text-xl font-bold">
-                    Ändra annons</h2>
+                    Ändra profil</h2>
 				</div>
 			</div>
 			<div className="min-[800px]:flex justify-center items-start">
@@ -30,25 +85,20 @@ function EditProfile() {
 				</div>
 				<div className="flex justify-center items-center mb-5">
 					<div className="flex justify-center items-center">
-						<form className="lg:flex min-[320px]:block">
+						<form onSubmit={handleSubmit} className="lg:flex min-[320px]:block">
 							<div className="lg:mr-20">
 								<div className="min-[800px]:flex">
 									<div className="min-[800px]:mx-2">
-										<Input placeHolder={""} inputID={"email"} labelText={"Email"}></Input>
+										<Input placeHolder={result.first_name} inputID={"first_name"} onChange={handleInputChange} labelText={"Förnamn"}></Input>
+									</div>
+								</div><div className="min-[800px]:flex">
+									<div className="min-[800px]:mx-2">
+										<Input placeHolder={result.surname} inputID={"surname"} onChange={handleInputChange} labelText={"Efternamn"}></Input>
 									</div>
 									<div className="min-[800px]:mx-2">
-										<Input placeHolder={""} inputID={"firstName"} labelText={"Förnamn"}></Input>
+										<Input placeHolder={result.address} inputID={"address"} onChange={handleInputChange} labelText={"Adress"}></Input>
 									</div>
-								</div>
-								<div className="min-[800px]:flex">
-									<div className="min-[800px]:mx-2">
-										<Input placeHolder={""} inputID={"lastName"} labelText={"Efternamn"}></Input>
-									</div>
-									<div className="min-[800px]:mx-2">
-										<Input placeHolder={""} inputID={"address"} labelText={"Adress"}></Input>
-									</div>
-								</div>
-								<div className="flex justify-center mt-2 min-[800px]:justify-end">
+								</div><div className="flex justify-center mt-2 min-[800px]:justify-end">
 									<div className="block m-2">
 										<Button children={"Spara uppgifter"} className={""}></Button>
 									</div>
@@ -60,7 +110,7 @@ function EditProfile() {
 			</div>
 			<hr className="w-full" />
 			<div className="flex justify-center my-5">
-				<Button children={"Ta bort konto"} className={""}></Button>
+				<Button red>Ta bort konto</Button>
 			</div>
 		</div>
 	);

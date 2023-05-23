@@ -393,8 +393,12 @@ app.get("/users/:userID", async (req, res) => {
 
 // Edit profil
 app.put("/users/:userID", async (req, res) => {
+    const { first_name, surname, address } = req.body
     res.status(200).json({
-        "message": "Updated the profile successfull",
+        "message": "Update successfull",
+        "first_name": first_name,
+        "surname": surname,
+        "address": address
     })
 })
 
