@@ -2,9 +2,41 @@ import Input from "../components/Input";
 import Button from "../components/Button";
 import { BsArrowLeft } from "react-icons/bs";
 import { MdKeyboardArrowLeft } from "react-icons/md";
+import { useEffect, useState } from "react";
+import { getOneUser } from "../functions/api";
+export interface UserId {
+	_id: string;
+	first_name: string;
+	surname: string;
+	address: string;
+	img: string;
+  }
+
+
 
 function EditProfile() {
+	const [result, setResult] = useState<UserId>({
+		_id: "",
+		first_name: "",
+		surname: "",
+		address: "",
+		img: ""
+	});
+
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				const data = await getOneUser("hejh");
+				setResult(data.user);
+			} catch (error) {
+				console.error(error);
+			}
+		};
+
+		fetchData();
+	}, []);
 	return (
+
 		<div className="m-6">
 			<div className="block float-left">
 				<a href="/">
@@ -19,7 +51,7 @@ function EditProfile() {
 			<div className="flex justify-center items-center my-2">
 				<div className="flex">
 					<h2 className="text-xl font-bold">
-                    Ändra annons</h2>
+                    Ändra profil</h2>
 				</div>
 			</div>
 			<div className="min-[800px]:flex justify-center items-start">
@@ -34,21 +66,16 @@ function EditProfile() {
 							<div className="lg:mr-20">
 								<div className="min-[800px]:flex">
 									<div className="min-[800px]:mx-2">
-										<Input placeHolder={""} inputID={"email"} labelText={"Email"}></Input>
+										<Input placeHolder={result.first_name} inputID={""} labelText={"Förnamn"}></Input>
+									</div>
+								</div><div className="min-[800px]:flex">
+									<div className="min-[800px]:mx-2">
+										<Input placeHolder={result.surname} inputID={""} labelText={"Efternamn"}></Input>
 									</div>
 									<div className="min-[800px]:mx-2">
-										<Input placeHolder={""} inputID={"firstName"} labelText={"Förnamn"}></Input>
+										<Input placeHolder={result.address} inputID={""} labelText={"Adress"}></Input>
 									</div>
-								</div>
-								<div className="min-[800px]:flex">
-									<div className="min-[800px]:mx-2">
-										<Input placeHolder={""} inputID={"lastName"} labelText={"Efternamn"}></Input>
-									</div>
-									<div className="min-[800px]:mx-2">
-										<Input placeHolder={""} inputID={"address"} labelText={"Adress"}></Input>
-									</div>
-								</div>
-								<div className="flex justify-center mt-2 min-[800px]:justify-end">
+								</div><div className="flex justify-center mt-2 min-[800px]:justify-end">
 									<div className="block m-2">
 										<Button children={"Spara uppgifter"} className={""}></Button>
 									</div>
@@ -60,7 +87,7 @@ function EditProfile() {
 			</div>
 			<hr className="w-full" />
 			<div className="flex justify-center my-5">
-				<Button children={"Ta bort konto"} className={""}></Button>
+				<Button red>Ta bort konto</Button>
 			</div>
 		</div>
 	);
