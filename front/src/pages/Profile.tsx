@@ -91,8 +91,10 @@ function Profile() {
 							</dl>
 							<dl className="mt-2">
 								<dt className="font-bold">För- och Efternamn</dt>
-								<dd>{data.first_name}</dd>
-								<dd>{data.surname}</dd>
+								<div className="flex gap-1">
+									<dd>{data.first_name}</dd>
+									<dd>{data.surname}</dd>
+								</div>
 							</dl>
 							<dl className="mt-2">
 								<dt className="font-bold">Adress</dt>
