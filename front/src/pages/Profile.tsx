@@ -110,7 +110,7 @@ function Profile() {
 
 					<section className="max-w-5xl mx-auto grid col-auto gap-5 lg:grid-cols-2 ">
 						{data.foods.map((food, index) => (
-							<ProductShow href={""} imgUrl={food.img} title={food.title} description={food.desc} price={food.price} ></ProductShow>
+							<ProductShow href={""} key={index} imgUrl={food.img} title={food.title} description={food.desc} price={food.price} ></ProductShow>
 						)
 						)}
 					</section>
