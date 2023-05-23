@@ -104,7 +104,7 @@ function Profile() {
 					</div>
 					<hr className="w-10/12 mx-auto my-5"/>
 					<div className="flex justify-center item-center my-5 lg:">
-						<Link to={"/product/new"}><Button>Lägg till ny annons</Button></Link>
+						<Link to={"/product/create"}><Button>Lägg till ny annons</Button></Link>
 					</div>
 					<h2 className="text-xl my-5 text-semibold">Dina akutella annonser</h2>
 
