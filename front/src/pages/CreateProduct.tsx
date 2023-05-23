@@ -18,7 +18,7 @@ function CreateProduct() {
 		price: 0,
 		img: "",
 		expire: ["", ""],
-		tags: [] as string[],
+		tags: [""]
 	});
 
 	const [errorMessage, setErrorMessage] = useState("");
@@ -81,6 +81,22 @@ function CreateProduct() {
 			...prevFormData,
 			expire: [prevFormData.expire[0], value],
 		}));
+	};
+
+	const handleImage = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const { value } = event.target;
+		console.log(value)
+		const fileInput = event.target;
+		const file = fileInput.files[0];
+		const reader = new FileReader();
+		console.log(reader)
+
+		reader.onload = function(event) {
+			const binaryData = event.target.result;
+		// Send binaryData to the backend
+	};
+
+reader.readAsArrayBuffer(file);
 	};
 
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -156,7 +172,7 @@ function CreateProduct() {
 							require
 						/>
 						<Input
-							onChange={handleInputChange}
+							onChange={handleImage}
 							type="file"
 							inputID="img"
 							labelText="Välj en bild"
