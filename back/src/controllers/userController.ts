@@ -76,6 +76,7 @@ const updateUser = async (data: Request) => {
 	}
 };
 
+//DELETES EVERYTHING IN USERS COLLECTION 🥵🥵🥵🥵🥵
 const deleteUser = async (data: Request) => {
 	try {
 		const user = await User.findByIdAndDelete(data.body.uid);
