@@ -2,14 +2,37 @@ import Input from "../components/Input";
 import Button from "../components/Button";
 import { useState, useEffect } from "react";
 import { BsArrowLeft } from "react-icons/bs";
-import { MdKeyboardArrowLeft } from "react-icons/md";
-import { updateOneProduct, getOneProduct } from "../functions/api";
+import { updateOneProduct, getOneProduct, getOneUser } from "../functions/api";
 import { useParams } from "react-router-dom";
+import { MdKeyboardArrowLeft, MdError } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 
 type ProductParam = {
 	productID: string
 }
 
+export interface UserResponse {
+	_id: string,
+	first_name: string,
+	email: string,
+	surname: string,
+	address: string,
+	img: string,
+	foods: [{
+		_id: string,
+		title: string,
+		desc: string,
+		location: [number, number],
+		free: boolean,
+		price: number,
+		img: string,
+		expire: [string, number],
+		tags: string[],
+		created: number,
+		sold_to: boolean,
+	}
+]
+}
 export interface FoodResponse {
 	foods: [{
 		_id: string,
@@ -28,9 +51,42 @@ export interface FoodResponse {
 }
 
 function EditProduct() {
-
-	const [data, setData] = useState<FoodResponse | null>(null);
+	const navigate = useNavigate();
 	const { productID } = useParams<ProductParam>();
+	const [data, setData] = useState<FoodResponse | null>(null);
+	const [errorMessage, setErrorMessage] = useState("");
+	const [formData, setFormData] = useState({
+		title: "",
+		desc: "",
+		location: "",
+		free: false,
+		price: 0,
+		img: "",
+		expire: ["", ""],
+		tags: [""]
+	});
+	const [userdata, setUserdata] = useState<UserResponse>({
+		_id: "",
+		first_name: "",
+		email: "",
+		surname: "",
+		address: "",
+		img: "",
+		foods: [{
+			_id: "",
+			title: "",
+			desc: "",
+			location: [0, 0],
+			free: false,
+			price: 0,
+			img: "",
+			expire: ["", 0],
+			tags: [""],
+			created: 0,
+			sold_to: false,
+		}]
+	});
+
 
 	useEffect(() => {
 		if(productID) {
@@ -45,22 +101,76 @@ function EditProduct() {
 			};
 			fetchData();
 		}
+	});
+
+	useEffect(() => {
+
+		const fetchData = async () => {
+			try {
+				const response = await getOneUser("12as");
+				console.log(response);
+				setUserdata(response.user);
+			} catch (error) {
+				console.error(error);
+			}
+		};
+		fetchData();
 	}, []);
 
-	const handleClick = () => {
-		if(productID) {
-			const fetchData = async () => {
-				try {
-					const response = await updateOneProduct(productID);
-					console.log(response);
-				} catch (error) {
-					console.error(error);
-				}
-			};
-			fetchData();
-		}
+
+	const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		setHideInput(event.target.checked);
+		const { id, checked } = event.target;
+
+		setFormData((prevFormData) => ({
+			...prevFormData,
+			[id]: checked,
+		}));
 	};
 
+	const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const { id, value } = event.target;
+		setErrorMessage("");
+		setFormData((prevFormData) => ({
+			...prevFormData,
+			[id]: value,
+		}));
+	};
+
+	const handleTextareaChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const { id, value } = event.target;
+		setErrorMessage("");
+		setFormData((prevFormData) => ({
+			...prevFormData,
+			[id]: value,
+		}));
+	};
+	const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+		const { value } = event.target;
+		setFormData((prevFormData) => ({
+			...prevFormData,
+			expire: [value, prevFormData.expire[1]],
+		}));
+	};
+
+	const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const { value } = event.target;
+		setFormData((prevFormData) => ({
+			...prevFormData,
+			expire: [prevFormData.expire[0], value],
+		}));
+	};
+
+	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+		event.preventDefault();
+
+		try {
+			await updateOneProduct(formData);
+			navigate("/profile");
+		} catch (error) {
+			setErrorMessage("Try again, something went wrong");
+		}
+	};
 	return (
 		<div className="m-8">
 			<div className="block float-left">
@@ -82,34 +192,40 @@ function EditProduct() {
 			{data && (
 				<div className="flex justify-center items-center mb-10">
 					<div className="flex justify-center items-center">
-						<form className="lg:flex min-[320px]:block">
+						<form onSubmit={handleSubmit} className="lg:flex min-[320px]:block">
 							<div className="lg:mr-20">
-								<Input placeHolder={""} inputID={"titel"} labelText={"Rubrik"}></Input>
-								<Input placeHolder={""} inputID={"description"} labelText={"Beskrivning"}></Input>
+								<Input placeHolder={data.foods[0].title} inputID={"titel"} labelText={"Rubrik"} onChange={handleInputChange}></Input>
+								<Input placeHolder={data.foods[0].desc} inputID={"description"} labelText={"Beskrivning"} onChange={handleTextareaChange}></Input>
 							</div>
 							<div>
 								<label htmlFor="adress" className="block">
                                 Address
 									<span className="text-neutral-400 text-sm"> (syns ej för andra användare)</span>
 								</label>
-								<input type="textarea" id="adress" className="box-border h-11 w-72 rounded border-solid border-gray-300 border"/>
+								<input placeholder={userdata.address} type="textarea" id="adress" className="box-border h-11 w-72 rounded border-solid border-gray-300 border"/>
 
-								<Input placeHolder={"Välj bild..."} inputID={"image"} labelText={"Bild"}></Input>
+								<Input placeHolder={data.foods[0].img} inputID={"image"} labelText={"Bild"}></Input>
 
 								<label htmlFor="price" className="block my-2">Pris</label>
-								<input type="checkbox" id="give-away"/>
+								<input onChange={handleCheckboxChange} type="checkbox" id="give-away"/>
 								<label htmlFor="give-away" className="text-sm mx-2">Bortskänkes</label>
-								<input type="number" id="price" className="block my-2 box-border h-11 w-72 rounded border-solid border-gray-300 border"/>
+								<input placeholder={data.foods[0].price} type="number" id="price" className="block my-2 box-border h-11 w-72 rounded border-solid border-gray-300 border"/>
 
 								<label htmlFor="dates" className="block my-2">Tillagning/utgångsdatum</label>
-								<select id="dates" className="block my-2 px-5 box-border h-11 rounded border-solid border-gray-300 border">
+								<select onChange={handleSelectChange} id="dates" className="block my-2 px-5 box-border h-11 rounded border-solid border-gray-300 border">
 									<option value="tillagning">Tillagningsdatum</option>
 									<option value="utgångsdatum">Utgångsdatum</option>
 								</select>
-								<input type="date" id="dates" className="block mt-2 mb-5 px-6 box-border h-11 rounded border-solid border-gray-300 border"/>
+								<input onChange={handleDateChange} type="date" id="dates" className="block mt-2 mb-5 px-6 box-border h-11 rounded border-solid border-gray-300 border"/>
 
 								<div className="flex justify-center min-[800px]:block">
-									<Button onClick={handleClick} children={"Uppdatera annons"} className={""}></Button>
+									<Button children={"Uppdatera annons"} className={""}></Button>
+									{errorMessage && (
+										<div className="flex justify-center items-center my-4 border-2 border-red-700 p-1">
+											<MdError className="text-xl mr-3 text-red-700"></MdError>
+											<p className="font-semibold">{errorMessage}</p>
+										</div>
+									)}
 								</div>
 							</div>
 						</form>
