@@ -1,15 +1,14 @@
 import mongoose from "mongoose";
 
 interface IFood {
-	title : string,
-	desc: string,
+	title: string,
+	desc?: string,
 	location: [number, number],
-	free: boolean,
 	price?: number,
-	img?: string,
-	expire: [string, number],
+	img: string,
+	expire?: [string, number],
 	tags?: string[],
-	is_sold: boolean
+	is_sold?: boolean
 }
 
 interface foodModelInterface extends mongoose.Model<FoodDoc> {
@@ -17,10 +16,9 @@ interface foodModelInterface extends mongoose.Model<FoodDoc> {
 }
 
 interface FoodDoc extends mongoose.Document {
-	title : string,
+	title: string,
 	desc: string,
 	location: [number, number],
-	free: boolean,
 	price?: number,
 	img?: string,
 	expire: [string, number],
@@ -42,14 +40,10 @@ export const foodSchema = new mongoose.Schema({
 		type: [String, Number],
 		required: true
 	},
-	free: {
-		type: Boolean,
-		required: false,
-		default: true
-	},
 	price: {
 		type: Number,
-		required: false
+		required: false,
+		default: 0
 	},
 	img: {
 		type: String,
@@ -74,13 +68,13 @@ foodSchema.statics.build = (attr: IFood) => {
 	return new Food(attr);
 };
 
+
 const Food = mongoose.model<FoodDoc, foodModelInterface>("Food", foodSchema);
 
 Food.build({
 	title: "Piggelin",
 	desc: "Glass",
 	location: [45.123, 47.232],
-	free: false,
 	price: 20,
 	img: "piggelin.jpg",
 	expire: ["Tillagningsdatum", Date.now()],
