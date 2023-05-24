@@ -1,9 +1,9 @@
 import express, { Request, Response } from "express";
-import {readAllUsers, readOneUser, registerUser, loginUser} from "../controllers/userController"
+import {readAllUsers, readOneUser, registerUser, loginUser, updateUser, deleteUser} from "../controllers/userController";
 
 const router = express.Router();
 
-router.get("/users/", [], async (req : Request, res : Response) => {
+router.get("/users", [], async (req : Request, res : Response) => {
 	const result = await readAllUsers();
 
 	if (result.error) {
@@ -21,39 +21,64 @@ router.get("/users/", [], async (req : Request, res : Response) => {
 
 router.post("/register", async (req : Request, res : Response) => {
 	const result = await registerUser(req);
-	if(result.error) {
+	console.log(result);
+	if(!result) {
 		res.status(500).json({
-			message: result.error
+			message: "Error, could not create user"
 		});
 	}
 	else {
 		res.status(201).json({
-			message: "User created successfully"
+			message: "User created successfully", uid: result
 		});
 	}
 });
 
 router.post("/login", async (req : Request, res : Response) => {
 	const result = await loginUser(req);
-	if(result.error) {
+	if(!result) {
 		res.status(500).json({
-			message: result.error
+			message: "Error, could not log in user, maybe user does not exist"
 		});
 	}
 	else {
 		res.status(201).json({
-			message: "User created successfully"
+			message: "User logged in successfully", uid: result
 		});
 	}
 });
 
 
 
-router.get("/users/:userID", async (req : Request, res : Response) => {
+router.get("/user", async (req : Request, res : Response) => {
 	const user = await readOneUser(req);
 	res.status(200).json({
 		user: user
 	});
 });
+
+router.patch("/user/update", async (req : Request, res : Response) => {
+	if (req.body.uid.length != 24) return res.status(400).json({
+		err: "ID not valid"
+	});
+	const user = await updateUser(req);
+	res.status(200).json({
+		user: user
+	});
+});
+
+router.delete("/user/delete", async (req : Request, res : Response) => {
+	if (req.body.uid.length != 24) return res.status(400).json({
+		err: "ID not valid"
+	});
+	const user = await deleteUser(req);
+	if (user) {
+		console.log("Deleted", user);
+		res.status(200).end(`Deleted: ${req.body.uid}`);
+	}
+	else res.status(404).json({err: `${req.body.uid} not found`});
+});
+
+
 
 export {router as userRouter};
