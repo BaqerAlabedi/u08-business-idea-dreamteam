@@ -1,12 +1,12 @@
 import mongoose from "mongoose";
 
-interface IFood {
+export interface IFood {
 	title: string,
 	desc?: string,
-	location: [number, number],
+	location: [number, number], //FEL SYNTAX
 	price?: number,
 	img: string,
-	expire?: [string, number],
+	expire?: [string, number], //FEL SYNTAX
 	tags?: string[],
 	is_sold?: boolean
 }
@@ -18,10 +18,10 @@ interface foodModelInterface extends mongoose.Model<FoodDoc> {
 interface FoodDoc extends mongoose.Document {
 	title: string,
 	desc: string,
-	location: [number, number],
+	location: [number, number], //FEL SYNTAX
 	price?: number,
 	img?: string,
-	expire: [string, number],
+	expire: [string, number], //FEL SYNTAX
 	tags?: string[],
 	is_sold: boolean
 }
@@ -37,7 +37,7 @@ export const foodSchema = new mongoose.Schema({
 		required: true
 	},
 	location: {
-		type: [String, Number],
+		type: [String, Number], //FEL SYNTAX
 		required: true
 	},
 	price: {
@@ -50,7 +50,7 @@ export const foodSchema = new mongoose.Schema({
 		required: true
 	},
 	expire: {
-		type: [String, Number],
+		type: [String, Number], //FEL SYNTAX
 		required: true
 	},
 	tags: {
@@ -81,5 +81,10 @@ Food.build({
 	tags: ["glass", "kall", "summer23"],
 	is_sold: false
 });
+
+/*export function newdate() {
+	const d = new Date();
+	return [d.getTime(), d.toISOString()];
+}*/
 
 export { Food };
