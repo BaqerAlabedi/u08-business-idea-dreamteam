@@ -7,11 +7,6 @@ function newdate() {
 }
 
 const food_schema = new mongoose.Schema({
-	_id: {
-		type: mongoose.Schema.Types.ObjectId,
-		default: new mongoose.Types.ObjectId(),
-		immutable: 1
-	},
 	title: {type: String, required: 1},
 	desc: String,
 	location: {type: [Number, Number], required: 1},
