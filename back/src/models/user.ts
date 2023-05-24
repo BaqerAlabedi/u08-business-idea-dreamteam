@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import {foodSchema} from "./foods";
+import {foodSchema} from "./food";
 
 interface IUser {
 	first_name : string,
@@ -14,7 +14,7 @@ interface userModelInterface extends mongoose.Model<UserDoc> {
 	build(attr: IUser): UserDoc
 }
 
-interface UserDoc extends mongoose.Document {
+export interface UserDoc extends mongoose.Document {
 	first_name : string,
 	surname: string,
 	email: string,
@@ -34,7 +34,8 @@ const userSchema = new mongoose.Schema({
 	},
 	email: {
 		type: String,
-		required: true
+		required: true,
+		unique: true
 	},
 	password: {
 		type: String,
