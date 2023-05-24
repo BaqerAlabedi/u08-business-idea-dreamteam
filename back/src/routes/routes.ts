@@ -129,7 +129,7 @@ router.get("/food", async (req : Request, res : Response) => {
 });
 
 router.patch("/foods/update", async (req : Request, res : Response) => {
-	const result = await updateFood(req)
+	const result = await updateFood(req);
 	if (result.error) {
 		res.status(500).json({
 			message: result.error

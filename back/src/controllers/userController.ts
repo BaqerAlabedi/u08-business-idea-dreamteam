@@ -1,4 +1,4 @@
-import { User, UserDoc } from "../models/user";
+import { User } from "../models/user";
 import { Request } from "express";
 import { comparePassword, hashPassword } from "./hash";
 
@@ -59,7 +59,7 @@ const loginUser = async (data: Request) => {
 			});
 	}
 
-	return {error: "Unable to log in", data: null}
+	return {error: "Unable to log in", data: null};
 };
 
 

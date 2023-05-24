@@ -27,7 +27,7 @@ const readOneFood = async (data: Request) => {
 			return {error: null, data: food};
 		}
 		else {
-			throw new Error("Could not find food")
+			throw new Error("Could not find food");
 		}
 	}catch(error: unknown) {
 		return {error: error, data: null};
@@ -47,7 +47,7 @@ const createFood = async (data: Request) => {
 			return {error: null, data: food};
 		}
 		else {
-			throw new Error("Could not create food")
+			throw new Error("Could not create food");
 		}
 
 	} catch(error: unknown) {
@@ -79,7 +79,7 @@ const updateFood = async (data: Request) => {
 		}
 	}
 	catch(error: unknown) {
-		return {error: "Could not update food", data: null}
+		return {error: "Could not update food", data: null};
 	}
 };
 
@@ -93,11 +93,11 @@ const deleteFood = async (data: Request) => {
 			return {error: null, data: food};
 		}
 		else {
-			throw new Error("Could not delete food")
+			throw new Error("Could not delete food");
 		}
 	}
 	catch(error: unknown) {
-		return {error: error, data: null}
+		return {error: error, data: null};
 	}
 };
 
