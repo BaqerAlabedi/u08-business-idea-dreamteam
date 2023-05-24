@@ -1,5 +1,5 @@
 interface Props {
-	placeHolder: string;
+	placeHolder?: string;
 	inputID: string;
 	type?: string;
 	opacity?: number;
@@ -7,6 +7,7 @@ interface Props {
 	value?: string;
 	minLength?: number;
 	onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+	require?: boolean
   }
 
 const styling = "box-border h-11 w-72 rounded border-solid border-gray-300 border p-2";
@@ -26,6 +27,7 @@ export default function Input(props: Props) {
 				className={styling}
 				value={props.value}
 				onChange={props.onChange}
+				required={props.require ?? false}
 			></input>
 		</div>
 	);

@@ -22,11 +22,11 @@ interface RegisterProps {
 interface ProductProps{
 	title: string,
 	desc: string,
-	location: [number, number],
+	location: string,
 	free: boolean,
 	price: number,
 	img: string,
-	expire: [string, number],
+	expire: string[],
 	tags: string[]
 }
 
@@ -181,7 +181,9 @@ export const deleteOneProduct = async (productID:string) => {
 	}
 };
 
-export const createOneProduct = async ({title, desc, location, free, price, img, expire, tags}:ProductProps) => {
+export const createOneProduct = async (props:ProductProps) => {
+	const {title, desc, location, free, price, img, expire, tags} = props;
+
 	try {
 		const response = await axios.post("http://localhost:4000/products", {
 			title,
