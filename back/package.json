@@ -2,13 +2,14 @@
   "name": "grannskapsratten",
   "version": "1.0.0",
   "description": "Grannskapsrätten backend",
-  "main": "app.js",
+  "main": "./src/server.js",
   "scripts": {
-    "dev": "nodemon app.ts"
+    "dev": "nodemon ./src/server.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.1.0",
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "mongoose": "^7.1.1"
