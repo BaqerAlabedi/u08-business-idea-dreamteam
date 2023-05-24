@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express";
 import {readAllUsers, readOneUser, registerUser, loginUser, updateUser, deleteUser} from "../controllers/userController";
+import {readAllFoods, readOneFood, createFood, updateFood, deleteFood} from "../controllers/foodController";
 
 const router = express.Router();
 
@@ -80,5 +81,79 @@ router.delete("/user/delete", async (req : Request, res : Response) => {
 });
 
 
+//Foods
 
-export {router as userRouter};
+router.get("/foods", [], async (req : Request, res : Response) => {
+	const result = await readAllFoods();
+	if (result.error) {
+		res.status(500).json({
+			message: result.error
+		});
+	}
+	else {
+		res.status(200).json(
+			result.data
+		);
+	}
+
+});
+
+router.put("/foods/create", async (req : Request, res : Response) => {
+	const result = await createFood(req);
+	if (result.error) {
+		res.status(500).json({
+			message: result.error
+		});
+	}
+	else {
+		res.status(200).json(
+			result.data
+		);
+	}
+
+});
+
+
+router.get("/food", async (req : Request, res : Response) => {
+	const result = await readOneFood(req);
+	if (result.error) {
+		res.status(500).json({
+			message: result.error
+		});
+	}
+	else {
+		res.status(200).json(
+			result.data
+		);
+	}
+});
+
+router.patch("/foods/update", async (req : Request, res : Response) => {
+	const result = await updateFood(req)
+	if (result.error) {
+		res.status(500).json({
+			message: result.error
+		});
+	}
+	else {
+		res.status(200).json(
+			result.data
+		);
+	}
+});
+
+router.delete("/foods/delete", async (req : Request, res : Response) => {
+	const result = await deleteFood(req);
+	if (result.error) {
+		res.status(500).json({
+			message: result.error
+		});
+	}
+	else {
+		res.status(200).json(
+			result.data
+		);
+	}
+});
+
+export {router as Router};
