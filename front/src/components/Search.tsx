@@ -2,7 +2,7 @@ import { useState } from "react";
 import { HiMagnifyingGlass } from "react-icons/hi2";
 import { BsFilter } from "react-icons/bs";
 
-export const Search = (props: { name?: string | undefined, filtered?: true, func?: string, selectedFilters?: string[], onFilterButtonClick?: (filter: string) => void; } ) => {
+export const Search = (props: { name?: string | undefined, filtered?: true, onClick?: () => void, value: string, value1?: string, value2?: string, value3?: string, value4?: string, value5?: string, value6?: string;} ) => {
 	const [visible, setVisible] = useState(false);
 
 	return (
@@ -27,19 +27,25 @@ export const Search = (props: { name?: string | undefined, filtered?: true, func
 					<div className="flex justify-center">
 						<ul className="flex">
 							<li>
-								<button className="mx-2 mt-2 mb-5 px-6 rounded-lg font-medium text-black border-2 border-teal-700 hover:bg-teal-700 hover:text-white" onClick={() => props.onFilterButtonClick}>Refreshment/Snack</button>
+								<input type="button" className="mx-2 mt-2 mb-5 px-6 rounded-lg font-medium text-black border-2 border-teal-700 hover:bg-teal-700 hover:text-white" onClick={props.onClick} value={props.value}/>
 							</li>
 							<li>
-								<button className="mx-2 mt-2 mb-5 px-6 rounded-lg font-medium text-black border-2 border-teal-700 hover:bg-teal-700 hover:text-white" onClick={() => props.onFilterButtonClick}>Lunch/Dinner</button>
+								<input type="button" className="mx-2 mt-2 mb-5 px-6 rounded-lg font-medium text-black border-2 border-teal-700 hover:bg-teal-700 hover:text-white" onClick={props.onClick} value={props.value1}/>
 							</li>
 							<li>
-								<button className="mx-2 mt-2 mb-5 px-6 rounded-lg font-medium text-black border-2 border-teal-700 hover:bg-teal-700 hover:text-white" onClick={() => props.onFilterButtonClick}>Dessert</button>
+								<input type="button" className="mx-2 mt-2 mb-5 px-6 rounded-lg font-medium text-black border-2 border-teal-700 hover:bg-teal-700 hover:text-white" onClick={props.onClick} value={props.value2}/>
 							</li>
 							<li>
-								<button className="mx-2 mt-2 mb-5 px-6 rounded-lg font-medium text-black border-2 border-teal-700 hover:bg-teal-700 hover:text-white" onClick={() => props.onFilterButtonClick}>Vegetarian</button>
+								<input type="button" className="mx-2 mt-2 mb-5 px-6 rounded-lg font-medium text-black border-2 border-teal-700 hover:bg-teal-700 hover:text-white" onClick={props.onClick} value={props.value3}/>
 							</li>
 							<li>
-								<button className="mx-2 mt-2 mb-5 px-6 rounded-lg font-medium text-black border-2 border-teal-700 hover:bg-teal-700 hover:text-white" onClick={() => props.onFilterButtonClick}>Vegan</button>
+								<input type="button" className="mx-2 mt-2 mb-5 px-6 rounded-lg font-medium text-black border-2 border-teal-700 hover:bg-teal-700 hover:text-white" onClick={props.onClick} value={props.value4}/>
+							</li>
+							<li>
+								<input type="button" className="mx-2 mt-2 mb-5 px-6 rounded-lg font-medium text-black border-2 border-teal-700 hover:bg-teal-700 hover:text-white" onClick={props.onClick} value={props.value5}/>
+							</li>
+							<li>
+								<input type="button" className="mx-2 mt-2 mb-5 px-6 rounded-lg font-medium text-black border-2 border-teal-700 hover:bg-teal-700 hover:text-white" onClick={props.onClick} value={props.value6}/>
 							</li>
 						</ul>
 					</div>
@@ -48,5 +54,4 @@ export const Search = (props: { name?: string | undefined, filtered?: true, func
 		</div>
 	);
 };
-
 export default Search;
