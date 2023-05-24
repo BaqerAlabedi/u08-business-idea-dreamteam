@@ -16,13 +16,10 @@ async function make(body, res) {
 
 async function find_all(req, res) {
 	try {
-		const data = await User.aggregate([
-			{
-			$project: {
-				combinedArray: {$concatArrays: ["$foods"]}
-			}
-		}
-	])
+		const data = await User.find(
+			{foods: {$exists: true, $not: {$size: 0}}},
+			"foods"
+		);
 		if (data) {
 			res.status(200).json(data);
 		}
@@ -40,9 +37,7 @@ async function find({params: {food_id}}, res) {
 			{ 'foods.$': 1, _id: 0}
 		);
 		if (data) {
-			/*data.foods.map((food) => { // Quick fix :/
-				if (food._id == food_id) data = food;
-			});*/
+			
 			res.status(200).json(data.foods[0]);
 		}
 		else res.status(404).json({err: `${food_id} not found`});
