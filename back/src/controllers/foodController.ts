@@ -35,7 +35,7 @@ const readOneFood = async (data: Request) => {
 };
 
 
-const createFood = async (data: Request) => {
+const createFood = async (data: Request) => {//ger tillbaka lösenord???
 	try {
 		const fid = data.body.uid;
 		delete data.body.id;
@@ -44,7 +44,7 @@ const createFood = async (data: Request) => {
 				{_id: fid}, {$push: {foods: data.body}}, {new: true}
 			);
 			console.log("Updated", food);
-			return {error: null, data: food};
+			return {error: null, data: "Created successful"};
 		}
 		else {
 			throw new Error("Could not create food");
@@ -85,22 +85,28 @@ const updateFood = async (data: Request) => {
 
 
 //DELETES EVERYTHING IN USERS COLLECTION 🥵🥵🥵🥵🥵
-const deleteFood = async (data: Request) => {
+const deleteOneFood = async (data: Request) => {
 	try {
-		const food = await User.findOneAndDelete(data.body.fid);
-		console.log(food);
-		if(food){
-			return {error: null, data: food};
+		const { fid, uid } = data.body;
+		const user = await User.findById(uid);
+
+		if (!user) {
+			throw new Error("User not found");
 		}
-		else {
-			throw new Error("Could not delete food");
+		const foodIndex = user.foods.findIndex(food => food._id.toString() === fid);
+
+		if (foodIndex === -1) {
+			throw new Error("Food not found");
 		}
-	}
-	catch(error: unknown) {
-		return {error: error, data: null};
+
+		const deletedFood = user.foods.splice(foodIndex, 1)[0];
+		await user.save();
+
+		return { error: null, data: deletedFood };
+	} catch (error: unknown) {
+		return { error: error, data: null };
 	}
 };
 
 
-
-export {readAllFoods, createFood, readOneFood, updateFood, deleteFood};
+export {readAllFoods, createFood, readOneFood, updateFood, deleteOneFood};
