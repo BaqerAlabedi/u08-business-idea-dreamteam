@@ -10,29 +10,6 @@ import { useNavigate } from "react-router-dom";
 type ProductParam = {
 	productID: string
 }
-
-export interface UserResponse {
-	_id: string,
-	first_name: string,
-	email: string,
-	surname: string,
-	address: string,
-	img: string,
-	foods: [{
-		_id: string,
-		title: string,
-		desc: string,
-		location: [number, number],
-		free: boolean,
-		price: number,
-		img: string,
-		expire: [string, number],
-		tags: string[],
-		created: number,
-		sold_to: boolean,
-	}
-]
-}
 export interface FoodResponse {
 	foods: [{
 		_id: string,
@@ -50,10 +27,14 @@ export interface FoodResponse {
  ]
 }
 
+
 function EditProduct() {
+
 	const navigate = useNavigate();
+	const categoryTags = ["Vegan", "Soppa", "Middag", "Hemmagjord"];
+	const [selectedTags, setSelectedTags] = useState<string[]>([]);
 	const { productID } = useParams<ProductParam>();
-	const [data, setData] = useState<FoodResponse | null>(null);
+	const [hideInput, setHideInput] = useState(false);
 	const [errorMessage, setErrorMessage] = useState("");
 	const [formData, setFormData] = useState({
 		title: "",
@@ -65,27 +46,8 @@ function EditProduct() {
 		expire: ["", ""],
 		tags: [""]
 	});
-	const [userdata, setUserdata] = useState<UserResponse>({
-		_id: "",
-		first_name: "",
-		email: "",
-		surname: "",
-		address: "",
-		img: "",
-		foods: [{
-			_id: "",
-			title: "",
-			desc: "",
-			location: [0, 0],
-			free: false,
-			price: 0,
-			img: "",
-			expire: ["", 0],
-			tags: [""],
-			created: 0,
-			sold_to: false,
-		}]
-	});
+
+
 
 
 	useEffect(() => {
@@ -93,30 +55,33 @@ function EditProduct() {
 			const fetchData = async () => {
 				try {
 					const response = await getOneProduct(productID);
-					console.log(response);
-					setData(response);
+					console.log(response.foods[0]);
+					setFormData(response.foods[0]);
 				} catch (error) {
 					console.error(error);
 				}
 			};
 			fetchData();
 		}
-	});
-
-	useEffect(() => {
-
-		const fetchData = async () => {
-			try {
-				const response = await getOneUser("12as");
-				console.log(response);
-				setUserdata(response.user);
-			} catch (error) {
-				console.error(error);
-			}
-		};
-		fetchData();
 	}, []);
 
+
+	const handleTagCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const { id, checked } = event.target;
+		let updatedTags = [...selectedTags];
+
+		if (checked) {
+			updatedTags.push(id);
+		} else {
+			updatedTags = updatedTags.filter((tag) => tag !== id);
+		}
+
+		setSelectedTags(updatedTags);
+		setFormData((prevFormData) => ({
+			...prevFormData,
+			tags: updatedTags,
+		}));
+	};
 
 	const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setHideInput(event.target.checked);
@@ -137,7 +102,7 @@ function EditProduct() {
 		}));
 	};
 
-	const handleTextareaChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+	const handleTextareaChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
 		const { id, value } = event.target;
 		setErrorMessage("");
 		setFormData((prevFormData) => ({
@@ -171,6 +136,21 @@ function EditProduct() {
 			setErrorMessage("Try again, something went wrong");
 		}
 	};
+
+
+	const handleDelete = async (event: React.FormEvent<HTMLFormElement>) => {
+		event.preventDefault();
+
+		try {
+			await updateOneProduct(formData);
+			navigate("/profile");
+		} catch (error) {
+			setErrorMessage("Try again, something went wrong");
+		}
+	};
+
+
+
 	return (
 		<div className="m-8">
 			<div className="block float-left">
@@ -189,37 +169,60 @@ function EditProduct() {
                     Ändra annons</h2>
 				</div>
 			</div>
-			{data && (
+			{formData && (
 				<div className="flex justify-center items-center mb-10">
 					<div className="flex justify-center items-center">
 						<form onSubmit={handleSubmit} className="lg:flex min-[320px]:block">
 							<div className="lg:mr-20">
-								<Input placeHolder={data.foods[0].title} inputID={"titel"} labelText={"Rubrik"} onChange={handleInputChange}></Input>
-								<Input placeHolder={data.foods[0].desc} inputID={"description"} labelText={"Beskrivning"} onChange={handleTextareaChange}></Input>
+								<Input placeHolder={formData.title} inputID={"titel"} labelText={"Rubrik"} onChange={handleInputChange}></Input>
+								<label htmlFor="desc">Beskrivning</label><br></br>
+								<textarea
+									className="box-border w-72 rounded border-solid border-gray-300 border p-2"
+									id="desc"
+									placeholder={formData.desc}
+									name="desc"
+									rows={6}
+									maxLength={300}
+									onChange={handleTextareaChange}
+								></textarea><br></br>
+								<label htmlFor="">Kategori</label>
+							{categoryTags.map((tag: string) => (
+								<div key={tag} className="my-2">
+									<input
+										className="text-sm"
+										type="checkbox"
+										id={tag}
+										checked={selectedTags.includes(tag)}
+										onChange={handleTagCheckboxChange}
+									/>
+									<label htmlFor={tag} className="ml-2 my-2">{tag}</label>
+								</div>
+							))}
 							</div>
+							
 							<div>
 								<label htmlFor="adress" className="block">
                                 Address
 									<span className="text-neutral-400 text-sm"> (syns ej för andra användare)</span>
 								</label>
-								<input placeholder={userdata.address} type="textarea" id="adress" className="box-border h-11 w-72 rounded border-solid border-gray-300 border"/>
+								<input placeholder={(formData.location).toString()} type="textarea" id="adress" className="box-border h-11 w-72 rounded border-solid border-gray-300 border"/>
 
-								<Input placeHolder={data.foods[0].img} inputID={"image"} labelText={"Bild"}></Input>
+								<Input placeHolder={formData.img} inputID={"image"} labelText={"Bild"}></Input>
 
 								<label htmlFor="price" className="block my-2">Pris</label>
 								<input onChange={handleCheckboxChange} type="checkbox" id="give-away"/>
 								<label htmlFor="give-away" className="text-sm mx-2">Bortskänkes</label>
-								<input placeholder={data.foods[0].price} type="number" id="price" className="block my-2 box-border h-11 w-72 rounded border-solid border-gray-300 border"/>
+								<input placeholder={(formData.price).toString()} type="number" id="price" className="block my-2 box-border h-11 w-72 rounded border-solid border-gray-300 border"/>
 
 								<label htmlFor="dates" className="block my-2">Tillagning/utgångsdatum</label>
 								<select onChange={handleSelectChange} id="dates" className="block my-2 px-5 box-border h-11 rounded border-solid border-gray-300 border">
-									<option value="tillagning">Tillagningsdatum</option>
-									<option value="utgångsdatum">Utgångsdatum</option>
+									<option  value="tillagning">Tillagningsdatum</option>
+									<option  value="utgångsdatum">Utgångsdatum</option>
 								</select>
-								<input onChange={handleDateChange} type="date" id="dates" className="block mt-2 mb-5 px-6 box-border h-11 rounded border-solid border-gray-300 border"/>
+								<input  onChange={handleDateChange} type="date" id="dates" className="block mt-2 mb-5 px-6 box-border h-11 rounded border-solid border-gray-300 border"/>
 
 								<div className="flex justify-center min-[800px]:block">
-									<Button children={"Uppdatera annons"} className={""}></Button>
+									<Button >Uppdatera annons</Button>
 									{errorMessage && (
 										<div className="flex justify-center items-center my-4 border-2 border-red-700 p-1">
 											<MdError className="text-xl mr-3 text-red-700"></MdError>
@@ -234,7 +237,7 @@ function EditProduct() {
 			)}
 			<hr className="w-full" />
 			<div className="flex justify-center my-5">
-				<Button children={"Radera annons"} className={""}></Button>
+				<Button red onClick={handleDelete} >Radera annons</Button>
 			</div>
 		</div>
 	);
