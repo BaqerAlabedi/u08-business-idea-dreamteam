@@ -139,7 +139,7 @@ function EditProduct() {
 	};
 
 
-	const handleDelete = async (event: React.MouseEvent<HTMLButtonElement>) => {
+	const handleDelete = async (event: React.MouseEvent<HTMLElement>) => {
 		event.preventDefault();
 		if(productID) {
 			try {
