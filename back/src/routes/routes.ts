@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
 import {readAllUsers, readOneUser, registerUser, loginUser, updateUser, deleteUser} from "../controllers/userController";
-import {readAllFoods, readOneFood, createFood, updateFood, deleteFood} from "../controllers/foodController";
+import {readAllFoods, readOneFood, createFood, updateFood, deleteOneFood} from "../controllers/foodController";
 
 const router = express.Router();
 
@@ -143,7 +143,7 @@ router.patch("/foods/update", async (req : Request, res : Response) => {
 });
 
 router.delete("/foods/delete", async (req : Request, res : Response) => {
-	const result = await deleteFood(req);
+	const result = await deleteOneFood(req);
 	if (result.error) {
 		res.status(500).json({
 			message: result.error
