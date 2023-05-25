@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import {foodSchema} from "./food";
+import {FoodDoc, foodSchema} from "./food";
 
 interface IUser {
 	first_name : string,
@@ -21,6 +21,7 @@ export interface UserDoc extends mongoose.Document {
 	password: string,
 	address?: string,
 	img?: string
+	foods: FoodDoc[];
 }
 
 const userSchema = new mongoose.Schema({
