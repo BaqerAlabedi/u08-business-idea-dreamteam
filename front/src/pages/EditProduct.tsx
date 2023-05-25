@@ -2,7 +2,7 @@ import Input from "../components/Input";
 import Button from "../components/Button";
 import { useState, useEffect } from "react";
 import { BsArrowLeft } from "react-icons/bs";
-import { updateOneProduct, getOneProduct, getOneUser } from "../functions/api";
+import { updateOneProduct, getOneProduct, deleteOneProduct } from "../functions/api";
 import { useParams } from "react-router-dom";
 import { MdKeyboardArrowLeft, MdError } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
@@ -31,7 +31,7 @@ export interface FoodResponse {
 function EditProduct() {
 
 	const navigate = useNavigate();
-	const categoryTags = ["Vegan", "Soppa", "Middag", "Hemmagjord"];
+	const categoryTags = ["vegan", "soppa", "middag", "hemmagjord", "frukost"];
 	const [selectedTags, setSelectedTags] = useState<string[]>([]);
 	const { productID } = useParams<ProductParam>();
 	const [hideInput, setHideInput] = useState(false);
@@ -57,6 +57,7 @@ function EditProduct() {
 					const response = await getOneProduct(productID);
 					console.log(response.foods[0]);
 					setFormData(response.foods[0]);
+					setSelectedTags(response.foods[0].tags);
 				} catch (error) {
 					console.error(error);
 				}
@@ -138,16 +139,18 @@ function EditProduct() {
 	};
 
 
-	const handleDelete = async (event: React.FormEvent<HTMLFormElement>) => {
+	const handleDelete = async (event: React.MouseEvent<HTMLButtonElement>) => {
 		event.preventDefault();
-
-		try {
-			await updateOneProduct(formData);
-			navigate("/profile");
-		} catch (error) {
-			setErrorMessage("Try again, something went wrong");
+		if(productID) {
+			try {
+				await deleteOneProduct(productID);
+				navigate("/profile");
+			} catch (error) {
+				setErrorMessage("Try again, something went wrong");
+			}
 		}
 	};
+
 
 
 
@@ -186,20 +189,20 @@ function EditProduct() {
 									onChange={handleTextareaChange}
 								></textarea><br></br>
 								<label htmlFor="">Kategori</label>
-							{categoryTags.map((tag: string) => (
-								<div key={tag} className="my-2">
-									<input
-										className="text-sm"
-										type="checkbox"
-										id={tag}
-										checked={selectedTags.includes(tag)}
-										onChange={handleTagCheckboxChange}
-									/>
-									<label htmlFor={tag} className="ml-2 my-2">{tag}</label>
-								</div>
-							))}
+								{categoryTags.map((tag: string) => (
+									<div key={tag} className="my-2">
+										<input
+											className="text-sm"
+											type="checkbox"
+											id={tag}
+											checked={selectedTags.includes(tag)}
+											onChange={handleTagCheckboxChange}
+										/>
+										<label htmlFor={tag} className="capitalize ml-2 my-2">{tag}</label>
+									</div>
+								))}
 							</div>
-							
+
 							<div>
 								<label htmlFor="adress" className="block">
                                 Address
