@@ -15,7 +15,7 @@ interface foodModelInterface extends mongoose.Model<FoodDoc> {
 	build(attr: IFood): FoodDoc
 }
 
-interface FoodDoc extends mongoose.Document {
+export interface FoodDoc extends mongoose.Document {
 	title: string,
 	desc: string,
 	location: [number, number], //FEL SYNTAX
