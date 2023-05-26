@@ -27,7 +27,7 @@ export default function Map() {
 			setError("Geolocation is not supported by your browser!");
 			setLoading(false);
 		}
-	}, []);
+	}, [setError, setLoading, setLocation]);
 
 	console.log(location);
 	console.log("Loading..." + loading);
@@ -42,10 +42,6 @@ export default function Map() {
 		<>
 			<GoogleMap zoom={10} center={{lat: 59.33, lng: 18.06}} mapContainerClassName="w-screen h-96">
 			</GoogleMap>
-
-			{/* {loading && <p>Loading...</p>}
-			{error && <p>{error}</p>} */}
-			{/* {location && <p>{location}</p>} */}
 		</>
 
 	);
