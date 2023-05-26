@@ -1,59 +1,104 @@
-//import Navbar from "../components/Navbar"
 import { Link } from "react-router-dom";
 import Button from "../components/Button";
 import Map from "../components/Map";
 import ProductShow from "../components/ProductShow";
 import Search from "../components/Search";
 import { Key, useEffect, useState } from "react";
+import { Advertisement } from "../components/Advertisement";
 
-// import { Advertisement } from "../components/Advertisement";
-// import Navbar from "../components/Navbar";
-// import Product from "./Product";
-// import { render } from "react-dom";
-// import { BsTags } from "react-icons/bs";
-// import { DataItem } from "../components/Table";
-
-// export interface TagsFilter {
-// 		tags: string
-// }
+const url = "http://localhost:4000/products";
 
 export interface Products {
-	tags: string;
-	_id: Key | null | undefined;
-	price: number | boolean | undefined;
-	desc: string;
-	title: string;
-	img: string;
-		map(arg0: (item: {
-			data: Element;
-			tags: string;
-			_id: string; href: string; img: string; title: string; desc: string; price: number | boolean | undefined; location: number | undefined; filter: string | undefined | null;
-	}) => import("react/jsx-runtime").JSX.Element): import("react").ReactNode;
-	// products: [{
-	// 	_id: string,
-	// 	href: string,
-	// 	imgUrl: string,
-	// 	title: string,
-	// 	description: string,
-	// 	price?: number | boolean,
-	// 	add?: boolean,
-	// 	distance?: number,
-	// 	visible?: boolean,
-	// }]
+	length: number;
+    tags: string;
+    _id: Key | null | undefined;
+    price: number | boolean | undefined;
+    desc: string;
+    title: string;
+    img: string;
+        map(arg0: (item: {
+            data: Element;
+            tags: string;
+            _id: string; href: string; img: string; title: string; desc: string; price: number | boolean | undefined; location: number | undefined; filter: string | undefined | null;
+    }) => import("react/jsx-runtime").JSX.Element): import("react").ReactNode;
 }
 
 export default function Dashboard(this: unknown) {
-	// const [result, setResult] = useState<Products[]>([]);
+	const [data, setData] = useState<Products[]>([]);	// behövs
+	const [searchTag, setSearchTag] = useState([]);				// behövs!
+	const [values, setValues] = useState("");
+	// const [tagButton, setTagButton] = useState("");
 
-	const [data, setData] = useState<Products[]>([]);
-	const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
-	const [filteredData, setFilteredData] = useState<Products[]>([]);
+	const [showClickedFilter, setShowClickedFilter] = useState<Products[]>([]);
+	// console.log(showClickedFilter)
+
+	// const [testValue, setTestValue] = useState("");
+
+	// const [showFilteredProducts, setShowFilteredProducts] = useState();
+
+	// const [activeFilter, setActivefilter] = useState(false);
+
+	const [filterValue, setFilterValue] = useState("");
+
+	const [products, setProducts] = useState([]);
+	// const []
+
+	// const value = "snack";
+	const value1 = "starter";
+	const value2 = "soup";
+	const value3 = "lunch/dinner";
+	const value4 = "dessert";
+	const value5 = "vegetarian";
+	const value6 = "vegan";
+
+	// const [allvalues, setAllValues] = useState(value);
+
+	// useEffect(() => {
+	// 	setTagButton(value);
+	// }, []);
+	// console.log(tagButton);
 
 	const getAllProducts = async () => {
-		const response = await fetch("http://localhost:4000/products");
+		const response = await fetch(url);
 		const res = await response.json();
-		// setResult(res.foods);
 		setData(res.foods);
+		// setProducts(res.foods);
+
+		// const tags = data.map((res: { tags: unknown; }) => res.tags);
+		// const allProducts = res.foods;
+		// setProducts(allProducts);
+
+		// useEffect(() => {
+		// 	const allTags = res.foods.map((res: { tags: unknown; }) => res.tags)
+		// 	const showProducts = [...res, ...allTags]
+		// 	setProducts(showProducts);
+		// 	console.log(showProducts)
+		// })
+	};
+
+	const handleClick = async () => {
+		const resp = await fetch(url);
+		const res = await resp.json();
+
+		const allTags = res.foods.map((res: { tags: unknown; }) => res.tags);
+		// console.log(allTags);
+
+		setValues(allTags);
+		// console.log(values);
+		console.log("TRUE: " + filterValue);
+
+		const filteredItems = allTags.filter((tags: string | string[]) => tags.includes(filterValue));
+
+		// const showProducts = res + filteredItems;
+
+		setSearchTag(filteredItems);
+		console.log(searchTag);
+
+		const showValues = res.foods;
+		// console.log(showValues)
+
+		setShowClickedFilter(showValues);
+		setData([]);
 	};
 
 	useEffect(() => {
@@ -62,79 +107,68 @@ export default function Dashboard(this: unknown) {
 		};
 		genGetAllProducts();
 
+		// const response = await fetch(url);
+		// const res = await response.json();
+		// const allTags = res.foods.map((res: { tags: unknown; }) => res.tags)
+		// const showProducts = [...res, ...allTags]
+		// setProducts(showProducts);
 
-		const filteredItems = data.filter((item) =>
-			selectedFilters.every((filter) => item.tags.includes(filter))
-		);
-
-		setFilteredData(filteredItems);
-		// setResult(filteredItems);
-		// console.log(filteredItems)
-	}, [data, selectedFilters]);
-
-	const handleFilterButtonClick = (filter: string) => {
-		// Check if the filter is already selected
-		const isFilterSelected = selectedFilters.includes(filter);
-
-		// Toggle the filter selection
-		if (isFilterSelected) {
-			setSelectedFilters(selectedFilters.filter((selected) => selected !== filter));
-			console.log(setSelectedFilters);
-		} else {
-			setSelectedFilters([...selectedFilters, filter]);
-			console.log(setSelectedFilters);
-		}
-	};
-
-	// function filteredTags() {
-	// 	const test: (string[])[] = (result?.map(data => data.tags) ?? []) as (string[])[];
-	// 	console.log(test);
-
-	// 	const filteredItems = test.filter(tags => tags.includes('dessert'));
-	// 	console.log(filteredItems);
-	// }
-
+	}, []);
 
 	return(
 		<>
 			<Map></Map>
 
-			<Search name="Sök efter plats..." filtered selectedFilters={selectedFilters}
-				onFilterButtonClick={handleFilterButtonClick}></Search>
+			<Search name="Sök efter plats..."
+				filtered
+				onClick={handleClick}
+				setFilterValue={setFilterValue}
+				value1={value1}
+				value2={value2}
+				value3={value3}
+				value4={value4}
+				value5={value5}
+				value6={value6}
+			></Search>
 
 			<section className="w-10/12 max-w-7xl mx-auto my-4 grid col-auto gap-5 lg:grid-cols-2">
-				{filteredData.map((item) => (
+
+				{ data.map((item) => (
 					<section key={item._id}>
 						<ProductShow
-							href={"products/:productsID"}	// Tillfällig länk!
+							href={"products/:productsID"}   // Tillfällig länk!
 							imgUrl={item.img}
 							title={item.title}
 							description={item.desc}
 							add={false}
 							price={item.price}
 							visible={true}
-							distance={1.2}					// Location är temporärt!
+							distance={1.2}                  // Location är temporärt!
 						></ProductShow>
+						<div className="m-2"></div>
 					</section>
-				))}
-			</section>
 
-			{/* <section className="w-10/12 max-w-7xl mx-auto my-4 grid col-auto gap-5 lg:grid-cols-2">
-				{result && result.map(data =>
-					<section key={data._id}>
+				))}{data.length > 3 && <Advertisement></Advertisement>}
+
+				{ searchTag.map((item) => (
+					console.log(searchTag),
+					<section key={item}>
 						<ProductShow
-							href={"products/:productsID"}	// Tillfällig länk!
-							imgUrl={data.img}
-							title={data.title}
-							description={data.desc}
+							href={"products/:productsID"}   // Tillfällig länk!
+							imgUrl={item.img}
+							title={item.title}
+							description={item.desc}
 							add={false}
-							price={data.price}
+							price={item.price}
 							visible={true}
-							distance={1.2}					// Location är temporärt!
+							distance={1.2}                  // Location är temporärt!
 						></ProductShow>
 					</section>
-				)}
-			</section> */}
+
+				))}{searchTag.length < 3 && <Advertisement></Advertisement>}
+
+				{/* <Advertisement></Advertisement> */}
+			</section>
 
 			<Link to={"/product/new"} className="my-4 flex flex-col items-center"><Button>Lägg upp egen annons</Button></Link>
 		</>
