@@ -81,7 +81,7 @@ export default function Dashboard(this: unknown) {
     //    console.log(id, value)
     // };
 
-	const handleClick = async () => {
+	const handleClick = async (filter:string) => {
 		const resp = await fetch(url);
 		const res = await resp.json();
 
@@ -95,14 +95,14 @@ export default function Dashboard(this: unknown) {
 
 		setValues(allTags);
 		// console.log(values);
-		console.log("TRUE: " + filterValue);
+		console.log("TRUE: " + filter);
 
-		const filteredItems = allTags.filter((tags: string | string[]) => tags.includes(filterValue));
+		const filteredItems = allTags.filter((tags: string[]) => tags.includes(filter));
 
 		// const showProducts = res + filteredItems;
 
 		setSearchTag(filteredItems);
-		console.log(searchTag);
+		console.log("SearchTag",searchTag);
 
 		// const showValues = res.foods;
 		// console.log(showValues)
