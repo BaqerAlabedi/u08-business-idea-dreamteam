@@ -135,7 +135,7 @@ app.get("/products", async (req, res) => {
 			"location": [23.456, 78.901],
 			"free": true,
 			"price": 0,
-			"img": "fourth.jpg",
+			"img": "https://cdn.pixabay.com/photo/2022/06/07/20/52/curry-7249247_960_720.jpg",
 			"expire": ["Expiry date", Date.now()],
 			"tags": ["beverage", "refreshment"],
 			"sold_to": false,
