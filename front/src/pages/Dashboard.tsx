@@ -16,34 +16,16 @@ export interface Products {
     desc: string;
     title: string;
     img: string;
-        map(arg0: (item: {
-            data: Element;
-            tags: string;
-            _id: string; href: string; img: string; title: string; desc: string; price: number | boolean | undefined; location: number | undefined; filter: string | undefined | null;
-    }) => import("react/jsx-runtime").JSX.Element): import("react").ReactNode;
 }
 
 export default function Dashboard(this: unknown) {
 	const [data, setData] = useState<Products[]>([]);	// behövs
 	const [searchTag, setSearchTag] = useState([]);				// behövs!
 	const [values, setValues] = useState("");
-	// const [tagButton, setTagButton] = useState("");
-
-	// const [showClickedFilter, setShowClickedFilter] = useState<Products[]>([]);
-	// console.log(showClickedFilter)
-
-	// const [testValue, setTestValue] = useState("");
-
-	// const [showFilteredProducts, setShowFilteredProducts] = useState();
-
-	// const [activeFilter, setActivefilter] = useState(false);
-
 	const [filterValue, setFilterValue] = useState("");
 
 	const [products, setProducts] = useState([]);
-	// const []
 
-	// const value = "snack";
 	const value1 = "starter";
 	const value2 = "soup";
 	const value3 = "lunch/dinner";
@@ -51,63 +33,24 @@ export default function Dashboard(this: unknown) {
 	const value5 = "vegetarian";
 	const value6 = "vegan";
 
-	// const [allvalues, setAllValues] = useState(value);
-
-	// useEffect(() => {
-	// 	setTagButton(value);
-	// }, []);
-	// console.log(tagButton);
-
 	const getAllProducts = async () => {
 		const response = await fetch(url);
 		const res = await response.json();
 		setData(res.foods);
-		// setProducts(res.foods);
-
-		// const tags = data.map((res: { tags: unknown; }) => res.tags);
-		// const allProducts = res.foods;
-		// setProducts(allProducts);
-
-		// useEffect(() => {
-		// 	const allTags = res.foods.map((res: { tags: unknown; }) => res.tags)
-		// 	const showProducts = [...res, ...allTags]
-		// 	setProducts(showProducts);
-		// 	console.log(showProducts)
-		// })
 	};
-
-	// const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     const { id, value } = event.target;
-    //    console.log(id, value)
-    // };
-
 	const handleClick = async () => {
 		const resp = await fetch(url);
 		const res = await resp.json();
 
-		// const { id, value } = event.target;
-		// console.log(id, value)
-		// setFilterValue={setFilterValue}
-		// setFilterValue(filterValue);
-
 		const allTags = res.foods.map((res: { tags: unknown; }) => res.tags);
-		// console.log(allTags);
 
 		setValues(allTags);
-		// console.log(values);
 		console.log("TRUE: " + filterValue);
 
 		const filteredItems = allTags.filter((tags: string | string[]) => tags.includes(filterValue));
 
-		// const showProducts = res + filteredItems;
-
 		setSearchTag(filteredItems);
-		console.log(searchTag);
-
-		// const showValues = res.foods;
-		// console.log(showValues)
-
-		// setShowClickedFilter(showValues);
+		console.log(searchTag)
 		setData([]);
 	};
 
@@ -116,13 +59,6 @@ export default function Dashboard(this: unknown) {
 			await getAllProducts();
 		};
 		genGetAllProducts();
-
-		// const response = await fetch(url);
-		// const res = await response.json();
-		// const allTags = res.foods.map((res: { tags: unknown; }) => res.tags)
-		// const showProducts = [...res, ...allTags]
-		// setProducts(showProducts);
-
 	}, []);
 
 	return(
@@ -176,10 +112,7 @@ export default function Dashboard(this: unknown) {
 					</section>
 
 				))}{searchTag.length < 3 && <Advertisement></Advertisement>}
-
-				{/* <Advertisement></Advertisement> */}
 			</section>
-
 			<Link to={"/product/new"} className="my-4 flex flex-col items-center"><Button>Lägg upp egen annons</Button></Link>
 		</>
 	);
