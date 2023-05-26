@@ -215,8 +215,9 @@ function EditProduct() {
 								<label htmlFor="price" className="block my-2">Pris</label>
 								<input onChange={handleCheckboxChange} type="checkbox" id="give-away"/>
 								<label htmlFor="give-away" className="text-sm mx-2">Bortskänkes</label>
-								<input placeholder={(formData.price).toString()} type="number" id="price" className="block my-2 box-border h-11 w-72 rounded border-solid border-gray-300 border"/>
-
+								{!hideInput && (
+									<input placeholder={(formData.price).toString()} type="number" id="price" className="block my-2 box-border h-11 w-72 rounded border-solid border-gray-300 border"/>
+								)}
 								<label htmlFor="dates" className="block my-2">Tillagning/utgångsdatum</label>
 								<select onChange={handleSelectChange} id="dates" className="block my-2 px-5 box-border h-11 rounded border-solid border-gray-300 border">
 									<option  value="tillagning">Tillagningsdatum</option>

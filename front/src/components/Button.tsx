@@ -1,6 +1,6 @@
 interface Props {
 	children: React.ReactNode;
-	onClick?: () => void;
+	onClick?: (event: React.MouseEvent<HTMLElement>) => void;
 	red?: boolean;
 	white?: boolean;
 	className?: string;
