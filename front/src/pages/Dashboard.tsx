@@ -29,7 +29,7 @@ export default function Dashboard(this: unknown) {
 	const [values, setValues] = useState("");
 	// const [tagButton, setTagButton] = useState("");
 
-	const [showClickedFilter, setShowClickedFilter] = useState<Products[]>([]);
+	// const [showClickedFilter, setShowClickedFilter] = useState<Products[]>([]);
 	// console.log(showClickedFilter)
 
 	// const [testValue, setTestValue] = useState("");
@@ -76,9 +76,19 @@ export default function Dashboard(this: unknown) {
 		// })
 	};
 
+	// const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    //     const { id, value } = event.target;
+    //    console.log(id, value)
+    // };
+
 	const handleClick = async () => {
 		const resp = await fetch(url);
 		const res = await resp.json();
+
+		// const { id, value } = event.target;
+		// console.log(id, value)
+		// setFilterValue={setFilterValue}
+		// setFilterValue(filterValue);
 
 		const allTags = res.foods.map((res: { tags: unknown; }) => res.tags);
 		// console.log(allTags);
@@ -94,10 +104,10 @@ export default function Dashboard(this: unknown) {
 		setSearchTag(filteredItems);
 		console.log(searchTag);
 
-		const showValues = res.foods;
+		// const showValues = res.foods;
 		// console.log(showValues)
 
-		setShowClickedFilter(showValues);
+		// setShowClickedFilter(showValues);
 		setData([]);
 	};
 
