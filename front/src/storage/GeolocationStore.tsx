@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-type LocationStore = {
+type GeolocationStore = {
 	location: string | null;
 	error: string | null;
 	loading: boolean;
@@ -9,7 +9,7 @@ type LocationStore = {
 	setLoading: (loading: boolean) => void;
   };
 
-export  const GeolocationStore = create<LocationStore>((set) => ({
+export  const GeolocationStore = create<GeolocationStore>((set) => ({
 	location: null,
 	error: null,
 	loading: false,

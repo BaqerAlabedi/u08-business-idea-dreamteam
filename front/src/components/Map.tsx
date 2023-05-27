@@ -24,14 +24,10 @@ export default function Map() {
 		);
 
 		if (!navigator.geolocation) {
-			setError("Geolocation is not supported by your browser!");
+			setError("Geolocation is not supported by your browser");
 			setLoading(false);
 		}
 	}, [setError, setLoading, setLocation]);
-
-	console.log(location);
-	console.log("Loading..." + loading);
-	console.log(error);
 
 	const {isLoaded} = useJsApiLoader({
 		googleMapsApiKey: import.meta.env.VITE_MAPS_API_KEY,
