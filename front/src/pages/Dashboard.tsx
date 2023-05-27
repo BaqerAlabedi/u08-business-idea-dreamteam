@@ -50,13 +50,14 @@ export default function Dashboard(this: unknown) {
 		const filteredItems = allTags.filter((tags: string | string[]) => tags.includes(filterValue));
 
 		setSearchTag(filteredItems);
-		console.log(searchTag)
+		console.log(searchTag);
 		setData([]);
 	};
 
 	useEffect(() => {
 		const genGetAllProducts = async () => {
-			await getAllProducts();
+			const res = await getAllProducts();
+			setData(res.foods)
 		};
 		genGetAllProducts();
 	}, []);
@@ -65,7 +66,7 @@ export default function Dashboard(this: unknown) {
 		<>
 			<Map></Map>
 
-			<Search name="Sök efter plats..."
+			{/* <Search name="Sök efter plats..."
 				filtered
 				onClick={handleClick}
 				setFilterValue={setFilterValue}
@@ -75,7 +76,8 @@ export default function Dashboard(this: unknown) {
 				value4={value4}
 				value5={value5}
 				value6={value6}
-			></Search>
+			></Search> */}
+
 
 			<section className="w-10/12 max-w-7xl mx-auto my-4 grid col-auto gap-5 lg:grid-cols-2">
 
