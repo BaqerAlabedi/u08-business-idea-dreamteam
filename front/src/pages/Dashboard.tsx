@@ -24,10 +24,9 @@ export interface Products {
 }
 
 export default function Dashboard(this: unknown) {
-	const [data, setData] = useState<Products[]>([]);	// behövs
-	const [searchTag, setSearchTag] = useState([]);				// behövs!
+	const [data, setData] = useState<Products[]>([]);
+	const [searchTag, setSearchTag] = useState([]);
 	const [values, setValues] = useState("");
-	const [filteredProducts, setFilteredProducts] = useState<Products[]>([]);
 
 	const getAllProducts = async () => {
 		const response = await fetch(url);
@@ -40,7 +39,6 @@ export default function Dashboard(this: unknown) {
 		const res = await resp.json();
 
 		const allTags = res.foods.map((res: { tags: unknown; }) => res.tags);
-		// console.log(allTags);
 
 		setValues(allTags);
 		console.log("TRUE: " + filter);
@@ -48,30 +46,7 @@ export default function Dashboard(this: unknown) {
 		const filteredItems = allTags.filter((tags: string[]) => tags.includes(filter));
 
 		setSearchTag(filteredItems);
-		// setFilteredProducts(searchTag);
-		console.log("SearchTag",searchTag);
-
-		if (searchTag) {
-			setData([]);
-			return (
-				data.map((item) => (
-					console.log(data),
-					<section key={item}>
-						<ProductShow
-							href={"products/:productsID"}   // Tillfällig länk!
-							imgUrl={item.img}
-							title={item.title}
-							description={item.desc}
-							add={false}
-							price={item.price}
-							visible={true}
-							distance={1.2}                  // Location är temporärt!
-						></ProductShow>
-					</section>
-
-				))
-			);
-		}
+		setData([]);
 	};
 
 	useEffect(() => {
@@ -110,7 +85,22 @@ export default function Dashboard(this: unknown) {
 
 				))}{data.length > 3 && <Advertisement></Advertisement>}
 
-				{ searchTag}{searchTag.length < 3 && <Advertisement></Advertisement>}
+				{ searchTag.map((item) => (
+					console.log(searchTag),
+					<section key={item}>
+						<ProductShow
+							href={"products/:productsID"}   // Tillfällig länk!
+							imgUrl={item.img}
+							title={item.title}
+							description={item.desc}
+							add={false}
+							price={item.price}
+							visible={true}
+							distance={1.2}                  // Location är temporärt!
+						></ProductShow>
+					</section>
+
+				))}{searchTag.length < 3 && <Advertisement></Advertisement>}
 
 				{/* <Advertisement></Advertisement> */}
 			</section>
