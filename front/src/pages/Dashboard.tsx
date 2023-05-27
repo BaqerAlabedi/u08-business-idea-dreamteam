@@ -27,88 +27,51 @@ export default function Dashboard(this: unknown) {
 	const [data, setData] = useState<Products[]>([]);	// behövs
 	const [searchTag, setSearchTag] = useState([]);				// behövs!
 	const [values, setValues] = useState("");
-	// const [tagButton, setTagButton] = useState("");
-
-	// const [showClickedFilter, setShowClickedFilter] = useState<Products[]>([]);
-	// console.log(showClickedFilter)
-
-	// const [testValue, setTestValue] = useState("");
-
-	// const [showFilteredProducts, setShowFilteredProducts] = useState();
-
-	// const [activeFilter, setActivefilter] = useState(false);
-
-	const [filterValue, setFilterValue] = useState("");
-
-	const [products, setProducts] = useState([]);
-	// const []
-
-	// const value = "snack";
-	const value1 = "starter";
-	const value2 = "soup";
-	const value3 = "lunch/dinner";
-	const value4 = "dessert";
-	const value5 = "vegetarian";
-	const value6 = "vegan";
-
-	// const [allvalues, setAllValues] = useState(value);
-
-	// useEffect(() => {
-	// 	setTagButton(value);
-	// }, []);
-	// console.log(tagButton);
+	const [filteredProducts, setFilteredProducts] = useState<Products[]>([]);
 
 	const getAllProducts = async () => {
 		const response = await fetch(url);
 		const res = await response.json();
 		setData(res.foods);
-		// setProducts(res.foods);
-
-		// const tags = data.map((res: { tags: unknown; }) => res.tags);
-		// const allProducts = res.foods;
-		// setProducts(allProducts);
-
-		// useEffect(() => {
-		// 	const allTags = res.foods.map((res: { tags: unknown; }) => res.tags)
-		// 	const showProducts = [...res, ...allTags]
-		// 	setProducts(showProducts);
-		// 	console.log(showProducts)
-		// })
 	};
-
-	// const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     const { id, value } = event.target;
-    //    console.log(id, value)
-    // };
 
 	const handleClick = async (filter:string) => {
 		const resp = await fetch(url);
 		const res = await resp.json();
 
-		// const { id, value } = event.target;
-		// console.log(id, value)
-		// setFilterValue={setFilterValue}
-		// setFilterValue(filterValue);
-
 		const allTags = res.foods.map((res: { tags: unknown; }) => res.tags);
 		// console.log(allTags);
 
 		setValues(allTags);
-		// console.log(values);
 		console.log("TRUE: " + filter);
 
 		const filteredItems = allTags.filter((tags: string[]) => tags.includes(filter));
 
-		// const showProducts = res + filteredItems;
-
 		setSearchTag(filteredItems);
+		// setFilteredProducts(searchTag);
 		console.log("SearchTag",searchTag);
 
-		// const showValues = res.foods;
-		// console.log(showValues)
+		if (searchTag) {
+			setData([]);
+			return (
+				data.map((item) => (
+					console.log(data),
+					<section key={item}>
+						<ProductShow
+							href={"products/:productsID"}   // Tillfällig länk!
+							imgUrl={item.img}
+							title={item.title}
+							description={item.desc}
+							add={false}
+							price={item.price}
+							visible={true}
+							distance={1.2}                  // Location är temporärt!
+						></ProductShow>
+					</section>
 
-		// setShowClickedFilter(showValues);
-		setData([]);
+				))
+			);
+		}
 	};
 
 	useEffect(() => {
@@ -116,12 +79,6 @@ export default function Dashboard(this: unknown) {
 			await getAllProducts();
 		};
 		genGetAllProducts();
-
-		// const response = await fetch(url);
-		// const res = await response.json();
-		// const allTags = res.foods.map((res: { tags: unknown; }) => res.tags)
-		// const showProducts = [...res, ...allTags]
-		// setProducts(showProducts);
 
 	}, []);
 
@@ -132,13 +89,6 @@ export default function Dashboard(this: unknown) {
 			<Search name="Sök efter plats..."
 				filtered
 				onClick={handleClick}
-				setFilterValue={setFilterValue}
-				value1={value1}
-				value2={value2}
-				value3={value3}
-				value4={value4}
-				value5={value5}
-				value6={value6}
 			></Search>
 
 			<section className="w-10/12 max-w-7xl mx-auto my-4 grid col-auto gap-5 lg:grid-cols-2">
@@ -160,22 +110,7 @@ export default function Dashboard(this: unknown) {
 
 				))}{data.length > 3 && <Advertisement></Advertisement>}
 
-				{ searchTag.map((item) => (
-					console.log(searchTag),
-					<section key={item}>
-						<ProductShow
-							href={"products/:productsID"}   // Tillfällig länk!
-							imgUrl={item.img}
-							title={item.title}
-							description={item.desc}
-							add={false}
-							price={item.price}
-							visible={true}
-							distance={1.2}                  // Location är temporärt!
-						></ProductShow>
-					</section>
-
-				))}{searchTag.length < 3 && <Advertisement></Advertisement>}
+				{ searchTag}{searchTag.length < 3 && <Advertisement></Advertisement>}
 
 				{/* <Advertisement></Advertisement> */}
 			</section>
