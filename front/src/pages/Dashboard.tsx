@@ -24,29 +24,26 @@ export interface Products {
 }
 
 export default function Dashboard(this: unknown) {
-	const [data, setData] = useState<Products[]>([]);
-	const [searchTag, setSearchTag] = useState([]);
-	const [values, setValues] = useState("");
+	const [data,  setData] = useState<Products[]>([]);
+	const [filteredProducts, setFilteredProducts] = useState<Products[]>([]);
 
 	const getAllProducts = async () => {
 		const response = await fetch(url);
 		const res = await response.json();
 		setData(res.foods);
+		console.log(data)
 	};
 
 	const handleClick = async (filter:string) => {
 		const resp = await fetch(url);
 		const res = await resp.json();
-
-		const allTags = res.foods.map((res: { tags: unknown; }) => res.tags);
-
-		setValues(allTags);
-		console.log("TRUE: " + filter);
-
-		const filteredItems = allTags.filter((tags: string[]) => tags.includes(filter));
-
-		setSearchTag(filteredItems);
+		const filteredData = res.foods;
+		console.log(filteredData);
+		const filteredObjects = filteredData.filter((obj: { tags: string | string[]; }) => obj.tags.includes(filter));
+		console.log(filteredObjects);
+		setFilteredProducts(filteredObjects);
 		setData([]);
+
 	};
 
 	useEffect(() => {
@@ -85,8 +82,8 @@ export default function Dashboard(this: unknown) {
 
 				))}{data.length > 3 && <Advertisement></Advertisement>}
 
-				{ searchTag.map((item) => (
-					console.log(searchTag),
+				{ filteredProducts.map((item) => (
+					console.log(filteredProducts),
 					<section key={item}>
 						<ProductShow
 							href={"products/:productsID"}   // Tillfällig länk!
@@ -100,7 +97,8 @@ export default function Dashboard(this: unknown) {
 						></ProductShow>
 					</section>
 
-				))}{searchTag.length < 3 && <Advertisement></Advertisement>}
+				))}
+				{/* {searchTag.length < 3 && <Advertisement></Advertisement>} */}
 
 				{/* <Advertisement></Advertisement> */}
 			</section>
