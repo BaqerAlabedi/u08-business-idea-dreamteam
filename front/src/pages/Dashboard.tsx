@@ -77,14 +77,19 @@ export default function Dashboard(this: unknown) {
 							visible={true}
 							distance={1.2}                  // Location är temporärt!
 						></ProductShow>
-						<div className="m-2"></div>
 					</section>
+				))}
 
-				))}{data.length > 3 && <Advertisement></Advertisement>}
+				{data.map((item, idx) => {
+					if (idx % 3 === 2) {
+						return <Advertisement key={idx} item={item}></Advertisement>;
+					}
+					return null;
+				})}
 
 				{ filteredProducts.map((item) => (
 					console.log(filteredProducts),
-					<section key={item}>
+					<section key={item._id}>
 						<ProductShow
 							href={"products/:productsID"}   // Tillfällig länk!
 							imgUrl={item.img}
@@ -98,9 +103,13 @@ export default function Dashboard(this: unknown) {
 					</section>
 
 				))}
-				{/* {searchTag.length < 3 && <Advertisement></Advertisement>} */}
 
-				{/* <Advertisement></Advertisement> */}
+				{filteredProducts.map((item, idx) => {
+					if (idx % 3 === 2 || idx >= 0) {
+						return <Advertisement key={idx} item={item}></Advertisement>;
+					}
+					return null;
+				})}
 			</section>
 
 			<Link to={"/product/new"} className="my-4 flex flex-col items-center"><Button>Lägg upp egen annons</Button></Link>
