@@ -1,15 +1,16 @@
 import { FaLocationArrow } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
-export function ProductShow(props: { href: string, imgUrl: string, title: string, description: string, price?: number | boolean, add?: boolean, distance?: number, visible?: boolean}) {
+export function ProductShow(props: { imgUrl: string, title: string, description: string, price?: number | boolean, add?: boolean, distance?: number, visible?: boolean}) {
 	return (
 		<>
 			<div className="relative">
-				<a href={props.href}>
+				<Link to={"products/:productsID"}>
 					<img
 						className="rounded w-full"
 						src={props.imgUrl}
 					/>
-				</a>
+				</Link>
 				<div className="p-2 bg-white/80 rounded absolute bottom-8 left-4 grid w-3/5">
 					<h6 className="font-semibold">{props.title}
 					</h6>
