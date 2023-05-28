@@ -2,14 +2,14 @@ import { useState } from "react";
 import { HiMagnifyingGlass } from "react-icons/hi2";
 import { BsFilter } from "react-icons/bs";
 
-export const Search = (props: { name?: string | undefined, filtered?: true, onClick: (arg0:string) => void} ) => {
+export const Search = (props: { name?: string | undefined, reset?: () => void, filtered?: true, onClick?: (arg0:string) => void } ) => {
 	const [visible, setVisible] = useState(false);
 
 	return (
 		<div className="search">
 			<div className="flex justify-center align-center">
 				{props.filtered && (
-					<button type='button' className="px-3 py-1" onClick={() => setVisible(!visible)}>
+					<button type='button' className="px-3 py-1" onClick={() => { setVisible(!visible); props.reset(); }}>
 						<BsFilter size={25}></BsFilter>
 					</button>
 				)}

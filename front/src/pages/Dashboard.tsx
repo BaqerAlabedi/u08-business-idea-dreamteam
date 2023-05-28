@@ -26,6 +26,7 @@ export interface Products {
 export default function Dashboard(this: unknown) {
 	const [data,  setData] = useState<Products[]>([]);
 	const [filteredProducts, setFilteredProducts] = useState<Products[]>([]);
+	const [filterActive, setFilterActive] = useState(false);
 
 	const getAllProducts = async () => {
 		const response = await fetch(url);
@@ -46,6 +47,19 @@ export default function Dashboard(this: unknown) {
 		setData([]);
 	};
 
+	const resetFilter = (filter:string) => {
+		setFilterActive(!filterActive);
+		handleClick(filter);
+
+		const getAllProducts = async () => {
+			const response = await fetch(url);
+			const res = await response.json();
+			setData(res.foods);
+			console.log(data);
+		};
+		getAllProducts();
+	};
+
 	useEffect(() => {
 		const genGetAllProducts = async () => {
 			await getAllProducts();
@@ -61,6 +75,7 @@ export default function Dashboard(this: unknown) {
 				name="Sök efter plats..."
 				filtered
 				onClick={handleClick}
+				reset={resetFilter}
 			></Search>
 
 			<section className="w-10/12 max-w-7xl mx-auto my-4 grid col-auto gap-5 lg:grid-cols-2">
