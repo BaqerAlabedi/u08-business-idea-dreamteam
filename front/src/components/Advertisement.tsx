@@ -1,7 +1,6 @@
-import { Products } from "../pages/Dashboard";
 import ProductShow from "./ProductShow";
 
-export const Advertisement = (props: { item: Products }) => {
+export const Advertisement = () => {
 	return (
 		<>
 			<ProductShow

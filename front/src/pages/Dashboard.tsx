@@ -31,7 +31,7 @@ export default function Dashboard(this: unknown) {
 		const response = await fetch(url);
 		const res = await response.json();
 		setData(res.foods);
-		console.log(data)
+		console.log(data);
 	};
 
 	const handleClick = async (filter:string) => {
@@ -41,9 +41,9 @@ export default function Dashboard(this: unknown) {
 		console.log(filteredData);
 		const filteredObjects = filteredData.filter((obj: { tags: string | string[]; }) => obj.tags.includes(filter));
 		console.log(filteredObjects);
+
 		setFilteredProducts(filteredObjects);
 		setData([]);
-
 	};
 
 	useEffect(() => {
@@ -51,24 +51,39 @@ export default function Dashboard(this: unknown) {
 			await getAllProducts();
 		};
 		genGetAllProducts();
-
 	}, []);
 
 	return(
 		<>
 			<Map></Map>
 
-			<Search name="Sök efter plats..."
+			<Search
+				name="Sök efter plats..."
 				filtered
 				onClick={handleClick}
 			></Search>
 
 			<section className="w-10/12 max-w-7xl mx-auto my-4 grid col-auto gap-5 lg:grid-cols-2">
 
-				{ data.map((item) => (
-					<section key={item._id}>
+				{ data.map((item, idx) => (
+					<><section key={item._id}>
 						<ProductShow
-							href={"products/:productsID"}   // Tillfällig länk!
+							imgUrl={item.img}
+							title={item.title}
+							description={item.desc}
+							add={false}
+							price={item.price}
+							visible={true}
+							distance={1.2} // Location är temporärt!
+						></ProductShow>
+					</section>
+					{ idx % 3 === 0 && <><section key={idx}><Advertisement/></section></> }
+					</>
+				))}
+
+				{ filteredProducts.map((item, idx) => (
+					<><section key={item.tags}>
+						<ProductShow
 							imgUrl={item.img}
 							title={item.title}
 							description={item.desc}
@@ -78,38 +93,10 @@ export default function Dashboard(this: unknown) {
 							distance={1.2}                  // Location är temporärt!
 						></ProductShow>
 					</section>
+					{ idx % 3 === 0 && <><section key={idx}><Advertisement/></section></> }
+					</>
 				))}
 
-				{data.map((item, idx) => {
-					if (idx % 3 === 2) {
-						return <Advertisement key={idx} item={item}></Advertisement>;
-					}
-					return null;
-				})}
-
-				{ filteredProducts.map((item) => (
-					console.log(filteredProducts),
-					<section key={item._id}>
-						<ProductShow
-							href={"products/:productsID"}   // Tillfällig länk!
-							imgUrl={item.img}
-							title={item.title}
-							description={item.desc}
-							add={false}
-							price={item.price}
-							visible={true}
-							distance={1.2}                  // Location är temporärt!
-						></ProductShow>
-					</section>
-
-				))}
-
-				{filteredProducts.map((item, idx) => {
-					if (idx % 3 === 2 || idx >= 0) {
-						return <Advertisement key={idx} item={item}></Advertisement>;
-					}
-					return null;
-				})}
 			</section>
 
 			<Link to={"/product/new"} className="my-4 flex flex-col items-center"><Button>Lägg upp egen annons</Button></Link>
