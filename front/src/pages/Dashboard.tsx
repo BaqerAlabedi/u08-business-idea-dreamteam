@@ -1,9 +1,10 @@
+import React from "react";
+import { Key, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Button from "../components/Button";
 import Map from "../components/Map";
 import ProductShow from "../components/ProductShow";
 import Search from "../components/Search";
-import { Key, useEffect, useState } from "react";
 import { Advertisement } from "../components/Advertisement";
 
 const url = "http://localhost:4000/products";
@@ -50,13 +51,6 @@ export default function Dashboard(this: unknown) {
 	const resetFilter = (filter:string) => {
 		setFilterActive(!filterActive);
 		handleClick(filter);
-
-		const getAllProducts = async () => {
-			const response = await fetch(url);
-			const res = await response.json();
-			setData(res.foods);
-			console.log(data);
-		};
 		getAllProducts();
 	};
 
@@ -81,35 +75,37 @@ export default function Dashboard(this: unknown) {
 			<section className="w-10/12 max-w-7xl mx-auto my-4 grid col-auto gap-5 lg:grid-cols-2">
 
 				{ data.map((item, idx) => (
-					<><section key={item._id}>
-						<ProductShow
-							imgUrl={item.img}
-							title={item.title}
-							description={item.desc}
-							add={false}
-							price={item.price}
-							visible={true}
-							distance={1.2} // Location är temporärt!
-						></ProductShow>
-					</section>
-					{ idx % 3 === 0 && <><section key={idx}><Advertisement/></section></> }
-					</>
+					<React.Fragment key={item._id}>
+						<section>
+							<ProductShow
+								imgUrl={item.img}
+								title={item.title}
+								description={item.desc}
+								add={false}
+								price={item.price}
+								visible={true}
+								distance={1.2}		// Location är temporärt!
+							></ProductShow>
+						</section>
+						{ idx % 3 === 0 && <><section><Advertisement/></section></> }
+					</React.Fragment>
 				))}
 
 				{ filteredProducts.map((item, idx) => (
-					<><section key={item.tags}>
-						<ProductShow
-							imgUrl={item.img}
-							title={item.title}
-							description={item.desc}
-							add={false}
-							price={item.price}
-							visible={true}
-							distance={1.2}                  // Location är temporärt!
-						></ProductShow>
-					</section>
-					{ idx % 3 === 0 && <><section key={idx}><Advertisement/></section></> }
-					</>
+					<React.Fragment key={item._id}>
+						<section>
+							<ProductShow
+								imgUrl={item.img}
+								title={item.title}
+								description={item.desc}
+								add={false}
+								price={item.price}
+								visible={true}
+								distance={1.2}		// Location är temporärt!
+							></ProductShow>
+						</section>
+						{ idx % 3 === 0 && <><section><Advertisement/></section></> }
+					</React.Fragment>
 				))}
 
 			</section>
