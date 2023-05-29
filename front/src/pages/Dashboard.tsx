@@ -33,17 +33,13 @@ export default function Dashboard(this: unknown) {
 		const response = await fetch(url);
 		const res = await response.json();
 		setData(res.foods);
-		console.log(data);
 	};
 
 	const handleClick = async (filter:string) => {
 		const resp = await fetch(url);
 		const res = await resp.json();
 		const filteredData = res.foods;
-		console.log(filteredData);
 		const filteredObjects = filteredData.filter((obj: { tags: string | string[]; }) => obj.tags.includes(filter));
-		console.log(filteredObjects);
-
 		setFilteredProducts(filteredObjects);
 		setData([]);
 	};
