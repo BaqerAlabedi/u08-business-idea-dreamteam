@@ -5,7 +5,7 @@ export function ProductShow(props: { imgUrl: string, title: string, description:
 	return (
 		<>
 			<div className="relative">
-				<Link to={"products/:productsID"}>
+				<Link to={"product/:productID"}>
 					<img
 						className="rounded w-full"
 						src={props.imgUrl}
