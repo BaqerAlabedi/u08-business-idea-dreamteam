@@ -74,6 +74,7 @@ export default function Dashboard(this: unknown) {
 					<React.Fragment key={item._id}>
 						<section>
 							<ProductShow
+								to={`/product/${item._id}`}
 								imgUrl={item.img}
 								title={item.title}
 								description={item.desc}
@@ -91,6 +92,7 @@ export default function Dashboard(this: unknown) {
 					<React.Fragment key={item._id}>
 						<section>
 							<ProductShow
+								to={`/product/${item._id}`}
 								imgUrl={item.img}
 								title={item.title}
 								description={item.desc}
