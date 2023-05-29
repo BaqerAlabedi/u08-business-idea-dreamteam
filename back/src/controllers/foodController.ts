@@ -17,14 +17,15 @@ const readAllFoods = async () => {
 	}
 };
 
-const readOneFood = async (data: Request) => {
+const readOneFood = async (fid:string) => {
 	try {
 		const food = await User.findOne(
-			{foods: {$elemMatch: {_id: data.body.fid}}},
-			{ "foods.$": 1, _id: 0}
+			{"foods._id": fid},
+			{"foods.$": 1, _id: 0}
 		);
 		if(food){
-			return {error: null, data: food};
+			console.log("Found", food);
+			return {error: null, data: food.foods[0]};
 		}
 		else {
 			throw new Error("Could not find food");
@@ -34,79 +35,71 @@ const readOneFood = async (data: Request) => {
 	}
 };
 
-
-const createFood = async (data: Request) => {//ger tillbaka lösenord???
+const createFood = async (data: Request) => {
 	try {
-		const fid = data.body.uid;
+		const uid = data.body.uid;
 		delete data.body.id;
-		if (data.body) {
-			const food = await User.findOneAndUpdate(
-				{_id: fid}, {$push: {foods: data.body}}, {new: true}
-			);
+		const food = await User.findOneAndUpdate(
+			{_id: uid}, {$push: {foods: data.body}}, {new: true}
+		);
+		if (food) {
 			console.log("Updated", food);
 			return {error: null, data: "Created successful"};
 		}
-		else {
-			throw new Error("Could not create food");
-		}
+		else return {error: "ID not found"};
 
-	} catch(error: unknown) {
+	}catch(error: unknown) {
 		return {error: "Could not create food", data: null};
 	}
-
 };
 
 
 const updateFood = async (data: Request) => {
 	try {
-		const insert = { _id: undefined, title: undefined, desc: undefined, location: undefined, price: undefined, img: undefined, expire: undefined, tags: undefined, is_sold: undefined};
-		if (data.body.fid) insert._id = data.body.fid;
+		const insert = { _id: data.body.fid, title: data.body.title, desc: undefined, location: data.body.location, price: undefined, img: data.body.img, expire: undefined, tags: undefined, is_sold: undefined};
 		if (data.body.desc) insert.desc = data.body.desc;
 		if (data.body.price) insert.price = data.body.price;
 		if (data.body.expire) insert.expire = data.body.expire;
 		if (data.body.tags) insert.tags = data.body.tags;
 		if (data.body.is_sold) insert.is_sold = data.body.is_sold;
-		insert.title = data.body.title;
-		insert.location = data.body.location;
-		insert.img = data.body.img;
 
 		if (insert) {
 			const food = await User.findOneAndUpdate({"foods._id": data.body.fid}, {$set: {"foods.$": insert}}, {new: true});
-			return {error: null, data: food};
+			console.log("Updated", food);
+			return {error: null, msg: "Food updated successfully"};
 		}
 		else {
 			throw new Error("Could not update food");
 		}
-	}
-	catch(error: unknown) {
+
+	}catch(error: unknown) {
 		return {error: "Could not update food", data: null};
 	}
 };
 
 
-//DELETES EVERYTHING IN USERS COLLECTION 🥵🥵🥵🥵🥵
 const deleteOneFood = async (data: Request) => {
 	try {
-		const { fid, uid } = data.body;
+		const {fid, uid} = data.body;
 		const user = await User.findById(uid);
 
 		if (!user) {
 			throw new Error("User not found");
 		}
-		const foodIndex = user.foods.findIndex(food => food._id.toString() === fid);
 
+		const foodIndex = user.foods.findIndex(food => food._id.toString() === fid);
 		if (foodIndex === -1) {
 			throw new Error("Food not found");
 		}
-
 		const deletedFood = user.foods.splice(foodIndex, 1)[0];
-		await user.save();
 
-		return { error: null, data: deletedFood };
-	} catch (error: unknown) {
-		return { error: error, data: null };
+		await user.save();
+		console.log("Deleted", deletedFood);
+		return {error: null, msg: "Food deleted successfully"};
+
+	}catch (error: unknown) {
+		return {error: error, data: null};
 	}
 };
-
 
 export {readAllFoods, createFood, readOneFood, updateFood, deleteOneFood};
