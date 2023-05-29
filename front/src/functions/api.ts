@@ -1,5 +1,16 @@
 import axios from "axios";
 
+interface LoginProps {
+	email: string,
+	password: string,
+}
+
+interface UserUpdateProps{
+	first_name: string,
+	surname: string,
+	address: string
+}
+
 interface RegisterProps {
 	email: string,
 	first_name: string,
@@ -11,11 +22,11 @@ interface RegisterProps {
 interface ProductProps{
 	title: string,
 	desc: string,
-	location: [number, number],
+	location: string,
 	free: boolean,
 	price: number,
 	img: string,
-	expire: [string, number],
+	expire: string[],
 	tags: string[]
 }
 
@@ -28,11 +39,12 @@ export const getAllUserInfo = async (userID: string) => {
 	}
 };
 
-export const userLogin = async (email: string, pass: string) => {
+export const userLogin = async (props: LoginProps) => {
+	const {email, password} = props;
 	try {
 		const response = await axios.post("http://localhost:4000/login", {
 			email,
-			pass,
+			password,
 		});
 		return response.data;
 	} catch (error) {
@@ -128,9 +140,14 @@ export const getOneUser = async (userID:string) => {
 	}
 };
 
-export const updateOneUser = async (userID:string) => {
+export const updateOneUser = async (props:UserUpdateProps) => {
+	const { first_name, surname, address} = props;
 	try {
-		const response = await axios.put(`http://localhost:4000/users/${userID}`);
+		const response = await axios.put("http://localhost:4000/users/hej", {
+			first_name,
+			surname,
+			address
+		}); //ändra userID
 		return response.data;
 	} catch (error) {
 		throw new Error(`chatAPI request failed: ${error}`);
@@ -164,7 +181,9 @@ export const deleteOneProduct = async (productID:string) => {
 	}
 };
 
-export const createOneProduct = async ({title, desc, location, free, price, img, expire, tags}:ProductProps) => {
+export const createOneProduct = async (props:ProductProps) => {
+	const {title, desc, location, free, price, img, expire, tags} = props;
+
 	try {
 		const response = await axios.post("http://localhost:4000/products", {
 			title,
