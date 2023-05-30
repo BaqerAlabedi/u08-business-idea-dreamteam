@@ -1,6 +1,7 @@
 import mongoose, {ConnectOptions} from "mongoose";
 require("dotenv").config();
 
+
 const DB = process.env.DB_URL;
 
 if(DB){
