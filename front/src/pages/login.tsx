@@ -29,7 +29,7 @@ function Login() {
 		try {
 			const data =  await userLogin(formData);
 			setStoreUser(data.uid);
-			navigate("/dashboard");
+			navigate("/profile");
 		} catch (error) {
 			return setErrorMessage("Try again, something went wrong");
 		}
