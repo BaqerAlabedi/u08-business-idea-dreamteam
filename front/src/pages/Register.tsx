@@ -16,10 +16,10 @@ function Register() {
 		first_name: "",
 		surname: "",
 		password: "",
-		password_confirmed: ""
+		password_confirmation: ""
 	});
 
-	const { email, first_name, surname, password, password_confirmed } = formData;
+	const { email, first_name, surname, password, password_confirmation } = formData;
 
 	const [errorMessage, setErrorMessage] = useState("");
 
@@ -27,11 +27,11 @@ function Register() {
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 
-		if (password !== password_confirmed) {
+		if (password !== password_confirmation) {
 			return setErrorMessage("Passwords do not match");
 		}
 
-		if (!email || !first_name || !surname || !password || !password_confirmed) {
+		if (!email || !first_name || !surname || !password || !password_confirmation) {
 			return setErrorMessage("Please fill in all fields");
 		}
 
@@ -102,11 +102,11 @@ function Register() {
 						<Input
 							type="password"
 							minLength={4}
-							inputID="password_confirmed"
+							inputID="password_confirmation"
 							labelText="Bekräfta lösenord"
 							opacity={1}
 							placeHolder=""
-							value={password_confirmed}
+							value={password_confirmation}
 							onChange={handleInputChange}
 						/>
 						<Button>Login</Button>
