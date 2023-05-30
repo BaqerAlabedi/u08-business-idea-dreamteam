@@ -5,11 +5,13 @@ import { MdKeyboardArrowLeft, MdError } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { createOneProduct } from "../functions/api";
+import useStoreUser from "../storage/UserStorage";
 
 function CreateProduct() {
 	const navigate = useNavigate();
 
 	const categoryTags = ["Vegan", "Soppa", "Middag", "Hemmagjord"];
+	const {storeUser} = useStoreUser();
 	const [selectedTags, setSelectedTags] = useState<string[]>([]);
 	const [hideInput, setHideInput] = useState(false);
 	const [formData, setFormData] = useState({
@@ -20,7 +22,7 @@ function CreateProduct() {
 		price: 0,
 		img: "",
 		expire: ["", ""],
-		tags: [""]
+		tags: [""],
 	});
 
 	const [errorMessage, setErrorMessage] = useState("");
@@ -89,7 +91,7 @@ function CreateProduct() {
 		event.preventDefault();
 
 		try {
-			await createOneProduct(formData);
+			await createOneProduct(formData, storeUser);
 			navigate("/profile");
 		} catch (error) {
 			setErrorMessage("Try again, something went wrong");
