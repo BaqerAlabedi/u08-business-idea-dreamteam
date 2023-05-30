@@ -6,23 +6,21 @@ import { updateOneProduct, getOneProduct, deleteOneProduct } from "../functions/
 import { useParams } from "react-router-dom";
 import { MdKeyboardArrowLeft, MdError } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
+import useStoreUser from "../storage/UserStorage";
 
 type ProductParam = {
 	productID: string
 }
 export interface FoodResponse {
 	foods: [{
-		_id: string,
 		title: string,
 		desc: string,
-		location: [number, number],
-		free: boolean,
+		location: string,
 		price: number,
 		img: string,
-		expire: [string, number],
+		expire: string [],
 		tags: string[],
-		created: number,
-		sold_to: boolean,
+		is_sold: boolean,
 	}
  ]
 }
@@ -34,6 +32,7 @@ function EditProduct() {
 	const categoryTags = ["vegan", "soppa", "middag", "hemmagjord", "frukost"];
 	const [selectedTags, setSelectedTags] = useState<string[]>([]);
 	const { productID } = useParams<ProductParam>();
+	const {storeUser} = useStoreUser();
 	const [hideInput, setHideInput] = useState(false);
 	const [errorMessage, setErrorMessage] = useState("");
 	const [formData, setFormData] = useState({
@@ -44,7 +43,8 @@ function EditProduct() {
 		price: 0,
 		img: "",
 		expire: ["", ""],
-		tags: [""]
+		tags: [""],
+		is_sold: false
 	});
 
 
@@ -129,21 +129,23 @@ function EditProduct() {
 
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-
-		try {
-			await updateOneProduct(formData);
-			navigate("/profile");
-		} catch (error) {
-			setErrorMessage("Try again, something went wrong");
+		if(productID ) {
+			try {
+				await updateOneProduct(formData, productID);
+				navigate("/profile");
+			} catch (error) {
+				setErrorMessage("Try again, something went wrong");
+			}
 		}
 	};
+
 
 
 	const handleDelete = async (event: React.MouseEvent<HTMLElement>) => {
 		event.preventDefault();
 		if(productID) {
 			try {
-				await deleteOneProduct(productID);
+				await deleteOneProduct(productID, storeUser);
 				navigate("/profile");
 			} catch (error) {
 				setErrorMessage("Try again, something went wrong");
