@@ -32,7 +32,6 @@ interface ProductProps{
 }
 
 interface ProductUpdateProps {
-	fid: string,
     title: string,
     desc: string,
     location: string,
@@ -142,8 +141,8 @@ export const deleteOneUser = async (uid:string) => {
 	}
 };
 
-export const updateOneProduct = async (props: ProductUpdateProps) => {
-	const { fid, title, desc, location, price, img, expire,tags, is_sold } = props;
+export const updateOneProduct = async (props: ProductUpdateProps, fid: string) => {
+	const { title, desc, location, price, img, expire,tags, is_sold } = props;
 	try {
 		const response = await axios.patch(`${url}/food/update`, {
 			fid,
