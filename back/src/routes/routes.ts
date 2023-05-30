@@ -56,7 +56,7 @@ router.post("/login", async (req : Request, res : Response) => {
 
 
 
-router.get("/user", async (req : Request, res : Response) => {
+router.post("/user", async (req : Request, res : Response) => {
 	const result = await readOneUser(req);
 
 	if(result) {
@@ -90,7 +90,7 @@ router.patch("/user/update", async (req : Request, res : Response) => {
 	}
 });
 
-router.delete("/user/delete", async (req : Request, res : Response) => {
+router.post("/user/delete", async (req : Request, res : Response) => {
 	const user = await deleteUser(req);
 	if(user) {
 		if(user.error){
@@ -151,7 +151,7 @@ router.get("/foods", async (req : Request, res : Response) => {
 	}
 });
 
-router.put("/foods/create", key_check(["uid", "title", "desc", "location", "img", "expire"]),
+router.put("/food/create", key_check(["uid", "title", "desc", "location", "img", "expire"]),
 	async (req : Request, res : Response) => {
 		const result = await createFood(req);
 		if (result.error) {
@@ -180,7 +180,7 @@ router.get("/food/:fid", key_check([]), async (req : Request, res : Response) =>
 	}
 });
 
-router.patch("/foods/update", key_check(["fid", "title", "location", "img"]),
+router.patch("/food/update", key_check(["fid", "title", "location", "img"]),
 	async (req : Request, res : Response) => {
 		const result = await updateFood(req);
 		if (result.error) {
@@ -195,7 +195,7 @@ router.patch("/foods/update", key_check(["fid", "title", "location", "img"]),
 		}
 	});
 
-router.delete("/foods/delete", key_check(["uid", "fid"]),
+router.post("/food/delete", key_check(["uid", "fid"]),
 	async (req : Request, res : Response) => {
 		const result = await deleteOneFood(req);
 		if (result.error) {
