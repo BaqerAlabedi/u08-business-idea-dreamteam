@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express, { Request, Response, NextFunction } from "express";
 import {readAllUsers, readOneUser, registerUser, loginUser, updateUser, deleteUser} from "../controllers/userController";
 import {readAllFoods, readOneFood, createFood, updateFood, deleteOneFood} from "../controllers/foodController";
 
@@ -107,9 +107,37 @@ router.delete("/user/delete", async (req : Request, res : Response) => {
 });
 
 
-//Foods
+/* Foods */
 
-router.get("/foods", [], async (req : Request, res : Response) => {
+// Middleware
+router.use("/foods", (req : Request, res : Response, next : NextFunction) => {
+	if (req.method == "GET") return next();
+	if (!Object.keys(req.body).length) {
+		return res.status(400).json({
+			err: "Req body can't be empty"
+		});
+	}
+	next();
+});
+
+function key_check(keys:string[]) {
+	return function (req : Request, res : Response, next : NextFunction) {
+		for (const key of keys) {
+			if (!Object.keys(req.body).includes(key)) return res.status(400).json({
+				err: `Req missing field '${key}'`
+			});
+		}
+		const bad_id = () => res.status(400).json({err: "ID not valid"});
+		if (req.body.uid && req.body.uid.length != 24) return bad_id();
+		if (req.body.fid && req.body.fid.length != 24) return bad_id();
+		if (req.params.fid && req.params.fid.length != 24) return bad_id();
+		console.log("Req fields pass");
+		next();
+	};
+}
+
+// Routes
+router.get("/foods", async (req : Request, res : Response) => {
 	const result = await readAllFoods();
 	if (result.error) {
 		res.status(500).json({
@@ -121,41 +149,25 @@ router.get("/foods", [], async (req : Request, res : Response) => {
 			result.data
 		);
 	}
-
 });
 
-router.put("/foods/create", async (req : Request, res : Response) => {
-	const result = await createFood(req);
-	if (result.error) {
-		res.status(500).json({
-			message: result.error
-		});
-	}
-	else {
-		res.status(200).json(
-			result.data
-		);
-	}
+router.put("/foods/create", key_check(["uid", "title", "desc", "location", "img", "expire"]),
+	async (req : Request, res : Response) => {
+		const result = await createFood(req);
+		if (result.error) {
+			res.status(500).json({
+				message: result.error
+			});
+		}
+		else {
+			res.status(200).json(
+				result.data
+			);
+		}
+	});
 
-});
-
-
-router.get("/food", async (req : Request, res : Response) => {
-	const result = await readOneFood(req);
-	if (result.error) {
-		res.status(500).json({
-			message: result.error
-		});
-	}
-	else {
-		res.status(200).json(
-			result.data
-		);
-	}
-});
-
-router.patch("/foods/update", async (req : Request, res : Response) => {
-	const result = await updateFood(req);
+router.get("/food/:fid", key_check([]), async (req : Request, res : Response) => {
+	const result = await readOneFood(req.params.fid);
 	if (result.error) {
 		res.status(500).json({
 			message: result.error
@@ -168,18 +180,34 @@ router.patch("/foods/update", async (req : Request, res : Response) => {
 	}
 });
 
-router.delete("/foods/delete", async (req : Request, res : Response) => {
-	const result = await deleteOneFood(req);
-	if (result.error) {
-		res.status(500).json({
-			message: result.error
-		});
-	}
-	else {
-		res.status(200).json(
-			result.data
-		);
-	}
-});
+router.patch("/foods/update", key_check(["fid", "title", "location", "img"]),
+	async (req : Request, res : Response) => {
+		const result = await updateFood(req);
+		if (result.error) {
+			res.status(500).json({
+				message: result.error
+			});
+		}
+		else {
+			res.status(200).json({
+				message: result.msg
+			});
+		}
+	});
+
+router.delete("/foods/delete", key_check(["uid", "fid"]),
+	async (req : Request, res : Response) => {
+		const result = await deleteOneFood(req);
+		if (result.error) {
+			res.status(500).json({
+				message: result.error
+			});
+		}
+		else {
+			res.status(200).json({
+				message: result.msg
+			});
+		}
+	});
 
 export {router as Router};
