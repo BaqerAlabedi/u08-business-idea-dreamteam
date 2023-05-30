@@ -3,8 +3,7 @@ import cors from "cors";
 import {Router} from "./routes/routes";
 import "./db/conn";
 
-//Port
-const port = 80;
+const port = process.env.DB_PORT;
 
 const app = express();
 app.use(cors());
