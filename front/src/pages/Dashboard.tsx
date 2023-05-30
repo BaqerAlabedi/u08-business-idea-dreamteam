@@ -6,6 +6,7 @@ import Map from "../components/Map";
 import ProductShow from "../components/ProductShow";
 import Search from "../components/Search";
 import { Advertisement } from "../components/Advertisement";
+import { getProducts } from "../functions/api";
 
 const url = "http://localhost:4000/products";
 
@@ -24,15 +25,18 @@ export default function Dashboard(this: unknown) {
 	const [filteredProducts, setFilteredProducts] = useState<Products[]>([]);
 	const [filterActive, setFilterActive] = useState(false);
 
-	const getAllProducts = async () => {
-		const response = await fetch(url);
-		const res = await response.json();
+	const genGetAllProducts = async () => {
+		const res = await getProducts();
 		setData(res.foods);
 	};
 
+	useEffect(() => {
+		genGetAllProducts();
+	}, []);
+	console.log(data);
+
 	const handleClick = async (filter:string) => {
-		const resp = await fetch(url);
-		const res = await resp.json();
+		const res = await getProducts();
 		const filteredData = res.foods;
 		const filteredObjects = filteredData.filter((obj: { tags: string | string[]; }) => obj.tags.includes(filter));
 		setFilteredProducts(filteredObjects);
@@ -42,15 +46,8 @@ export default function Dashboard(this: unknown) {
 	const resetFilter = (filter:string) => {
 		setFilterActive(!filterActive);
 		handleClick(filter);
-		getAllProducts();
-	};
-
-	useEffect(() => {
-		const genGetAllProducts = async () => {
-			await getAllProducts();
-		};
 		genGetAllProducts();
-	}, []);
+	};
 
 	return(
 		<>
