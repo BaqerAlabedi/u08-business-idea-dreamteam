@@ -97,7 +97,6 @@ function Product(){
 				</>
 			)}
 			<div className="bg-gray-200 py-3 fixed bottom-0 left-0 right-0">
-				{/* Ta bort sen */}
 				<Link to={"/conversation/236632"} className="flex flex-col items-center"><Button>Kontakta säljare</Button></Link>
 			</div>
 		</div>
