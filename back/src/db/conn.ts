@@ -10,5 +10,5 @@ if(DB){
 	} as ConnectOptions);
 }
 else {
-	console.log("ENV variable undefined");
+	console.log("ENV variable is undefined");
 }
