@@ -67,24 +67,26 @@ app.get("/users/:userID/info", async (req, res) => {
 
 // Login -> skicka in email och password
 app.post("/login", async (req, res) => {
-	const { email, pass } = req.body
+	const { email, password } = req.body
     res.status(200).json({
         "message": "success login",
+		"uid": "hejejhshna12",
 		"email": email,
-		"password": pass
+		"password": password
     });
 })
 
 // Register -> skicka in email, förnamn, efternamn och password
 app.post("/register", async (req, res) => {
-	const { email, firstname, surname, pass, pass_confirmed } = req.body
+	const { email, firstname, surname, password, password_confirmed } = req.body
     res.status(201).json({
         "message": "Registration successfull",
+		"uid": "he3y1w32344k4h42",
 		"email": email,
-		"password": pass,
+		"password": password,
 		"firstname": firstname,
 		"surname": surname,
-		"pass_confirmed": pass_confirmed
+		"pass_confirmed": password_confirmed
     })
 }) 
 
