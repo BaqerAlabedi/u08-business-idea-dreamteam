@@ -4,7 +4,7 @@
   "description": "Grannskapsrätten backend",
   "main": "./src/server.ts",
   "scripts": {
-    "dev": "nodemon ./src/server.ts"
+    "dev": "node ./src/server.ts"
   },
   "author": "",
   "license": "ISC",
