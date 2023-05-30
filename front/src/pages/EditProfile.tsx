@@ -5,6 +5,7 @@ import { MdKeyboardArrowLeft } from "react-icons/md";
 import { useEffect, useState } from "react";
 import { getOneUser, updateOneUser } from "../functions/api";
 import { Link, useNavigate } from "react-router-dom";
+import useStoreUser from "../storage/UserStorage";
 
 export interface UserId {
 	_id: string;
@@ -18,6 +19,7 @@ export interface UserId {
 
 function EditProfile() {
 	const navigate = useNavigate();
+	const {storeUser} = useStoreUser();
 	const [result, setResult] = useState<UserId>({
 		_id: "",
 		first_name: "",
@@ -29,7 +31,7 @@ function EditProfile() {
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const data = await getOneUser("hejh");
+				const data = await getOneUser(storeUser);
 				setResult(data.user);
 			} catch (error) {
 				console.error(error);
@@ -43,7 +45,7 @@ function EditProfile() {
 		event.preventDefault();
 
 		try {
-			await updateOneUser(result);
+			await updateOneUser(result, storeUser);
 			navigate("/profile");
 		} catch (error) {
 			return console.log("Try again, something went wrong");
