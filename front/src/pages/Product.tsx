@@ -9,7 +9,6 @@ type ProductParam = {
 	productID: string
 }
 export interface FoodResponse {
-	foods: [{
 		_id: string,
 		title: string,
 		desc: string,
@@ -21,8 +20,6 @@ export interface FoodResponse {
 		tags: string[],
 		created: number,
 		sold_to: boolean,
-	}
- ]
 }
 
 function Product(){
@@ -60,7 +57,7 @@ function Product(){
 			{ data && (
 				<>
 					<section>
-						<img src={data.foods[0].img} alt="Image of food" className="w-screen object-cover h-[25rem]" />
+						<img src={data.img} alt="Image of food" className="w-screen object-cover h-[25rem]" />
 						<Link to={"/dashboard"}>
 							<FaAngleLeft className="absolute top-2 left-2 text-2xl bg-white/30 rounded-lg"></FaAngleLeft>
 						</Link>
@@ -71,26 +68,26 @@ function Product(){
 					</section>
 					<div className="mx-auto w-10/12 mt-5">
 						<section className="flex justify-between items-center">
-							<h2 className="text-lg font-semibold">{data.foods[0].title}</h2>
-							<h3 className="bg-teal-700 px-5 py-1.5 rounded-lg text-white">{data.foods[0].price} kr</h3>
+							<h2 className="text-lg font-semibold">{data.title}</h2>
+							<h3 className="bg-teal-700 px-5 py-1.5 rounded-lg text-white">{data.price} kr</h3>
 						</section>
 					</div>
 					<div className="mx-auto w-10/12 mt-5 lg:mb-5 lg:flex lg:justify-between">
-						<p className="my-5 lg:my-0 lg:w-1/2">{data.foods[0].desc}</p>
+						<p className="my-5 lg:my-0 lg:w-1/2">{data.desc}</p>
 						<section>
 							<div className="flex justify-between lg:flex-col lg:text-right">
 								<p>Utgångsdatum:</p>
-								<p className={(data.foods[0].expire[1]) < Date.now() ? "font-semibold text-red-600" : "font-semibold"}>{getTimeAgo(data.foods[0].expire[1])}</p>
+								<p className={(data.expire[1]) < Date.now() ? "font-semibold text-red-600" : "font-semibold"}>{getTimeAgo(data.expire[1])}</p>
 							</div>
-							<div className="flex justify-between my-5 lg:flex-col lg:text-right">
+							{/* <div className="flex justify-between my-5 lg:flex-col lg:text-right">
 								<p>Annons lades ut:</p>
-								<p className="font-semibold">{getTimeAgo(data.foods[0].created)}</p>
-							</div>
+								<p className="font-semibold">{getTimeAgo(data.created)}</p>
+							</div> */}
 						</section>
 					</div>
 					<hr className="mx-auto w-10/12" />
 					<section className="mx-auto w-10/12 grid grid-cols-3 xl:grid-cols-4 gap-3 my-5 mb-28">
-						{data.foods[0].tags.map((tag, index) => (
+						{data.tags.map((tag, index) => (
 							<h4 key={index}
 								className="border-teal-700 px-3 py-1 border-2 rounded-lg text-center whitespace-nowrap overflow-hidden overflow-ellipsis">
 								{tag.charAt(0).toUpperCase() + tag.slice(1)}
@@ -100,7 +97,6 @@ function Product(){
 				</>
 			)}
 			<div className="bg-gray-200 py-3 fixed bottom-0 left-0 right-0">
-				{/* Ta bort sen */}
 				<Link to={"/conversation/236632"} className="flex flex-col items-center"><Button>Kontakta säljare</Button></Link>
 			</div>
 		</div>
