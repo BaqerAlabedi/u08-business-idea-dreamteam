@@ -17,11 +17,6 @@ export interface Products {
     desc: string;
     title: string;
     img: string;
-        map(arg0: (item: {
-            data: Element;
-            tags: string;
-            _id: string; href: string; img: string; title: string; desc: string; price: number | boolean | undefined; location: number | undefined; filter: string | undefined | null;
-    }) => import("react/jsx-runtime").JSX.Element): import("react").ReactNode;
 }
 
 export default function Dashboard(this: unknown) {
