@@ -4,8 +4,10 @@ import Input from "../components/Input";
 import { useState } from "react";
 import { userLogin } from "../functions/api";
 import { MdError } from "react-icons/md";
+import useStoreUser from "../storage/UserStorage";
 
 function Login() {
+	const {setStoreUser} = useStoreUser();
 	const navigate = useNavigate();
 
 	const [formData, setFormData] = useState({
@@ -25,7 +27,8 @@ function Login() {
 		}
 
 		try {
-			await userLogin(formData);
+			const data =  await userLogin(formData);
+			setStoreUser(data.uid);
 			navigate("/dashboard");
 		} catch (error) {
 			return setErrorMessage("Try again, something went wrong");

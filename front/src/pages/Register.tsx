@@ -4,9 +4,12 @@ import Button from "../components/Button";
 import Input from "../components/Input";
 import { MdError } from "react-icons/md";
 import { userRegister } from "../functions/api";
+import useStoreUser from "../storage/UserStorage";
 
 function Register() {
 	const navigate = useNavigate();
+	const {setStoreUser} = useStoreUser();
+
 
 	const [formData, setFormData] = useState({
 		email: "",
@@ -33,7 +36,8 @@ function Register() {
 		}
 
 		try {
-			await userRegister(formData);
+			const data = await userRegister(formData);
+			setStoreUser(data.uid);
 			navigate("/dashboard");
 		} catch (error) {
 			return setErrorMessage("Try again, something went wrong");

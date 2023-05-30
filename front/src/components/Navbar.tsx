@@ -2,7 +2,8 @@ import Button from "../components/Button";
 import ReactDOM from "react-dom/client";
 import { BsChatLeftTextFill } from "react-icons/bs";
 import { ImCross } from "react-icons/im";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import useStoreUser from "../storage/UserStorage";
 
 
 const closed = (<>
@@ -13,9 +14,6 @@ const closed = (<>
 let is_open = false;
 let root:ReactDOM.Root|null = null;
 
-function is_login() {
-	return false;
-}
 
 function menu() {
 	if (!root) root = ReactDOM.createRoot(document.getElementById("menu") as HTMLElement);
@@ -38,6 +36,16 @@ function menu() {
 }
 
 export default function Navbar() {
+	function logout() {
+		setStoreUser("");
+		navigate("/");
+	}
+	function is_login() {
+		return (storeUser) ? true : false;
+	}
+	const {storeUser, setStoreUser} = useStoreUser();
+	const navigate = useNavigate();
+
 	return (
 		<header className="w-screen bg-white/90 sticky top-0 z-10">
 			<section className="w-11/12 mx-auto flex justify-between items-center p-4">
@@ -53,9 +61,11 @@ export default function Navbar() {
 						<Link to={is_login() ? "/profile" : "/login"}>
 							<Button className="w-32 h-8 text-sm">{is_login() ? "Profil" : "Logga in"}</Button>
 						</Link>
-						<Link to={is_login() ? "/logout" : "/register"}>
+						{!storeUser &&
+						<Link to="/register">
 							<Button white className="w-32 h-8 text-sm">{is_login() ? "Logga ut" : "Bli medlem"}</Button>
-						</Link>
+						</Link>}
+						{storeUser && <Button onClick={logout} white className="w-32 h-8 text-sm">Logga ut</Button>}
 					</nav>
 				</div>
 			</section>
