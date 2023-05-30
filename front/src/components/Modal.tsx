@@ -24,13 +24,11 @@ function Modal ({onClose, children, actionBar}: ModalProps) {
 	return ReactDOM.createPortal(
 		<div>
 			<div onClick={onClose} className="fixed inset-0 bg-gray-300 opacity-80"></div>
-			<div className="fixed inset-0 flex items-center justify-center">
-				<div className="bg-white p-10 w-80 md:w-auto md:max-w-3xl rounded-lg">
-					<div className="flex flex-col justify-between h-full ">
-						{children}
-						<div className="flex justify-center m-4">
-							{actionBar}
-						</div>
+			<div className="fixed w-4/5 top-56 left-10 md:w-auto md:inset-40 bg-white p-10 rounded-lg">
+				<div className="flex flex-col justify-around h-full w-4/5 mx-auto gap-5">
+					{children}
+					<div className="flex justify-center">
+						{actionBar}
 					</div>
 				</div>
 			</div>
