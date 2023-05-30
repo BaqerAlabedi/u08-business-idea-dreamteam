@@ -23,61 +23,87 @@ router.get("/users", [], async (req : Request, res : Response) => {
 router.post("/register", async (req : Request, res : Response) => {
 	const result = await registerUser(req);
 	console.log(result);
-	if(!result) {
-		res.status(500).json({
-			message: "Error, could not create user"
-		});
+	if(result) {
+		if(result.error) {
+			res.status(500).json({
+				error: result.error
+			});
+		}
+		else {
+			res.status(201).json({
+				message: "User created successfully", uid: result.uid
+			});
+		}
 	}
-	else {
-		res.status(201).json({
-			message: "User created successfully", uid: result
-		});
-	}
+
 });
 
 router.post("/login", async (req : Request, res : Response) => {
 	const result = await loginUser(req);
-	if(!result) {
-		res.status(500).json({
-			message: "Error, could not log in user, maybe user does not exist"
-		});
-	}
-	else {
-		res.status(201).json({
-			message: "User logged in successfully", uid: result
-		});
+	if(result) {
+		if(result.error){
+			res.status(500).json({
+				error: result.error
+			});
+		}
+		else {
+			res.status(201).json({
+				message: "User logged in successfully", uid: result.uid
+			});
+		}
 	}
 });
 
 
 
 router.get("/user", async (req : Request, res : Response) => {
-	const user = await readOneUser(req);
-	res.status(200).json({
-		user: user
-	});
+	const result = await readOneUser(req);
+
+	if(result) {
+		if(result.error){
+			res.status(500).json({
+				error: result.error
+			});
+		}
+		else {
+			res.status(200).json({
+				data: result.data
+			});
+		}
+	}
+
 });
 
 router.patch("/user/update", async (req : Request, res : Response) => {
-	if (req.body.uid.length != 24) return res.status(400).json({
-		err: "ID not valid"
-	});
-	const user = await updateUser(req);
-	res.status(200).json({
-		user: user
-	});
+	const result = await updateUser(req);
+	if(result) {
+		if(result.error){
+			res.status(500).json({
+				error: result.error
+			});
+		}
+		else {
+			res.status(200).json({
+				data: result.data
+			});
+		}
+	}
 });
 
 router.delete("/user/delete", async (req : Request, res : Response) => {
-	if (req.body.uid.length != 24) return res.status(400).json({
-		err: "ID not valid"
-	});
 	const user = await deleteUser(req);
-	if (user) {
-		console.log("Deleted", user);
-		res.status(200).end(`Deleted: ${req.body.uid}`);
+	if(user) {
+		if(user.error){
+			res.status(500).json({
+				error: user.error
+			});
+		}
+		else {
+			res.status(200).json({
+				message: user.data
+			});
+		}
 	}
-	else res.status(404).json({err: `${req.body.uid} not found`});
 });
 
 
