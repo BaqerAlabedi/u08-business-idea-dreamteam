@@ -1,7 +1,13 @@
 import mongoose, {ConnectOptions} from "mongoose";
+require("dotenv").config();
 
-const DB = "mongodb://localhost:27017/GrannskapsRatten";
+const DB = process.env.DB_URL;
 
-mongoose.connect(DB, {
-	useNewUrlParser: true,
-} as ConnectOptions);
+if(DB){
+	mongoose.connect(DB, {
+		useNewUrlParser: true,
+	} as ConnectOptions);
+}
+else {
+	console.log("ENV variable undefined");
+}
