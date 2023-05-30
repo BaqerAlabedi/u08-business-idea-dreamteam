@@ -409,9 +409,18 @@ app.delete("/users/:userID", async (req, res) => {
 })
 
 // Edit product
-app.put("/products/:productID", async (req, res) => {
+app.put("/product", async (req, res) => {
+    const { title, desc, location, free, price, img, expire, tags } = req.body
     res.status(200).json({
         "message": "Updated the product successfull",
+        "title": title,
+        "desc": desc,
+        "location": location,
+        "free": free,
+        "price": price,
+        "img": img,
+        "expire": expire,
+        "tags": tags
     })
 })
 
