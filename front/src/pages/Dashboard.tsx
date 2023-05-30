@@ -60,7 +60,7 @@ export default function Dashboard(this: unknown) {
 				reset={resetFilter}
 			></Search>
 
-			<section className="w-10/12 max-w-7xl mx-auto my-4 grid col-auto gap-5 lg:grid-cols-2">
+			{data && <section className="w-10/12 max-w-7xl mx-auto my-4 grid col-auto gap-5 lg:grid-cols-2">
 
 				{ data.map((item, idx) => (
 					<React.Fragment key={item._id}>
@@ -98,7 +98,7 @@ export default function Dashboard(this: unknown) {
 					</React.Fragment>
 				))}
 
-			</section>
+			</section>}
 
 			<Link to={"/product/new"} className="my-4 flex flex-col items-center"><Button>Lägg upp egen annons</Button></Link>
 		</>
