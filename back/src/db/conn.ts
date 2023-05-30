@@ -1,14 +1,21 @@
+// import mongoose, {ConnectOptions} from "mongoose";
+// require("dotenv").config();
+
+
+// const DB = process.env.DB_URL;
+
+// if(DB){
+// 	mongoose.connect(DB, {
+// 		useNewUrlParser: true,
+// 	} as ConnectOptions);
+// }
+// else {
+// 	console.log("ENV variable is undefined");
+// }
 import mongoose, {ConnectOptions} from "mongoose";
-require("dotenv").config();
 
+const DB = "mongodb://localhost:27017/GrannskapsRatten";
 
-const DB = process.env.DB_URL;
-
-if(DB){
-	mongoose.connect(DB, {
-		useNewUrlParser: true,
-	} as ConnectOptions);
-}
-else {
-	console.log("ENV variable is undefined");
-}
+mongoose.connect(DB, {
+	useNewUrlParser: true,
+} as ConnectOptions);
