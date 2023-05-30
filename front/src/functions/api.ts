@@ -105,9 +105,7 @@ export const getOneProduct = async (fid:string) => {
 export const getOneUser = async (uid:string) => {
 	try {
 		const response = await axios.post(`${url}/user`, {
-			params: {
-				uid: uid
-			}
+			uid
 		});
 		return response.data;
 	} catch (error) {

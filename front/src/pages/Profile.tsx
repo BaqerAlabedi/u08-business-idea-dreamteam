@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "../components/Button";
 import { HiPencil } from "react-icons/hi";
 import ProductShow from "../components/ProductShow";
 import { getOneUser } from "../functions/api";
+import useStoreUser from "../storage/UserStorage";
+import { Advertisement } from "../components/Advertisement";
 
 
 export interface UserResponse {
@@ -30,6 +32,8 @@ export interface UserResponse {
 }
 
 function Profile() {
+	const {storeUser} = useStoreUser();
+
 	const [data, setData] = useState<UserResponse>({
 		_id: "",
 		first_name: "",
@@ -57,9 +61,8 @@ function Profile() {
 
 		const fetchData = async () => {
 			try {
-				const response = await getOneUser("12as");
-				console.log(response);
-				setData(response.user);
+				const response = await getOneUser(storeUser);
+				setData(response.data);
 			} catch (error) {
 				console.error(error);
 			}
@@ -109,10 +112,23 @@ function Profile() {
 					<h2 className="text-xl my-5 text-semibold">Dina akutella annonser</h2>
 
 					<section className="max-w-5xl mx-auto grid col-auto gap-5 lg:grid-cols-2 ">
-						{data.foods.map((food, index) => (
-							<ProductShow add={false} distance={0} visible={false} href={""} key={index} imgUrl={food.img} title={food.title} description={food.desc} price={food.price} ></ProductShow>
-						)
-						)}
+						{ data.foods.map((item, idx) => (
+							<React.Fragment key={item._id}>
+								<section>
+									<ProductShow
+										to={`/product/${item._id}`}
+										imgUrl={item.img}
+										title={item.title}
+										description={item.desc}
+										add={false}
+										price={item.price}
+										visible={true}
+										distance={1.2}		// Location är temporärt!
+									></ProductShow>
+								</section>
+								{ (idx !== 0 && idx % 3 === 0) && <><section><Advertisement/></section></> }
+							</React.Fragment>
+						))}
 					</section>
 
 				</div>
