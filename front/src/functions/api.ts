@@ -43,7 +43,7 @@ interface ProductUpdateProps {
 	is_sold: boolean
 }
 
-const url = "http://localhost:4000"
+const url = "http://localhost:4000";
 
 export const getAllUserInfo = async (uid: string) => {
 	try {
