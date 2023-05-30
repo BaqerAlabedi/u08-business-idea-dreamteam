@@ -4,6 +4,7 @@ import {Router} from "./routes/routes";
 import "./db/conn";
 
 const port = 4000;
+
 const app = express();
 
 app.use(cors());
