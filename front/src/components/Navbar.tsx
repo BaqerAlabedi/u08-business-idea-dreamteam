@@ -41,12 +41,7 @@ export default function Navbar() {
 		navigate("/");
 	}
 	function is_login() {
-		if(storeUser !== "") {
-			return true;
-		}
-		else {
-			return false;
-		}
+		return (storeUser) ? true : false;
 	}
 	const {storeUser, setStoreUser} = useStoreUser();
 	const navigate = useNavigate();
