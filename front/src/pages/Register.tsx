@@ -34,6 +34,7 @@ function Register() {
 		if (!email || !first_name || !surname || !password || !password_confirmation) {
 			return setErrorMessage("Please fill in all fields");
 		}
+		console.log(formData);
 
 		try {
 			const data = await userRegister(formData);
