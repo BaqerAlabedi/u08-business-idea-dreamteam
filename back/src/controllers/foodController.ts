@@ -21,9 +21,10 @@ const readOneFood = async (fid:string) => {
 	try {
 		const food = await User.findOne(
 			{"foods._id": fid},
-			{"foods.$": 1, _id: 0}
+			{"foods.$": 1, _id: 0, email: 1}
 		);
 		if(food){
+			food.foods[0].user_email = User.email;
 			console.log("Found", food);
 			return {error: null, data: food.foods[0]};
 		}
