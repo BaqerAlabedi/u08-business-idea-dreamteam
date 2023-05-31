@@ -74,7 +74,7 @@ function Product(){
 		</div>
 	);
 	const modal = <Modal onClose={handleClose} actionBar={actionBar}>
-		<p>Vi jobbar för fullt på att skapa en chatfunktion som kommer inom kort. Tills vidare får du gärna maila säljaren.</p>
+		<p className="text-center">Vi jobbar för fullt på att skapa en chatfunktion som kommer inom kort. Tills vidare får du gärna maila säljaren.</p>
 	</Modal>;
 
 	return(
