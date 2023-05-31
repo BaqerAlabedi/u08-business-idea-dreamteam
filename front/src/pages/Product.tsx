@@ -46,10 +46,9 @@ function Product(){
 			const fetchData = async () => {
 				try {
 					const response = await getOneProduct(productID);
-					console.log(response);
 					setData(response.foods[0]);
 					setUserEmail(response.email);
-					console.log(userEmail)
+					console.log(userEmail);
 				} catch (error) {
 					console.error(error);
 				}
@@ -70,7 +69,7 @@ function Product(){
 	};
 	const actionBar = (
 		<div>
-			<Button onClick={handleClose}><a href = "mailto: abc@example.com">Kontakta säljaren</a></Button>
+			<Button onClick={handleClose}><a href = {"mailto:" + userEmail}>Kontakta säljaren</a></Button>
 		</div>
 	);
 	const modal = <Modal onClose={handleClose} actionBar={actionBar}>
