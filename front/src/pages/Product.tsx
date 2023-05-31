@@ -4,6 +4,7 @@ import Button from "../components/Button";
 import { useEffect, useState } from "react";
 import { getOneProduct } from "../functions/api";
 import { useParams } from "react-router-dom";
+import Modal from "../components/Modal";
 
 type ProductParam = {
 	productID: string
@@ -21,6 +22,7 @@ export interface FoodResponse {
 		created: number,
 		sold_to: boolean,
 }
+
 
 function Product(){
 	const [data, setData] = useState<FoodResponse | null>(null);
@@ -42,7 +44,6 @@ function Product(){
 			const fetchData = async () => {
 				try {
 					const response = await getOneProduct(productID);
-					console.log(response);
 					setData(response);
 				} catch (error) {
 					console.error(error);
@@ -51,6 +52,25 @@ function Product(){
 			fetchData();
 		}
 	}, []);
+
+
+	const [showModal, setShowModal] = useState(false);
+
+	const handleClick = () => {
+		setShowModal(true);
+	};
+
+	const handleClose = () => {
+		setShowModal(false);
+	};
+	const actionBar = (
+		<div>
+			<Button onClick={handleClose}><a href = "mailto: abc@example.com">Kontakta säljaren</a></Button>
+		</div>
+	);
+	const modal = <Modal onClose={handleClose} actionBar={actionBar}>
+		<p>Vi jobbar för fullt på att skapa en chatfunktion som kommer inom kort. Tills vidare får du gärna maila säljaren.</p>
+	</Modal>;
 
 	return(
 		<div className="relative max-w-5xl mx-auto">
@@ -97,7 +117,10 @@ function Product(){
 				</>
 			)}
 			<div className="bg-gray-200 py-3 fixed bottom-0 left-0 right-0">
-				<Link to={"/conversation/236632"} className="flex flex-col items-center"><Button>Kontakta säljare</Button></Link>
+				<div className="flex flex-col items-center">
+					<Button onClick={handleClick}>Kontakta säljare</Button>
+					{showModal && modal}
+				</div>
 			</div>
 		</div>
 	);
