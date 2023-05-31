@@ -24,9 +24,9 @@ const readOneFood = async (fid:string) => {
 			{"foods.$": 1, _id: 0, email: 1}
 		);
 		if(food){
-			food.foods[0].user_email = User.email;
+			// food.foods[0]["user_email"] = "food.email";
 			console.log("Found", food);
-			return {error: null, data: food.foods[0]};
+			return {error: null, data: food};
 		}
 		else {
 			throw new Error("Could not find food");

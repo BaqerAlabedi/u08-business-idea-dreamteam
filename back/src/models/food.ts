@@ -8,7 +8,8 @@ export interface IFood {
 	img: string,
 	expire?: [string, number], //FEL SYNTAX
 	tags?: string[],
-	is_sold?: boolean
+	is_sold?: boolean,
+	user_email?: string
 }
 
 interface foodModelInterface extends mongoose.Model<FoodDoc> {
@@ -24,6 +25,7 @@ export interface FoodDoc extends mongoose.Document {
 	expire: [string, number], //FEL SYNTAX
 	tags?: string[],
 	is_sold: boolean
+	user_email?: string
 }
 
 export const foodSchema = new mongoose.Schema({
