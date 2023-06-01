@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 export interface IFood {
 	title: string,
 	desc?: string,
-	location: [number, number], //FEL SYNTAX
+	location: string,
 	price?: number,
 	img: string,
 	expire?: [string, number], //FEL SYNTAX
@@ -19,7 +19,7 @@ interface foodModelInterface extends mongoose.Model<FoodDoc> {
 export interface FoodDoc extends mongoose.Document {
 	title: string,
 	desc: string,
-	location: [number, number], //FEL SYNTAX
+	location: string,
 	price?: number,
 	img?: string,
 	expire: [string, number], //FEL SYNTAX
@@ -39,7 +39,7 @@ export const foodSchema = new mongoose.Schema({
 		required: true
 	},
 	location: {
-		type: [String, Number], //FEL SYNTAX
+		type: String,
 		required: true
 	},
 	price: {
@@ -76,7 +76,7 @@ const Food = mongoose.model<FoodDoc, foodModelInterface>("Food", foodSchema);
 Food.build({
 	title: "Piggelin",
 	desc: "Glass",
-	location: [45.123, 47.232],
+	location: "place_id",
 	price: 20,
 	img: "piggelin.jpg",
 	expire: ["Tillagningsdatum", Date.now()],
