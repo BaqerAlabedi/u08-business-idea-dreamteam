@@ -109,7 +109,7 @@ function Register() {
 							value={password_confirmation}
 							onChange={handleInputChange}
 						/>
-						<Button>Login</Button>
+						<Button>Registrera</Button>
 					</form>
 					{errorMessage && (
 						<div className="flex justify-center items-center my-4 border-2 border-red-700 p-1">
