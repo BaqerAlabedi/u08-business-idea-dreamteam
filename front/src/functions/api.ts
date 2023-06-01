@@ -171,21 +171,12 @@ export const deleteOneProduct = async (fid:string, uid: string) => {
 	}
 };
 
-export const createOneProduct = async (props:ProductProps, uid:string) => {
-	const {title, desc, location, free, price, img, expire, tags} = props;
-
+export const createOneProduct = async (form_data:any) => {
 	try {
-		const response = await axios.put(`${url}/food/create`, {
-			uid,
-			title,
-			desc,
-			location,
-			free,
-			price,
-			img,
-			expire,
-			tags
-		});
+		const response = await axios.put(`${url}/food/create`,
+			form_data,
+			{ headers: {"content-type": "multipart/form-data"} }
+		);
 		return response.data;
 	} catch (error) {
 		throw new Error(`chatAPI request failed: ${error}`);

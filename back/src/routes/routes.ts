@@ -151,7 +151,7 @@ router.get("/foods", async (req : Request, res : Response) => {
 	}
 });
 
-router.put("/food/create", key_check(["uid", "title", "desc", "location", "img", "expire"]),
+router.put("/food/create-OFF", key_check(["uid", "title", "desc", "location", "img", "expire"]),
 	async (req : Request, res : Response) => {
 		const result = await createFood(req);
 		if (result.error) {
@@ -209,5 +209,14 @@ router.post("/food/delete", key_check(["uid", "fid"]),
 			});
 		}
 	});
+
+import multer from "multer";
+const upload = multer({dest: "images/"});
+
+router.put("/food/create", upload.single("img"), (req, res) => {
+	console.log("MULTER");
+	console.log("FILE", req.file);
+	console.log("BODY", req.body);
+});
 
 export {router as Router};

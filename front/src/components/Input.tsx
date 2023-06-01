@@ -1,13 +1,13 @@
 interface Props {
-	placeHolder?: string;
-	inputID: string;
-	type?: string;
-	opacity?: number;
-	labelText?: string;
-	value?: string;
-	minLength?: number;
-	onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-	require?: boolean
+	placeHolder?: string,
+	inputID: string,
+	type?: string,
+	opacity?: number,
+	labelText?: string,
+	value?: string,
+	minLength?: number,
+	onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void,
+	require?: boolean,
   }
 
 const styling = "box-border h-11 w-72 rounded border-solid border-gray-300 border p-2";
