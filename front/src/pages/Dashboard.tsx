@@ -27,9 +27,24 @@ export default function Dashboard(this: unknown) {
 	const [activeFilterProducts, setActiveFilterProducts] = useState(false);
 
 	const genGetAllProducts = async () => {
+		// FIXA FILTRERA UT ANVÄNDAREN PRODUKTER!
 		const res = await getProducts();
-		setData(res);
+		// const test = res.map(item => item._id);
+		// const filteredUser = res.filter(item => item.test !== item.test);
+		// console.log(test);
+		// console.log(filteredUser);
+		// const filteredUser = res.filter((item: { _id: unknown; }) => item._id !== console.log(item._id));
+		// console.log(filteredUser)
+		// const test = res.map((res) => res.foods);
+		// const foodItems = res.map(item =>item)
+		// const foodItems = foodUsers.filter((item: { foods: any; }) => console.log(item.foods));
+
+		const products = res.flatMap((item: { foods: unknown; }) => item.foods);
+
+		console.log(products);
+		setData(products);
 	};
+	console.log(data);
 
 	useEffect(() => {
 		genGetAllProducts();
@@ -37,13 +52,13 @@ export default function Dashboard(this: unknown) {
 
 	const handleClick = async (filter:string) => {
 		setData([]);
-		const test = data.map(res => res.foods);
-		const filteredItems = test.flat().filter(item => item.tags && item.tags.includes(filter));
+		const res = await getProducts();
+		const products = res.map((res: { foods: unknown; }) => res.foods);
+		const filteredItems = products.flat().filter((item: { tags: string | string[]; }) => item.tags && item.tags.includes(filter));
 		setFilteredProducts(filteredItems);
 
 		setActiveFilterProducts(true);
 		if (activeFilterProducts) {
-			const res = await getProducts();
 			const test = res.map((item: { foods: unknown; }) => item.foods);
 			const filteredItems = test.flat().filter((item: { tags: string | string[]; }) => item.tags && item.tags.includes(filter));
 			setFilteredProducts(filteredItems);
@@ -70,25 +85,22 @@ export default function Dashboard(this: unknown) {
 
 			{data && <section className="w-10/12 max-w-7xl mx-auto my-4 grid col-auto gap-5 lg:grid-cols-2">
 
-				{ data.map((user) =>
-					user.foods.map((item: { _id: React.Key | null | undefined; img: string; title: string; desc: string; price: number | boolean | undefined; }, idx: number) => (
-						<React.Fragment key={item._id}>
-							<section>
-								<ProductShow
-									to={`/product/${item._id}`}
-									imgUrl={item.img}
-									title={item.title}
-									description={item.desc}
-									add={false}
-									price={item.price}
-									visible={true}
-									distance={1.2}		// Location är temporärt!
-								></ProductShow>
-							</section>
-							{ (idx !== 0 && idx % 3 === 0) && <><section><Advertisement/></section></> }
-						</React.Fragment>
-					)
-					))}
+				{ data.map((item, idx) =>
+					<React.Fragment key={item._id}>
+						<section>
+							<ProductShow
+								to={`/product/${item._id}`}
+								imgUrl={item.img}
+								title={item.title}
+								description={item.desc}
+								add={false}
+								price={item.price}
+								distance={1.2}		// Location är temporärt!
+							></ProductShow>
+						</section>
+						{ (idx !== 0 && idx % 3 === 0) && <><section><Advertisement/></section></> }
+					</React.Fragment>
+				)}
 
 				{ filteredProducts.map((item, idx) => (
 					<React.Fragment key={item._id}>
@@ -100,7 +112,6 @@ export default function Dashboard(this: unknown) {
 								description={item.desc}
 								add={false}
 								price={item.price}
-								visible={true}
 								distance={1.2}		// Location är temporärt!
 							></ProductShow>
 						</section>

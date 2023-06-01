@@ -1,7 +1,7 @@
 import { FaLocationArrow } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
-export function ProductShow(props: { to: string, imgUrl: string, title: string, description: string, price?: number | boolean, add?: boolean, distance?: number, visible?: boolean}) {
+export function ProductShow(props: { to: string, imgUrl: string, title: string, description: string, price?: number | boolean, add?: boolean, distance?: number | boolean}) {
 	return (
 		<>
 			<div className="relative">
@@ -28,7 +28,7 @@ export function ProductShow(props: { to: string, imgUrl: string, title: string, 
 							{props.price} kr</p>
 					</div>}
 
-				{props.visible && (<div className="w-32 h-10 bg-white/80 rounded absolute top-6 right-4 flex items-center gap-4 justify-center">
+				{props.distance && (<div className="w-32 h-10 bg-white/80 rounded absolute top-6 right-4 flex items-center gap-4 justify-center">
 					<FaLocationArrow className=""/>
 					<p className="text-center">
 						<b>{props.distance}

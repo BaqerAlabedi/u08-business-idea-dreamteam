@@ -10,7 +10,7 @@ import useStoreUser from "../storage/UserStorage";
 function CreateProduct() {
 	const navigate = useNavigate();
 
-	const categoryTags = ["Vegan", "Soppa", "Middag", "Hemmagjord"];
+	const categoryTags = ["tilltugg", "förrätt", "soppa", "sallad", "huvudrätt", "vegetariskt", "vegansk", "dessert"];
 	const {storeUser} = useStoreUser();
 	const [selectedTags, setSelectedTags] = useState<string[]>([]);
 	const [hideInput, setHideInput] = useState(false);
@@ -145,7 +145,7 @@ function CreateProduct() {
 									checked={selectedTags.includes(tag)}
 									onChange={handleTagCheckboxChange}
 								/>
-								<label htmlFor={tag} className="ml-2 my-2">{tag}</label>
+								<label htmlFor={tag} className="capitalize ml-2 my-2">{tag}</label>
 							</div>
 						))}
 

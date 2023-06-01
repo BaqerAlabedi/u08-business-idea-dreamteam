@@ -35,57 +35,57 @@ export const Search = (props: { name?: string | undefined, reset?: (arg0:string)
 								<input type="button" className="mx-2 mt-2 px-6 rounded-lg font-medium text-black border-2 border-teal-700 hover:bg-teal-700 hover:text-white"
 									onClick={() => {
 										if (props.onClick) {
-											props.onClick("snack");
+											props.onClick("tilltugg");
 										}
-									}} value="snack"/>
+									}} value="Tilltugg"/>
 							</li>
 							<li>
 								<input type="button" className="mx-2 mt-2 px-6 rounded-lg font-medium text-black border-2 border-teal-700 hover:bg-teal-700 hover:text-white"
 									onClick={() => {
 										if (props.onClick) {
-											props.onClick("starter");
+											props.onClick("förrätt");
 										}
-									}} value="starter"/>
+									}} value="Förrätt"/>
 							</li>
 							<li>
 								<input type="button" className="mx-2 mt-2 px-6 rounded-lg font-medium text-black border-2 border-teal-700 hover:bg-teal-700 hover:text-white"
 									onClick={() => {
 										if (props.onClick) {
-											props.onClick("soup");
+											props.onClick("soppa");
 										}
-									}} value="soup"/>
+									}} value="Soppa"/>
 							</li>
 							<li>
 								<input type="button" className="mx-2 mt-2 px-6 rounded-lg font-medium text-black border-2 border-teal-700 hover:bg-teal-700 hover:text-white"
 									onClick={() => {
 										if (props.onClick) {
-											props.onClick("salad");
+											props.onClick("sallad");
 										}
-									}} value="salad"/>
+									}} value="Sallad"/>
 							</li>
 							<li>
 								<input type="button" className="mx-2 mt-2 px-6 rounded-lg font-medium text-black border-2 border-teal-700 hover:bg-teal-700 hover:text-white"
 									onClick={() => {
 										if (props.onClick) {
-											props.onClick("main course");
+											props.onClick("huvudrätt");
 										}
-									}} value="main course"/>
+									}} value="Huvudrätt"/>
 							</li>
 							<li>
 								<input type="button" className="mx-2 mt-2 px-6 rounded-lg font-medium text-black border-2 border-teal-700 hover:bg-teal-700 hover:text-white"
 									onClick={() => {
 										if (props.onClick) {
-											props.onClick("vegetarian");
+											props.onClick("vegetariskt");
 										}
-									}} value="vegetarian"/>
+									}} value="Vegetariskt"/>
 							</li>
 							<li>
 								<input type="button" className="mx-2 mt-2 px-6 rounded-lg font-medium text-black border-2 border-teal-700 hover:bg-teal-700 hover:text-white"
 									onClick={() => {
 										if (props.onClick) {
-											props.onClick("vegan");
+											props.onClick("vegansk");
 										}
-									}} value="vegan"/>
+									}} value="Vegansk"/>
 							</li>
 							<li>
 								<input type="button" className="mx-2 mt-2 px-6 rounded-lg font-medium text-black border-2 border-teal-700 hover:bg-teal-700 hover:text-white"
@@ -93,7 +93,7 @@ export const Search = (props: { name?: string | undefined, reset?: (arg0:string)
 										if (props.onClick) {
 											props.onClick("dessert");
 										}
-									}} value="dessert"/>
+									}} value="Dessert"/>
 							</li>
 						</ul>
 					</div>
