@@ -45,7 +45,6 @@ function EditProfile() {
 
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		console.log(result);
 
 		try {
 			await updateOneUser(result, storeUser);
