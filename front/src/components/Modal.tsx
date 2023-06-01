@@ -27,7 +27,7 @@ function Modal ({onClose, children, actionBar}: ModalProps) {
 			<div className="fixed w-4/5 top-56 left-10 md:w-auto md:inset-40 bg-white p-10 rounded-lg">
 				<div className="flex flex-col justify-around h-full w-4/5 mx-auto gap-5">
 					{children}
-					<div className="flex justify-center">
+					<div className="flex justify-center ">
 						{actionBar}
 					</div>
 				</div>

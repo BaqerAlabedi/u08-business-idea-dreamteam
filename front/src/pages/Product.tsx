@@ -21,12 +21,14 @@ export interface FoodResponse {
 		tags: string[],
 		created: number,
 		sold_to: boolean,
+		user_email: string
 }
 
 
 function Product(){
 	const [data, setData] = useState<FoodResponse | null>(null);
 	const { productID } = useParams<ProductParam>();
+	const [userEmail, setUserEmail] = useState("");
 
 	function getTimeAgo(time:number) {
 		const timeDiff = Date.now() - time;
@@ -44,7 +46,9 @@ function Product(){
 			const fetchData = async () => {
 				try {
 					const response = await getOneProduct(productID);
-					setData(response);
+					setData(response.foods[0]);
+					setUserEmail(response.email);
+					console.log(userEmail);
 				} catch (error) {
 					console.error(error);
 				}
@@ -65,11 +69,11 @@ function Product(){
 	};
 	const actionBar = (
 		<div>
-			<Button onClick={handleClose}><a href = "mailto: abc@example.com">Kontakta säljaren</a></Button>
+			<Button onClick={handleClose}><a href = {"mailto:" + userEmail}>Kontakta säljaren</a></Button>
 		</div>
 	);
 	const modal = <Modal onClose={handleClose} actionBar={actionBar}>
-		<p>Vi jobbar för fullt på att skapa en chatfunktion som kommer inom kort. Tills vidare får du gärna maila säljaren.</p>
+		<p className="text-center">Vi jobbar för fullt på att skapa en chatfunktion som kommer inom kort. Tills vidare får du gärna maila säljaren.</p>
 	</Modal>;
 
 	return(
