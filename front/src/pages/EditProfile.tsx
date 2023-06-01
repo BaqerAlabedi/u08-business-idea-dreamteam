@@ -15,7 +15,6 @@ export interface UserId {
 }
 
 function EditProfile() {
-	const formData = new FormData();
 	const navigate = useNavigate();
 	const [result, setResult] = useState<UserId>({
 		_id: "",
