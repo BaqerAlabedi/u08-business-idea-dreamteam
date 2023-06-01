@@ -105,7 +105,7 @@ function CreateProduct() {
 		try {
 			console.log(formData);
 			await createOneProduct(formData, storeUser);
-			//navigate("/profile");
+			navigate("/profile");
 		} catch (error) {
 			setErrorMessage("Try again, something went wrong");
 		}
