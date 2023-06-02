@@ -1,12 +1,12 @@
 /** @type {import('tailwindcss').Config} */
-export default {
+ export default {
   content: ["./src/**/*.tsx"],
   theme: {
     extend: {
 		backgroundImage: {
-			"login": "url('./src/assets/login.jpg')",
-			"register": "url('./src/assets/register.jpg')",
-			"index": "url('./src/assets/index.jpg')"
+			"login": "url('/src/assets/login.jpg')",
+			"register": "url('/src/assets/register.jpg')",
+			"index": "url('/src/assets/index.jpg')"
 		},
       keyframes: {
         "drop": {

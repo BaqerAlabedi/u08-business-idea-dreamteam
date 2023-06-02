@@ -30,7 +30,7 @@ export interface FoodResponse {
 function EditProduct() {
 
 	const navigate = useNavigate();
-	const categoryTags = ["vegan", "soppa", "middag", "hemmagjord", "frukost"];
+	const categoryTags = ["tilltugg", "förrätt", "soppa", "sallad", "huvudrätt", "vegetariskt", "vegansk", "dessert"];
 	const [selectedTags, setSelectedTags] = useState<string[]>([]);
 	const { productID } = useParams<ProductParam>();
 	const {storeUser} = useStoreUser();
