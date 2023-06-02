@@ -116,7 +116,7 @@ function Profile() {
 							<React.Fragment key={item._id}>
 								<section>
 									<ProductShow
-										to={`/product/edit/${item._id}`}
+										to={`product/edit/${item._id}`}
 										imgUrl={item.img}
 										title={item.title}
 										description={item.desc}
