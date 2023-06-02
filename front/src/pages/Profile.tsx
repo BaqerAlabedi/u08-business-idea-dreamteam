@@ -116,14 +116,13 @@ function Profile() {
 							<React.Fragment key={item._id}>
 								<section>
 									<ProductShow
-										to={`/product/${item._id}`}
+										to={`/product/edit/${item._id}`}
 										imgUrl={item.img}
 										title={item.title}
 										description={item.desc}
 										add={false}
 										price={item.price}
 										visible={true}
-										distance={1.2}		// Location är temporärt!
 									></ProductShow>
 								</section>
 								{ (idx !== 0 && idx % 3 === 0) && <><section><Advertisement/></section></> }

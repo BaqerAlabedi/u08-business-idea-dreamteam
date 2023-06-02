@@ -1,4 +1,5 @@
 import Input from "../components/Input";
+import { Link } from "react-router-dom";
 import Button from "../components/Button";
 import { useState, useEffect } from "react";
 import { BsArrowLeft } from "react-icons/bs";
@@ -159,14 +160,14 @@ function EditProduct() {
 	return (
 		<div className="m-8">
 			<div className="block float-left">
-				<a href="/profile">
+				<Link to="/profile">
 					<button className="min-[800px]:hidden">
 						<BsArrowLeft size={25}></BsArrowLeft>
 					</button>
 					<button className="max-[800px]:hidden">
 						<MdKeyboardArrowLeft size={40}></MdKeyboardArrowLeft>
 					</button>
-				</a>
+				</Link>
 			</div>
 			<div className="flex justify-center items-center my-2">
 				<div className="flex">

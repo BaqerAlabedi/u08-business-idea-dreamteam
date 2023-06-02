@@ -3,13 +3,15 @@ import Button from "../components/Button";
 import { BsArrowLeft } from "react-icons/bs";
 import { MdKeyboardArrowLeft, MdError } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createOneProduct } from "../functions/api";
 import useStoreUser from "../storage/UserStorage";
+import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 
 function CreateProduct() {
 	const navigate = useNavigate();
-
+	const apiKey = import.meta.env.VITE_MAPS_API_KEY;
+	const [value, setValue] = useState<any>();
 	const categoryTags = ["Vegan", "Soppa", "Middag", "Hemmagjord"];
 	const {storeUser} = useStoreUser();
 	const [selectedTags, setSelectedTags] = useState<string[]>([]);
@@ -26,6 +28,7 @@ function CreateProduct() {
 	});
 
 	const [errorMessage, setErrorMessage] = useState("");
+
 
 	const handleTagCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const { id, checked } = event.target;
@@ -47,12 +50,19 @@ function CreateProduct() {
 	const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setHideInput(event.target.checked);
 		const { id, checked } = event.target;
-
+		console.log(value.value.place_id);
 		setFormData((prevFormData) => ({
 			...prevFormData,
 			[id]: checked,
 		}));
 	};
+
+	const handleLocation = () => {
+		setFormData((prevFormData) =>({
+			...prevFormData,
+			location: value.value.place_id
+		}));
+	}
 
 	const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const { id, value } = event.target;
@@ -89,8 +99,11 @@ function CreateProduct() {
 
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-
+		if(value){
+			handleLocation();
+		}
 		try {
+			console.log(formData);
 			await createOneProduct(formData, storeUser);
 			navigate("/profile");
 		} catch (error) {
@@ -153,12 +166,19 @@ function CreateProduct() {
 					</div>
 
 					<div className="flex flex-col gap-4">
-						<Input
-							onChange={handleInputChange}
-							inputID="location"
-							labelText="Address"
-							require
+						<label htmlFor="googleLocation">Address</label>
+						<GooglePlacesAutocomplete
+							apiKey={apiKey}
+							selectProps={{
+								inputId: "googleLocation",
+								placeholder: "Ange en address",
+								value,
+								onChange: setValue,
+							}}
 						/>
+
+						<input hidden type="text" id="location"></input>
+
 						<Input
 							onChange={handleInputChange}
 							type="file"
