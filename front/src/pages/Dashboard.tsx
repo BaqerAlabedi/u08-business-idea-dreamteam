@@ -111,7 +111,7 @@ export default function Dashboard(this: unknown) {
 
 			</section>}
 
-			<Link to={"/product/new"} className="my-4 flex flex-col items-center"><Button>Lägg upp egen annons</Button></Link>
+			<Link to={"/product/create"} className="my-4 flex flex-col items-center"><Button>Lägg upp egen annons</Button></Link>
 		</>
 	);
 }
