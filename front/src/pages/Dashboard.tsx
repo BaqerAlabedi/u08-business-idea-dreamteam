@@ -32,10 +32,14 @@ export default function Dashboard(this: unknown) {
 		const filteredUser = res.filter((user: { _id: unknown; }) => user._id !== storeUser);
 		const products = filteredUser.flatMap((item: { foods: unknown; }) => item.foods);
 		setData(products);
+		console.log(data);
+		
 	};
 
 	useEffect(() => {
-		genGetAllProducts();
+			genGetAllProducts();
+		
+		
 	}, []);
 
 	const handleClick = async (filter:string) => {
