@@ -211,12 +211,38 @@ router.post("/food/delete", key_check(["uid", "fid"]),
 	});
 
 import multer from "multer";
-const upload = multer({dest: "images/"});
+import path from "path";
+const storage = multer.diskStorage({
+	destination: "./images",
+	filename: function (req, file, cb) {
+		const ext = path.extname(file.originalname);
+		cb(null, Date.now() + ext);
+	}
+});
+const upload = multer({ storage });
+//const upload = multer({dest: "images/"}); // w/out storage
 
 router.put("/food/create", upload.single("img"), (req, res) => {
 	console.log("MULTER");
 	console.log("FILE", req.file);
 	console.log("BODY", req.body);
+});
+
+import fs from "fs";
+router.get("/image/:filename", (req, res) => {
+	const {filename} = req.params;
+	//const filePath = `./images/${filename}`;
+	const filePath = "./images/e40ee0b18c551948d6331546e66cc63c";
+	console.log("FILE SELECTED", filePath);
+
+	fs.readFile(filePath, (err, data) => {
+		if (err) {
+			return res.status(404).send("File not found");
+		}
+		res.setHeader("Content-Type", "image/jpeg");
+		//res.setHeader("Content-Disposition", `attachment; filename="${filename}"`);
+		res.send(data);
+	});
 });
 
 export {router as Router};

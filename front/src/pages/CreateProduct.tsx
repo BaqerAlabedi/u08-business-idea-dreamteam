@@ -25,7 +25,6 @@ function CreateProduct() {
 		tags: [""],
 	});*/
 	const new_form_data = new FormData();
-
 	const [errorMessage, setErrorMessage] = useState("");
 
 	const handleTagCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,12 +36,13 @@ function CreateProduct() {
 		} else {
 			updatedTags = updatedTags.filter((tag) => tag !== id);
 		}
-
 		setSelectedTags(updatedTags);
-		/*setFormData((prevFormData) => ({
-			...prevFormData,
-			tags: updatedTags,
-		}));*/
+
+		new_form_data.delete("tag");
+		for (let i = 0; i < updatedTags.length; i++) {
+			new_form_data.append("tag", updatedTags[i]);
+		}
+		console.log("tag", new_form_data.getAll("tag"));
 	};
 
 	const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -55,33 +55,21 @@ function CreateProduct() {
 		}));*/
 	};
 
-	const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+	const handleInputChange = (event: React.ChangeEvent<HTMLInputElement|HTMLTextAreaElement>) => {
 		const { id, value } = event.target;
 		const fileInput = document.getElementById("img") as HTMLInputElement;
 		if (id == "img" && fileInput && fileInput.files) {
-			new_form_data.append("img", fileInput.files[0]);
+			new_form_data.set(id, fileInput.files[0]);
+			console.log("FORM IMG", new_form_data.getAll(id));
 			return;
 		}
-		new_form_data.append(id, value);
-		console.log("FORM TTL", new_form_data.getAll("title"));
-		console.log("FORM IMG", new_form_data.getAll("img"));
-		/*
+		new_form_data.set(id, value);
+		for (const pair of new_form_data.entries()) {
+			console.log(`${pair[0]}: ${pair[1]}`);
+		}
 		setErrorMessage("");
-		setFormData((prevFormData) => ({
-			...prevFormData,
-			[id]: value,
-		}));
-		*/
 	};
 
-	const handleTextareaChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-		const { id, value } = event.target;
-		setErrorMessage("");
-		/*setFormData((prevFormData) => ({
-			...prevFormData,
-			[id]: value,
-		}));*/
-	};
 	const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
 		const { value } = event.target;
 		/*setFormData((prevFormData) => ({
@@ -101,8 +89,8 @@ function CreateProduct() {
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		try {
-			new_form_data.append("uid", storeUser);
-			console.log("FORM UID", new_form_data.getAll("img"));
+			new_form_data.set("uid", storeUser);
+			console.log("FORM UID", new_form_data.getAll("uid"));
 			await createOneProduct(new_form_data);
 			navigate("/profile");
 		} catch (error) {
@@ -144,7 +132,7 @@ function CreateProduct() {
 								name="desc"
 								rows={6}
 								maxLength={300}
-								onChange={handleTextareaChange}
+								onChange={handleInputChange}
 							></textarea>
 						</div>
 						<label htmlFor="">Kategori</label>
