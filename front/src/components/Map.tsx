@@ -1,10 +1,33 @@
-import {GoogleMap, useJsApiLoader} from "@react-google-maps/api";
-import { useEffect } from "react";
+import {GoogleMap, Marker, useJsApiLoader} from "@react-google-maps/api";
+import { useEffect, useState } from "react";
 import { GeolocationStore } from "../storage/GeolocationStore";
+import { geocodeByPlaceId, getLatLng } from "react-google-places-autocomplete";
 
 
-export default function Map() {
+
+export default function Map(data : any) {
 	const { setLocation, setError, setLoading } = GeolocationStore();
+	const [markerLocation, setMarkerLocation] = useState<any>([]);
+
+	const renderMarkers = () => {
+		const location = [];
+		console.log(data);
+		for(let i = 0; i < data.foods.length; i++)
+		{
+			geocodeByPlaceId(data.foods[i].location)
+				.then(results => getLatLng(results[0]))
+				.then((data) =>
+					location.push(data)
+				)
+				.catch(error => console.error(error));
+		}
+		console.log(location);
+		setMarkerLocation(location);
+	};
+
+	useEffect(() => {
+		renderMarkers();
+	},[] );
 
 	useEffect(() => {
 		setLoading(true);
@@ -36,7 +59,13 @@ export default function Map() {
 
 	return(
 		<>
+
 			<GoogleMap zoom={10} center={{lat: 59.33, lng: 18.06}} mapContainerClassName="w-screen h-96">
+				{markerLocation.map(loc => (
+					<Marker
+						position={loc}
+					></Marker>
+				))}
 			</GoogleMap>
 		</>
 
