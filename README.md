@@ -23,6 +23,8 @@ Genom v책r applikation bidrar vi till att minska matsvinnet i hush책llen. Att m�
 
 ## Litet exempel p책 anv채ndning:
 
+![](bildmappen/sk채rm.png)
+
 
 
 
@@ -95,3 +97,4 @@ William,
 Lukas.
 
 ## Licens
+
