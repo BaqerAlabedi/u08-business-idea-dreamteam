@@ -3,7 +3,7 @@ import Button from "../components/Button";
 import { BsArrowLeft } from "react-icons/bs";
 import { MdKeyboardArrowLeft, MdError } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { createOneProduct } from "../functions/api";
 import useStoreUser from "../storage/UserStorage";
 import GooglePlacesAutocomplete from "react-google-places-autocomplete";
@@ -50,7 +50,6 @@ function CreateProduct() {
 	const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setHideInput(event.target.checked);
 		const { id, checked } = event.target;
-		console.log(value.value.place_id);
 		setFormData((prevFormData) => ({
 			...prevFormData,
 			[id]: checked,
@@ -102,7 +101,6 @@ function CreateProduct() {
 		handleLocation();
 		if(formData.location){
 			try {
-				console.log(formData);
 				await createOneProduct(formData, storeUser);
 				navigate("/profile");
 			} catch (error) {

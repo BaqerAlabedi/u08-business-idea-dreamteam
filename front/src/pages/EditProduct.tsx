@@ -40,7 +40,6 @@ function EditProduct() {
 		title: "",
 		desc: "",
 		location: "",
-		free: false,
 		price: 0,
 		img: "",
 		expire: ["", ""],
@@ -154,9 +153,6 @@ function EditProduct() {
 		}
 	};
 
-
-
-
 	return (
 		<div className="m-8">
 			<div className="block float-left">
@@ -207,11 +203,11 @@ function EditProduct() {
 							</div>
 
 							<div>
-								<label htmlFor="adress" className="block">
+								{/* <label htmlFor="adress" className="block">
                                 Address
 									<span className="text-neutral-400 text-sm"> (syns ej för andra användare)</span>
-								</label>
-								<input placeholder={(formData.location).toString()} type="textarea" id="adress" className="p-2 box-border h-11 w-72 rounded border-solid border-gray-300 border"/>
+								</label> */}
+								{/* <input placeholder={(formData.location).toString()} type="textarea" id="adress" className="p-2 box-border h-11 w-72 rounded border-solid border-gray-300 border"/> */}
 
 								<Input placeHolder={formData.img} inputID={"image"} labelText={"Bild"}></Input>
 
@@ -219,7 +215,7 @@ function EditProduct() {
 								<input onChange={handleCheckboxChange} type="checkbox" id="give-away"/>
 								<label htmlFor="give-away" className="text-sm mx-2">Bortskänkes</label>
 								{!hideInput && (
-									<input placeholder={(formData.price).toString()} type="number" id="price" className="p-2 block my-2 box-border h-11 w-72 rounded border-solid border-gray-300 border"/>
+									<input placeholder={(formData.price.toString())} type="number" id="price" className="p-2 block my-2 box-border h-11 w-72 rounded border-solid border-gray-300 border"/>
 								)}
 								<label htmlFor="dates" className="block my-2">Tillagning/utgångsdatum</label>
 								<select onChange={handleSelectChange} id="dates" className="block my-2 px-5 box-border h-11 rounded border-solid border-gray-300 border">
