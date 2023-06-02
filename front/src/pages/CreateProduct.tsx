@@ -62,7 +62,7 @@ function CreateProduct() {
 			...prevFormData,
 			location: value.value.place_id
 		}));
-	}
+	};
 
 	const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const { id, value } = event.target;
@@ -99,15 +99,15 @@ function CreateProduct() {
 
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		if(value){
-			handleLocation();
-		}
-		try {
-			console.log(formData);
-			await createOneProduct(formData, storeUser);
-			navigate("/profile");
-		} catch (error) {
-			setErrorMessage("Try again, something went wrong");
+		handleLocation();
+		if(formData.location){
+			try {
+				console.log(formData);
+				await createOneProduct(formData, storeUser);
+				navigate("/profile");
+			} catch (error) {
+				setErrorMessage("Try again, something went wrong");
+			}
 		}
 	};
 
