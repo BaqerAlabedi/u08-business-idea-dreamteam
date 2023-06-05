@@ -9,22 +9,21 @@ import useStoreUser from "../storage/UserStorage";
 
 function CreateProduct() {
 	const navigate = useNavigate();
-
+	//const new_form_data = new FormData();
 	const categoryTags = ["Vegan", "Soppa", "Middag", "Hemmagjord"];
 	const {storeUser} = useStoreUser();
 	const [selectedTags, setSelectedTags] = useState<string[]>([]);
 	const [hideInput, setHideInput] = useState(false);
-	/*const [formData, setFormData] = useState({
+	const [formData, setFormData] = useState({
+		uid: storeUser,
 		title: "",
 		desc: "",
 		location: "",
 		free: false,
 		price: 0,
-		img: "",
 		expire: ["", ""],
 		tags: [""],
-	});*/
-	const new_form_data = new FormData();
+	});
 	const [errorMessage, setErrorMessage] = useState("");
 
 	const handleTagCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,60 +36,87 @@ function CreateProduct() {
 			updatedTags = updatedTags.filter((tag) => tag !== id);
 		}
 		setSelectedTags(updatedTags);
-
+		setFormData((prevFormData) => ({
+			...prevFormData,
+			tags: updatedTags,
+		}));
+		/*
 		new_form_data.delete("tag");
 		for (let i = 0; i < updatedTags.length; i++) {
 			new_form_data.append("tag", updatedTags[i]);
 		}
 		console.log("tag", new_form_data.getAll("tag"));
+		*/
 	};
 
 	const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setHideInput(event.target.checked);
 		const { id, checked } = event.target;
 
-		/*setFormData((prevFormData) => ({
+		setFormData((prevFormData) => ({
 			...prevFormData,
 			[id]: checked,
-		}));*/
+		}));
 	};
 
 	const handleInputChange = (event: React.ChangeEvent<HTMLInputElement|HTMLTextAreaElement>) => {
 		const { id, value } = event.target;
 		const fileInput = document.getElementById("img") as HTMLInputElement;
+
 		if (id == "img" && fileInput && fileInput.files) {
-			new_form_data.set(id, fileInput.files[0]);
-			console.log("FORM IMG", new_form_data.getAll(id));
+			//new_form_data.set(id, fileInput.files[0]);
+			//console.log("FORM IMG", new_form_data.getAll(id));
+			setFormData((prevFormData) => ({
+				...prevFormData,
+				img: fileInput.files[0],
+			}));
 			return;
-		}
+		}else {
+			setFormData((prevFormData) => ({
+				...prevFormData,
+				[id]: value,
+			}));
+		}/*
 		new_form_data.set(id, value);
 		for (const pair of new_form_data.entries()) {
 			console.log(`${pair[0]}: ${pair[1]}`);
-		}
+		}*/
 		setErrorMessage("");
 	};
 
 	const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
 		const { value } = event.target;
-		/*setFormData((prevFormData) => ({
+		setFormData((prevFormData) => ({
 			...prevFormData,
 			expire: [value, prevFormData.expire[1]],
-		}));*/
+		}));
 	};
 
 	const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const { value } = event.target;
-		/*setFormData((prevFormData) => ({
+		setFormData((prevFormData) => ({
 			...prevFormData,
 			expire: [prevFormData.expire[0], value],
-		}));*/
+		}));
 	};
 
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
+		const new_form_data = new FormData();
 		try {
-			new_form_data.set("uid", storeUser);
+			console.log(formData);
+			for (let key in formData) {
+				console.log("KeyLoop", key);
+				new_form_data.append(key, formData[key]);
+			}
+			for (const pair of new_form_data.entries()) {
+				console.log("FormData Pair ("+ pair[0] + ": "+ pair[1]+")");
+			}
+
 			console.log("FORM UID", new_form_data.getAll("uid"));
+			console.log("FORM title", new_form_data.getAll("title"));
+			console.log("FORM IMG", new_form_data.getAll("img"));
+
 			await createOneProduct(new_form_data);
 			navigate("/profile");
 		} catch (error) {

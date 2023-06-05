@@ -172,12 +172,13 @@ export const deleteOneProduct = async (fid:string, uid: string) => {
 };
 
 export const createOneProduct = async (form_data:any) => {
+	console.log("APIII", form_data.getAll("uid"));
 	try {
 		const response = await axios.put(`${url}/food/create`,
 			form_data,
 			{ headers: {"content-type": "multipart/form-data"} }
 		);
-		return response.data;
+		return;
 	} catch (error) {
 		throw new Error(`chatAPI request failed: ${error}`);
 	}
