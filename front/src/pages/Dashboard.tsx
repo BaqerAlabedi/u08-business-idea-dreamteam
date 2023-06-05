@@ -60,7 +60,7 @@ export default function Dashboard(this: unknown) {
 
 	return (
 		<>
-			<Map></Map>
+			<Map data={data}></Map>
 
 			<Search
 				name="Sök efter plats..."
