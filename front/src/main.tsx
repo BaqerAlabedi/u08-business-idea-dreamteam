@@ -19,7 +19,6 @@ import Login from "./pages/login";
 import PageNotFound from "./components/PageNotFound";
 
 
-
 const router = createBrowserRouter([
 	{
 		path: "/",
