@@ -20,5 +20,8 @@
     "noFallthroughCasesInSwitch": true
   },
   "include": ["src"],
+//   "assets": [
+// 	"assets/_redirects"
+//   ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
