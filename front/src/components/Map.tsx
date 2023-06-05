@@ -36,7 +36,7 @@ export default function Map() {
 	return(
 		<>
 			<GoogleMap zoom={10} center={{lat: 59.33, lng: 18.06}} mapContainerClassName="w-screen h-96">
-				{/* <Marker position={{lat: 59.33, lng: 18.06}}></Marker> */}
+				<Marker position={{lat: 59.33, lng: 18.06}}></Marker>
 			</GoogleMap>
 		</>
 
