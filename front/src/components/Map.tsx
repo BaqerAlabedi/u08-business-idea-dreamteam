@@ -1,34 +1,87 @@
-import {GoogleMap, Marker, useJsApiLoader} from "@react-google-maps/api";
+import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
 import { useEffect, useState } from "react";
 import { GeolocationStore } from "../storage/GeolocationStore";
-import { geocodeByPlaceId, getLatLng } from "react-google-places-autocomplete";
-import { getProducts } from "../functions/api";
 
-export default function Map(data : any) {
-	const { currentLocation, setCurrentLocation, setError, setLoading } = GeolocationStore();
-	const [markerLocation, setMarkerLocation] = useState([]);
+export default function Map(data: any) {
+	const { setLocation, setError, setLoading } = GeolocationStore();
+	const [markerLocation, setMarkerLocation] = useState(null);
 
-	// console.log(data);
-	// const test = data.map(res => console.log(res));
+	const [ productLocation, setProductLocation ] = useState([]);
+
+	const { isLoaded } = useJsApiLoader({
+		googleMapsApiKey: import.meta.env.VITE_MAPS_API_KEY
+	});
+
+	//	FUNKAR!
+
+	// const test = Object.values(data).map((item) => {
+	// 	const test2 = item.map((res: { location: any }) => res.location);
+	// 	return test2;
+	// });
+
+	/////////////////////
+
+	// const test = JSON.stringify(
+	// 	Object.values(data).map((item) => {
+	// 	  const test2 = item.map((res: { location: any }) => res.location);
+	// 	  return test2;
+	// 	})
+	// );
+
+	// const test = JSON.stringify(
+	// 	Object.values(data)
+	// );
+
 	// console.log(test);
+
+	const placeId = "";
+
+	// const test = Object.values(data).map((item) => {
+	// 	return item;
+	// });
+	// setproductLocation(test);
+
+	// console.log(productLocation);
+
+	useEffect(() => {
+		// const test = Object.values(data).map((item) => {
+		// 	const test2 = item.map((res: { location: any }) => res.location);
+		// 	return test2;
+		// });
+
+
+		// setMarkerLocation(test)
+
+		// console.log(test);
+
+		const test = Object.values(data);
+		setProductLocation(test);
+	
+		console.log(productLocation);
+
+		const geocoder = new window.google.maps.Geocoder();
+		geocoder.geocode({ placeId: placeId }, (results, status) => {
+			if (status === "OK" && results[0]) {
+				const location = results[0].geometry.location;
+				setMarkerLocation({ lat: location.lat(), lng: location.lng() });
+			}
+		});
+
+
+	}, [placeId]);
+	console.log(productLocation);
+
 
 	useEffect(() => {
 		setLoading(true);
 
 		navigator.geolocation.getCurrentPosition(
 			(position) => {
-				let latitude = position.coords.latitude;
-				let longitude = position.coords.longitude;
-				latitude = Math.round(latitude * 100) / 100;
-				longitude = Math.round(longitude * 100) / 100;
-				const geoPosition = latitude + "," + longitude;
-				setCurrentLocation(geoPosition);
+				const lat = position.coords.latitude;
+				const lng = position.coords.longitude;
+				const geoPosition = { lat, lng };
+				setLocation(geoPosition);
 				setLoading(false);
-				// const currentPosition = {lat: latitude, lng: longitude};
-				// setCenter(currentPosition);
-
-				// console.log(geoPosition);
-				// console.log(currentLocation);
 			},
 			() => {
 				setError("Unable to retrieve your location");
@@ -40,61 +93,23 @@ export default function Map(data : any) {
 			setError("Geolocation is not supported by your browser");
 			setLoading(false);
 		}
+	}, [setError, setLoading, setLocation]);
 
-		// const test = data.map((res: { location: any; }) => res.location);
-		// setMakers(test)
-		// console.log(markers)
-		// console.log(test);
 
-	}, [setError, setLoading, setCurrentLocation]);
 
-	const renderMarkers = async () => {
-		console.log(data);
+	if (!isLoaded) return <div>Loading...</div>;
 
-		const test = Object.values(data);
-		const test2 = Object.values(test);
-		// const test2 = test.map(res => res);
-		console.log(test2);
-
-		// const location = [];
-		// console.log(data);
-		// for(let i = 0; i < data.length; i++)
-		// {
-		// 	geocodeByPlaceId(data[i].location)
-		// 		.then(results => getLatLng(results[0]))
-		// 		.then((res) =>
-		// 			location.push(res)
-		// 		)
-		// 		.catch(error => console.error(error));
-		// }
-		// console.log(location);
-		// setMarkerLocation(location);
-	};
-
-	renderMarkers();
-
-	const {isLoaded} = useJsApiLoader({
-		googleMapsApiKey: import.meta.env.VITE_MAPS_API_KEY,
-	});
-	if(!isLoaded) return <div>Loading...</div>;
-
-	// const test = data.map(res => res.location);
-	// console.log(test)
-
-	return(
+	return (
 		<>
 			<GoogleMap zoom={10} center={{lat: 59.33, lng: 18.06}} mapContainerClassName="w-screen h-96">
-				<Marker position={{lat: 59.33, lng: 18.06}}></Marker>
-				{/* { data.map(res =>
-					<Marker position={res.location}></Marker>
-					)} */}
-				{markerLocation ? markerLocation.map(loc => (
-					<Marker key={loc}
-						position={loc}
+				{productLocation.map((location) => (
+					console.log(location),
+					<Marker
+						position={markerLocation}
 					></Marker>
-				)) : <></>}
+				))}
 			</GoogleMap>
 		</>
+	)
 
-	);
 }

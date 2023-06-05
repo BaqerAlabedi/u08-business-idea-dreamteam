@@ -1,19 +1,19 @@
 import { create } from "zustand";
 
 type GeolocationStore = {
-	currentLocation: string | null;
+	location: string | null;
 	error: string | null;
 	loading: boolean;
-	setCurrentLocation: (currentLocation: string) => void;
+	setLocation: (location: string) => void;
 	setError: (error: string) => void;
 	setLoading: (loading: boolean) => void;
   };
 
 export  const GeolocationStore = create<GeolocationStore>((set) => ({
-	currentLocation: null,
+	location: null,
 	error: null,
 	loading: false,
-	setCurrentLocation: (currentLocation) => set({ currentLocation }),
+	setLocation: (location) => set({ location }),
 	setError: (error) => set({ error }),
 	setLoading: (loading) => set({ loading }),
 }));
