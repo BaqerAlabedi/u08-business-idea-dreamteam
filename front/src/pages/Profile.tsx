@@ -122,7 +122,6 @@ function Profile() {
 										description={item.desc}
 										add={false}
 										price={item.price}
-										visible={true}
 									></ProductShow>
 								</section>
 								{ (idx !== 0 && idx % 3 === 0) && <><section><Advertisement/></section></> }
