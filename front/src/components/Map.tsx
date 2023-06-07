@@ -15,7 +15,7 @@ export default function Map(data: any) {
 		const geocoder = new google.maps.Geocoder();
 
 		placeIds.forEach((placeId) => {
-			geocoder.geocode({ placeId: placeId }, (results: google.maps.GeocoderResult[], status: google.maps.GeocoderStatus) => {
+			geocoder.geocode({ placeId: placeId }, (results: google.maps.GeocoderResult[] | any, status: google.maps.GeocoderStatus) => {
 				if (status === google.maps.GeocoderStatus.OK && results.length > 0) {
 					const location = results[0].geometry.location;
 					const markerPosition = { lat: location.lat(), lng: location.lng() };
