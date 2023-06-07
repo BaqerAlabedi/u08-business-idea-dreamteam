@@ -2,6 +2,7 @@ import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
 import { useEffect, useState } from "react";
 import { GeolocationStore } from "../storage/GeolocationStore";
 
+
 export default function Map(data: any) {
 	const { location, setLocation, setError, setLoading } = GeolocationStore();
 	const [placeIds, setPlaceIds] = useState<string[]>([]);
@@ -12,7 +13,8 @@ export default function Map(data: any) {
 	});
 
 	const processPlaceIds = () => {
-		const geocoder = new google.maps.Geocoder();
+
+		const geocoder = new window.google.maps.Geocoder();
 
 		placeIds.forEach((placeId) => {
 			geocoder.geocode({ placeId: placeId }, (results: google.maps.GeocoderResult[] | any, status: google.maps.GeocoderStatus) => {
@@ -25,9 +27,9 @@ export default function Map(data: any) {
 		});
 	};
 
-	if (!markerPositions.length) processPlaceIds();
+	if (!markerPositions.length && isLoaded) processPlaceIds();
 
-	useEffect(() => {		
+	useEffect(() => {
 		if (Object.values(data)) console.log("DATA");
 
 		setLoading(true);
@@ -50,9 +52,10 @@ export default function Map(data: any) {
 			setLoading(false);
 		}
 
-		console.log(location)
+		console.log(location);
 
-		const positionId = Object.values(data).flatMap((item: { location: any }[]) => item.map((res: { location: any }) => res.location))
+		const placeId: any[] = Object.values(data);
+		const positionId = placeId.flatMap((item: { location: any }[]) => item.map((res: { location: any }) => res.location))
 			.filter((location: any) => location !== null);
 		setPlaceIds(positionId);
 	}, []);
