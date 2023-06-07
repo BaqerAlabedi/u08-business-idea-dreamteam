@@ -1,10 +1,11 @@
 import Input from "../components/Input";
 import Button from "../components/Button";
 import { BsArrowLeft } from "react-icons/bs";
-import { MdKeyboardArrowLeft } from "react-icons/md";
+import { MdKeyboardArrowLeft, MdError} from "react-icons/md";
 import { useEffect, useState } from "react";
-import { getOneUser, updateOneUser } from "../functions/api";
+import { getOneUser, updateOneUser, deleteOneUser } from "../functions/api";
 import { Link, useNavigate } from "react-router-dom";
+import Modal from "../components/Modal";
 import useStoreUser from "../storage/UserStorage";
 
 export interface UserId {
@@ -17,7 +18,9 @@ export interface UserId {
 
 function EditProfile() {
 	const navigate = useNavigate();
-	const {storeUser} = useStoreUser();
+	const {storeUser, setStoreUser} = useStoreUser();
+	const [showModal, setShowModal] = useState(false);
+	const [errorMessage, setErrorMessage] = useState("");
 	const [result, setResult] = useState<UserId>({
 		_id: "",
 		first_name: "",
@@ -40,6 +43,38 @@ function EditProfile() {
 
 		fetchData();
 	}, []);
+
+
+
+	const handleClick = () => {
+		setShowModal(true);
+	};
+
+	const handleClose = () => {
+		setShowModal(false);
+	};
+
+	const handleDelete = async (event: React.MouseEvent<HTMLElement>) => {
+		event.preventDefault();
+		if(storeUser) {
+			try {
+				await deleteOneUser( storeUser);
+				setStoreUser("");
+				navigate("/");
+			} catch (error) {
+				setErrorMessage("Try again, something went wrong");
+			}
+		}
+	};
+	const actionBar = (
+		<div>
+			<Button red onClick={handleDelete}>Radera</Button>
+		</div>
+	);
+	const modal = <Modal onClose={handleClose} actionBar={actionBar}>
+		<p className="text-center">Är du säker på att du vill radera din profil?</p>
+	</Modal>;
+
 
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
@@ -112,7 +147,14 @@ function EditProfile() {
 			</div>
 			<hr className="w-full" />
 			<div className="flex justify-center my-5">
-				<Button red>Ta bort konto</Button>
+				<Button red onClick={handleClick}>Ta bort konto</Button>
+				{showModal && modal}
+				{errorMessage && (
+					<div className="flex justify-center items-center my-4 border-2 border-red-700 p-1">
+						<MdError className="text-xl mr-3 text-red-700"></MdError>
+						<p className="font-semibold">{errorMessage}</p>
+					</div>
+				)}
 			</div>
 		</div>
 	);
