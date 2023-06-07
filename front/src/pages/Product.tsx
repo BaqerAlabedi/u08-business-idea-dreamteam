@@ -30,7 +30,7 @@ function Product(){
 	const { productID } = useParams<ProductParam>();
 	const [userEmail, setUserEmail] = useState("");
 
-
+	console.log(data)
 
 	useEffect(() => {
 		if(productID) {
@@ -39,7 +39,6 @@ function Product(){
 					const response = await getOneProduct(productID);
 					setData(response.foods[0]);
 					setUserEmail(response.email);
-					console.log(userEmail);
 				} catch (error) {
 					console.error(error);
 				}
@@ -92,12 +91,8 @@ function Product(){
 						<section>
 							<div className="flex justify-between lg:flex-col lg:text-right">
 								<p>Utgångsdatum:</p>
-								<p className={Date.parse(data.expire[1]) < Date.now() ? "font-semibold text-red-600" : "font-semibold"}>{data.expire[1]}</p>
+								<p className={Date.parse(data.expire[1]) < Date.now() ? "font-semibold text-red-600" : "font-semibold"}>{data.expire}</p>
 							</div>
-							{/* <div className="flex justify-between my-5 lg:flex-col lg:text-right">
-								<p>Annons lades ut:</p>
-								<p className="font-semibold">{getTimeAgo(data.created)}</p>
-							</div> */}
 						</section>
 					</div>
 					<hr className="mx-auto w-10/12" />
