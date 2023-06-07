@@ -7,6 +7,7 @@ import { updateOneProduct, getOneProduct, deleteOneProduct } from "../functions/
 import { useParams } from "react-router-dom";
 import { MdKeyboardArrowLeft, MdError } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
+import Modal from "../components/Modal";
 import useStoreUser from "../storage/UserStorage";
 
 type ProductParam = {
@@ -35,6 +36,7 @@ function EditProduct() {
 	const { productID } = useParams<ProductParam>();
 	const {storeUser} = useStoreUser();
 	const [hideInput, setHideInput] = useState(false);
+	const [showModal, setShowModal] = useState(false);
 	const [errorMessage, setErrorMessage] = useState("");
 	const [formData, setFormData] = useState({
 		title: "",
@@ -65,6 +67,36 @@ function EditProduct() {
 			fetchData();
 		}
 	}, []);
+
+
+	const handleClick = () => {
+		setShowModal(true);
+	};
+
+	const handleClose = () => {
+		setShowModal(false);
+	};
+
+	const handleDelete = async (event: React.MouseEvent<HTMLElement>) => {
+		event.preventDefault();
+		if(productID) {
+			try {
+				await deleteOneProduct(productID, storeUser);
+				navigate("/profile");
+			} catch (error) {
+				setErrorMessage("Try again, something went wrong");
+			}
+		}
+	};
+
+	const actionBar = (
+		<div>
+			<Button red onClick={handleDelete}>Radera</Button>
+		</div>
+	);
+	const modal = <Modal onClose={handleClose} actionBar={actionBar}>
+		<p className="text-center">Är du säker på att du vill radera den här annonsen?</p>
+	</Modal>;
 
 
 	const handleTagCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -141,17 +173,6 @@ function EditProduct() {
 
 
 
-	const handleDelete = async (event: React.MouseEvent<HTMLElement>) => {
-		event.preventDefault();
-		if(productID) {
-			try {
-				await deleteOneProduct(productID, storeUser);
-				navigate("/profile");
-			} catch (error) {
-				setErrorMessage("Try again, something went wrong");
-			}
-		}
-	};
 
 	return (
 		<div className="m-8">
@@ -240,7 +261,8 @@ function EditProduct() {
 			)}
 			<hr className="w-full" />
 			<div className="flex justify-center my-5">
-				<Button red onClick={handleDelete} >Radera annons</Button>
+				<Button red onClick={handleClick} >Radera annons</Button>
+				{showModal && modal}
 			</div>
 		</div>
 	);
