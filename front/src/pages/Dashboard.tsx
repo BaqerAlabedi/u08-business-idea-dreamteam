@@ -10,7 +10,7 @@ import { getProducts } from "../functions/api";
 import useStoreUser from "../storage/UserStorage";
 
 export interface Products {
-	foods: any;		// Fixa any!
+	foods: unknown;
 	length: number;
     tags: string;
     _id: Key | null | undefined;
@@ -71,7 +71,7 @@ export default function Dashboard(this: unknown) {
 
 			{data && <section className="w-10/12 max-w-7xl mx-auto my-4 grid col-auto gap-5 lg:grid-cols-2">
 
-				{ data.map((item,  idx) =>
+				{ data.map((item, idx) => (
 					<React.Fragment key={item._id}>
 						<section>
 							<ProductShow
@@ -81,14 +81,13 @@ export default function Dashboard(this: unknown) {
 								description={item.desc}
 								add={false}
 								price={item.price}
-								distance={1.2}		// Location är temporärt!
 							></ProductShow>
 						</section>
-						{ (idx < 0 && idx % 3 === 0) && <><section><Advertisement/></section></> }
+						{ (idx !== 0 && idx % 3 === 0) && <><section><Advertisement/></section></> }
 					</React.Fragment>
-				)}
+				))}
 
-				{ filteredProducts.map((item, idx) => (
+				{ filteredProducts.map((item,  idx) =>
 					<React.Fragment key={item._id}>
 						<section>
 							<ProductShow
@@ -98,12 +97,10 @@ export default function Dashboard(this: unknown) {
 								description={item.desc}
 								add={false}
 								price={item.price}
-								distance={1.2}		// Location är temporärt!
 							></ProductShow>
 						</section>
-						{ (idx < 0 && idx % 3 === 0) && <><section><Advertisement/></section></> }
+						{ (idx !== 0 && idx % 3 === 0) && <><section><Advertisement/></section></> }
 					</React.Fragment>
-				)
 				)}
 
 			</section>}
