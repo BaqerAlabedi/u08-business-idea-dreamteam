@@ -29,9 +29,7 @@ function Product(){
 	const [data, setData] = useState<FoodResponse | null>(null);
 	const { productID } = useParams<ProductParam>();
 	const [userEmail, setUserEmail] = useState("");
-
-	console.log(data)
-
+	
 	useEffect(() => {
 		if(productID) {
 			const fetchData = async () => {
