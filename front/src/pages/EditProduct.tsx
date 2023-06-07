@@ -56,13 +56,8 @@ function EditProduct() {
 			const fetchData = async () => {
 				try {
 					const response = await getOneProduct(productID);
-					console.log(response.foods[0]);
 					setFormData(response.foods[0]);
 					setSelectedTags(response.foods[0].tags);
-					setFormData((prevFormData) => ({
-						...prevFormData,
-						location: "",
-					}));
 				} catch (error) {
 					console.error(error);
 				}
