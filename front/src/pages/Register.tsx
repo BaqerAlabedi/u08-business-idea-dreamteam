@@ -39,7 +39,7 @@ function Register() {
 		try {
 			const data = await userRegister(formData);
 			setStoreUser(data.uid);
-			navigate("/dashboard");
+			navigate("/profile");
 		} catch (error) {
 			return setErrorMessage("Try again, something went wrong");
 		}
