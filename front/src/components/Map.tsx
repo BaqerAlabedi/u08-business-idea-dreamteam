@@ -50,14 +50,17 @@ export default function Map(data: any) {
 			setLoading(false);
 		}
 
-		const positionId: string[] = (Object.values(data) as { location: any }[][])
-			.flatMap((item: { location: any }[]) =>
-				item.map((res: { location: any }) => res.location)
-			)
+
+		const placeId: any[] = Object.values(data);
+		const positionId = placeId.flatMap((item: { location: any }[]) => item.map((res: { location: any }) => res.location))
 			.filter((location: any) => location !== null);
 		setPlaceIds(positionId);
 
-	}, []);
+		if (placeIds.length > 0) {
+			processPlaceIds();
+		}
+
+	}, [setError, setLoading, setLocation, data, placeIds]);
 
 	if (!isLoaded) return <div>Loading...</div>;
 
