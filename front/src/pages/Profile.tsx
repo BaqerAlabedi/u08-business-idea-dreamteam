@@ -81,7 +81,7 @@ function Profile() {
 					<div className="lg:flex lg:gap-5 lg:justify-around lg:W-10/12 ">
 						<div className="flex justify-center item-center lg:flex lg:justify-start lg:flex-col">
 							<img
-								src={data.img}
+								src="https://factory.scandgate.se/wp-content/uploads/2018/03/blank-profile-picture-973460_640.png"
 								alt="placeholder"
 								className="rounded-full w-24 my-6 lg:w-32"
 							/>
