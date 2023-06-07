@@ -3,10 +3,10 @@ import { Link } from "react-router-dom";
 export function ProductShow(props: { to: string, imgUrl: string, title: string, description: string, price?: number | boolean, add?: boolean}) {
 	return (
 		<>
-			<div className="relative">
+			<div className="relative w-full h-full">
 				<Link to={props.to}>
 					<img
-						className="rounded w-full"
+						className="rounded m-auto"
 						src={props.imgUrl}
 					/>
 					<div className="p-2 bg-white/80 rounded absolute bottom-8 left-4 grid w-3/5">
