@@ -12,7 +12,7 @@ function CreateProduct() {
 	const navigate = useNavigate();
 	const apiKey = import.meta.env.VITE_MAPS_API_KEY;
 	const [value, setValue] = useState<any>();
-	const categoryTags = ["Vegan", "Soppa", "Middag", "Hemmagjord"];
+	const categoryTags = ["tilltugg", "förrätt", "soppa", "sallad", "huvudrätt", "vegetariskt", "vegansk", "dessert"];
 	const {storeUser} = useStoreUser();
 	const [selectedTags, setSelectedTags] = useState<string[]>([]);
 	const [hideInput, setHideInput] = useState(false);
@@ -151,7 +151,7 @@ function CreateProduct() {
 						</div>
 						<label htmlFor="">Kategori</label>
 						{categoryTags.map((tag: string) => (
-							<div key={tag} className="my-2">
+							<div key={tag} className="my-2 capitalize">
 								<input
 									className="text-sm"
 									type="checkbox"
