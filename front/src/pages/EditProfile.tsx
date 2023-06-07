@@ -1,7 +1,7 @@
 import Input from "../components/Input";
 import Button from "../components/Button";
 import { BsArrowLeft } from "react-icons/bs";
-import { MdKeyboardArrowLeft } from "react-icons/md";
+import { MdKeyboardArrowLeft, MdError} from "react-icons/md";
 import { useEffect, useState } from "react";
 import { getOneUser, updateOneUser, deleteOneUser } from "../functions/api";
 import { Link, useNavigate } from "react-router-dom";
@@ -150,6 +150,12 @@ function EditProfile() {
 			<div className="flex justify-center my-5">
 				<Button red onClick={handleClick}>Ta bort konto</Button>
 				{showModal && modal}
+				{errorMessage && (
+					<div className="flex justify-center items-center my-4 border-2 border-red-700 p-1">
+						<MdError className="text-xl mr-3 text-red-700"></MdError>
+						<p className="font-semibold">{errorMessage}</p>
+					</div>
+				)}
 			</div>
 		</div>
 	);
