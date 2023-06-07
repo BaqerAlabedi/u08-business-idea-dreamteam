@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { GeolocationStore } from "../storage/GeolocationStore";
 
 export default function Map(data: any) {
-	const { location, setLocation, setError, setLoading } = GeolocationStore();
+	const { setLocation, setError, setLoading } = GeolocationStore();
 	const [placeIds, setPlaceIds] = useState<string[]>([]);
 	const [markerPositions, setMarkerPositions] = useState<google.maps.LatLngLiteral[]>([]);
 
@@ -25,11 +25,7 @@ export default function Map(data: any) {
 		});
 	};
 
-	if (!markerPositions.length) processPlaceIds();
-
-	useEffect(() => {		
-		if (Object.values(data)) console.log("DATA");
-
+	useEffect(() => {
 		setLoading(true);
 
 		navigator.geolocation.getCurrentPosition(
@@ -45,13 +41,14 @@ export default function Map(data: any) {
 				setLoading(false);
 			}
 		);
+
 		if (!navigator.geolocation) {
 			setError("Geolocation is not supported by your browser");
 			setLoading(false);
 		}
 
 
-		const placeId: any[] = Object.values(data);
+		const placeId: any[] = Object.values(data)
 		const positionId = placeId.flatMap((item: { location: any }[]) => item.map((res: { location: any }) => res.location))
 			.filter((location: any) => location !== null);
 		setPlaceIds(positionId);
@@ -60,12 +57,12 @@ export default function Map(data: any) {
 			processPlaceIds();
 		}
 
-	}, [setError, setLoading, setLocation, data, placeIds]);
+	}, []);
 
 	if (!isLoaded) return <div>Loading...</div>;
 
 	return (
-		<GoogleMap zoom={10} center={(location) ? location : { lat: 59.33, lng: 18.06 }} mapContainerClassName="w-screen h-96">
+		<GoogleMap zoom={10} center={{ lat: 59.33, lng: 18.06 }} mapContainerClassName="w-screen h-96">
 			{markerPositions.map((position, index) => (
 				<Marker key={index} position={position} />
 			))}
