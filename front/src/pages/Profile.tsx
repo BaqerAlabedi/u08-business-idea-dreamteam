@@ -71,7 +71,7 @@ function Profile() {
 	}, []);
 
 	return (
-		<>
+		<div>
 			{data && (
 				<div className="w-10/12 mx-auto relative max-w-5xl">
 					<Link className="absolute  top-5 lg:top-0 right-5 lg:right-24 text-2xl" to={"/profile/edit"}>
@@ -90,18 +90,18 @@ function Profile() {
 						<div className="lg:flex lg:justify-center lg:flex-col lg:gap-5 lg:w-3/5">
 							<dl className="mt-2">
 								<dt className="font-bold">Email</dt>
-								<dd>{data.email}</dd>
+								<p>{data.email}</p>
 							</dl>
 							<dl className="mt-2">
 								<dt className="font-bold">För- och Efternamn</dt>
 								<div className="flex gap-1">
-									<dd>{data.first_name}</dd>
-									<dd>{data.surname}</dd>
+									<p>{data.first_name}</p>
+									<p>{data.surname}</p>
 								</div>
 							</dl>
 							<dl className="mt-2">
 								<dt className="font-bold">Adress</dt>
-								<dd><dd>{data.address}</dd></dd>
+								<div><div>{data.address}</div></div>
 							</dl>
 						</div>
 					</div>
@@ -131,7 +131,7 @@ function Profile() {
 
 				</div>
 			)}
-		</>
+		</div>
 	);
 }
 

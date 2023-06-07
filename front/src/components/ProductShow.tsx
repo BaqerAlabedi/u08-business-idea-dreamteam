@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 export function ProductShow(props: { to: string, imgUrl: string, title: string, description: string, price?: number | boolean, add?: boolean}) {
 	return (
-		<>
+		<div>
 			<div className="relative w-full h-full">
 				<Link to={props.to}>
 					<img
@@ -27,7 +27,7 @@ export function ProductShow(props: { to: string, imgUrl: string, title: string, 
 							{props.price} kr</p>
 					</div>}
 			</div>
-		</>
+		</div>
 	);
 }
 

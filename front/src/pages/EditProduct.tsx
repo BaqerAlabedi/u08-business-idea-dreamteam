@@ -9,6 +9,7 @@ import { MdKeyboardArrowLeft, MdError } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import Modal from "../components/Modal";
 import useStoreUser from "../storage/UserStorage";
+import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 
 type ProductParam = {
 	productID: string
@@ -29,13 +30,14 @@ export interface FoodResponse {
 
 
 function EditProduct() {
+	const apiKey = import.meta.env.VITE_MAPS_API_KEY;
 
 	const navigate = useNavigate();
 	const categoryTags = ["tilltugg", "förrätt", "soppa", "sallad", "huvudrätt", "vegetariskt", "vegansk", "dessert"];
 	const [selectedTags, setSelectedTags] = useState<string[]>([]);
+	const [value, setValue] = useState<any>();
 	const { productID } = useParams<ProductParam>();
 	const {storeUser} = useStoreUser();
-	const [hideInput, setHideInput] = useState(false);
 	const [showModal, setShowModal] = useState(false);
 	const [errorMessage, setErrorMessage] = useState("");
 	const [formData, setFormData] = useState({
@@ -49,9 +51,6 @@ function EditProduct() {
 		is_sold: false
 	});
 
-
-
-
 	useEffect(() => {
 		if(productID) {
 			const fetchData = async () => {
@@ -60,6 +59,10 @@ function EditProduct() {
 					console.log(response.foods[0]);
 					setFormData(response.foods[0]);
 					setSelectedTags(response.foods[0].tags);
+					setFormData((prevFormData) => ({
+						...prevFormData,
+						location: "",
+					}));
 				} catch (error) {
 					console.error(error);
 				}
@@ -67,7 +70,6 @@ function EditProduct() {
 			fetchData();
 		}
 	}, []);
-
 
 	const handleClick = () => {
 		setShowModal(true);
@@ -116,16 +118,6 @@ function EditProduct() {
 		}));
 	};
 
-	const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setHideInput(event.target.checked);
-		const { id, checked } = event.target;
-
-		setFormData((prevFormData) => ({
-			...prevFormData,
-			[id]: checked,
-		}));
-	};
-
 	const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const { id, value } = event.target;
 		setErrorMessage("");
@@ -161,7 +153,11 @@ function EditProduct() {
 
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		if(productID ) {
+		setFormData((prevFormData) => ({
+			...prevFormData,
+			location: value.value.place_id,
+		}));
+		if(productID && formData.location) {
 			try {
 				await updateOneProduct(formData, productID);
 				navigate("/profile");
@@ -197,7 +193,7 @@ function EditProduct() {
 					<div className="flex justify-center items-center">
 						<form onSubmit={handleSubmit} className="lg:flex min-[320px]:block">
 							<div className="lg:mr-20">
-								<Input placeHolder={formData.title} inputID={"titel"} labelText={"Rubrik"} onChange={handleInputChange}></Input>
+								<Input placeHolder={formData.title} inputID={"title"} labelText={"Rubrik"} onChange={handleInputChange}></Input>
 								<label htmlFor="desc">Beskrivning</label><br></br>
 								<textarea
 									className="box-border w-72 rounded border-solid border-gray-300 border p-2"
@@ -224,20 +220,17 @@ function EditProduct() {
 							</div>
 
 							<div>
-								{/* <label htmlFor="adress" className="block">
-                                Address
-									<span className="text-neutral-400 text-sm"> (syns ej för andra användare)</span>
-								</label> */}
-								{/* <input placeholder={(formData.location).toString()} type="textarea" id="adress" className="p-2 box-border h-11 w-72 rounded border-solid border-gray-300 border"/> */}
-
-								<Input placeHolder={formData.img} inputID={"image"} labelText={"Bild"}></Input>
-
-								<label htmlFor="price" className="block my-2">Pris</label>
-								<input onChange={handleCheckboxChange} type="checkbox" id="give-away"/>
-								<label htmlFor="give-away" className="text-sm mx-2">Bortskänkes</label>
-								{!hideInput && (
-									<input placeholder={(formData.price.toString())} type="number" id="price" className="p-2 block my-2 box-border h-11 w-72 rounded border-solid border-gray-300 border"/>
-								)}
+								<label htmlFor="googleLocation">Address</label>
+								<GooglePlacesAutocomplete
+									apiKey={apiKey}
+									selectProps={{
+										inputId: "googleLocation",
+										placeholder: "Ange en address",
+										value,
+										onChange: setValue,
+									}}
+								/>
+								<Input placeHolder={(formData.price.toString())} inputID={"price"} labelText={"Pris"} onChange={handleInputChange}></Input>
 								<label htmlFor="dates" className="block my-2">Tillagning/utgångsdatum</label>
 								<select onChange={handleSelectChange} id="dates" className="block my-2 px-5 box-border h-11 rounded border-solid border-gray-300 border">
 									<option  value="tillagning">Tillagningsdatum</option>

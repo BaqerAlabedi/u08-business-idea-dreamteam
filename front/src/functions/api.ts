@@ -42,7 +42,7 @@ interface ProductUpdateProps {
 	is_sold: boolean
 }
 
-const url = "http://localhost:4000";
+const url = "https://u08.onrender.com";
 
 export const getAllUserInfo = async (uid: string) => {
 	try {
