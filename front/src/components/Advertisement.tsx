@@ -9,7 +9,6 @@ export const Advertisement = () => {
 				title={"HelloFresh"}
 				description={"Spara på dina 5 första kassar!"}
 				add={true}
-				distance={false}
 			></ProductShow>
 		</>
 	);

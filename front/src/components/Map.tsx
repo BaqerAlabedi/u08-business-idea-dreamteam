@@ -48,7 +48,7 @@ export default function Map(data: any) {
 		}
 
 
-		const placeId: any[] = Object.values(data)
+		const placeId: any[] = Object.values(data);
 		const positionId = placeId.flatMap((item: { location: any }[]) => item.map((res: { location: any }) => res.location))
 			.filter((location: any) => location !== null);
 		setPlaceIds(positionId);
@@ -57,7 +57,7 @@ export default function Map(data: any) {
 			processPlaceIds();
 		}
 
-	}, [setError, setLoading, setLocation, data, placeIds]);
+	}, []);
 
 	if (!isLoaded) return <div>Loading...</div>;
 

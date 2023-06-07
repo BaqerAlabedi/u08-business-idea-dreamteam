@@ -103,7 +103,7 @@ function CreateProduct() {
 			for (const key in formData) {
 				new_form_data.append(key, formData[key]);
 			}
-			new_form_data.append("location", value.value.place_id)
+			new_form_data.append("location", value.value.place_id);
 
 			await createOneProduct(new_form_data);
 			navigate("/profile");
