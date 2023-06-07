@@ -48,10 +48,10 @@ export default function Map(data: any) {
 		}
 
 
-		const placeId: string[] = Object.values(data)
-			.flatMap((item: { location: any }[]) => item.map((res: { location: any }) => res.location))
+		const placeId: any[] = Object.values(data)
+		const positionId = placeId.flatMap((item: { location: any }[]) => item.map((res: { location: any }) => res.location))
 			.filter((location: any) => location !== null);
-		setPlaceIds(placeId);
+		setPlaceIds(positionId);
 
 		if (placeIds.length > 0) {
 			processPlaceIds();
