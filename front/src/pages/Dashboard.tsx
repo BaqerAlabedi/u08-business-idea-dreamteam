@@ -81,7 +81,6 @@ export default function Dashboard(this: unknown) {
 								description={item.desc}
 								add={false}
 								price={item.price}
-								distance={1.2}		// Location är temporärt!
 							></ProductShow>
 						</section>
 						{ (idx < 0 && idx % 3 === 0) && <><section><Advertisement/></section></> }
@@ -98,7 +97,6 @@ export default function Dashboard(this: unknown) {
 								description={item.desc}
 								add={false}
 								price={item.price}
-								distance={1.2}		// Location är temporärt!
 							></ProductShow>
 						</section>
 						{ (idx < 0 && idx % 3 === 0) && <><section><Advertisement/></section></> }

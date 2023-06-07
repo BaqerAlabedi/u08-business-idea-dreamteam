@@ -109,7 +109,7 @@ function Profile() {
 					<div className="flex justify-center item-center my-5 lg:">
 						<Link to={"/product/create"}><Button>Lägg till ny annons</Button></Link>
 					</div>
-					<h2 className="text-xl my-5 text-semibold">Dina akutella annonser</h2>
+					<h2 className="text-xl my-5 text-semibold">Dina aktuella annonser</h2>
 
 					<section className="max-w-5xl mx-auto grid col-auto gap-5 lg:grid-cols-2 ">
 						{ data.foods.map((item, idx) => (
