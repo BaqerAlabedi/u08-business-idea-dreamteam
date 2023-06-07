@@ -10,7 +10,6 @@ import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 
 function CreateProduct() {
 	const navigate = useNavigate();
-	//const new_form_data = new FormData();
 	const apiKey = import.meta.env.VITE_MAPS_API_KEY;
 	const [value, setValue] = useState<any>();
 	const categoryTags = ["Vegan", "Soppa", "Middag", "Hemmagjord"];
@@ -21,7 +20,6 @@ function CreateProduct() {
 		uid: storeUser,
 		title: "",
 		desc: "",
-		location: "",
 		free: false,
 		price: 0,
 		expire: ["", ""],
@@ -44,13 +42,6 @@ function CreateProduct() {
 			...prevFormData,
 			tags: updatedTags,
 		}));
-		/*
-		new_form_data.delete("tag");
-		for (let i = 0; i < updatedTags.length; i++) {
-			new_form_data.append("tag", updatedTags[i]);
-		}
-		console.log("tag", new_form_data.getAll("tag"));
-		*/
 	};
 
 	const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -67,13 +58,6 @@ function CreateProduct() {
 	const handleInputChange = (event: React.ChangeEvent<HTMLInputElement|HTMLTextAreaElement>) => {
 		const { id, value } = event.target;
 		const fileInput = document.getElementById("img") as HTMLInputElement;
-    
-    if (id === "location"){
-      setFormData((prevFormData) =>({
-			...prevFormData,
-			location: value.value.place_id
-		}));
-    }
 
 		if (id === "img" && fileInput && fileInput.files && fileInput.files.length > 0) {
 			const file = fileInput.files[0];
@@ -116,18 +100,10 @@ function CreateProduct() {
 		event.preventDefault();
 		const new_form_data = new FormData();
 		try {
-			console.log(formData);
 			for (const key in formData) {
-				console.log("KeyLoop", key);
 				new_form_data.append(key, formData[key]);
 			}
-			for (const pair of new_form_data.entries()) {
-				console.log("FormData Pair ("+ pair[0] + ": "+ pair[1]+")");
-			}
-
-			console.log("FORM UID", new_form_data.getAll("uid"));
-			console.log("FORM title", new_form_data.getAll("title"));
-			console.log("FORM IMG", new_form_data.getAll("img"));
+			new_form_data.append("location", value.value.place_id)
 
 			await createOneProduct(new_form_data);
 			navigate("/profile");
