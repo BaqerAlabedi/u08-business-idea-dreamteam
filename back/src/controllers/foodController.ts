@@ -87,7 +87,6 @@ const deleteOneFood = async (data: Request) => {
 	try {
 		const {fid, uid} = data.body;
 		const user = await User.findById(uid);
-
 		if (!user) {
 			throw new Error("User not found");
 		}

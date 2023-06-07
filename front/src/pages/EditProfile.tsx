@@ -33,8 +33,6 @@ function EditProfile() {
 		const fetchData = async () => {
 			try {
 				const data = await getOneUser(storeUser);
-				console.log(data);
-				console.log(storeUser);
 				setResult(data.data);
 			} catch (error) {
 				console.error(error);

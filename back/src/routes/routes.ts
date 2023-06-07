@@ -36,7 +36,6 @@ router.get("/users", [], async (req : Request, res : Response) => {
 
 router.post("/register", async (req : Request, res : Response) => {
 	const result = await registerUser(req);
-	console.log(result);
 	if(result) {
 		if(result.error) {
 			res.status(500).json({
@@ -133,8 +132,6 @@ router.use("/foods", (req : Request, res : Response, next : NextFunction) => {
 
 function key_check(keys:string[]) {
 	return function (req:Request, res:Response, next:NextFunction) {
-		console.log("BODY", req.body);
-		console.log("log");
 		for (const key of keys) {
 			if (!Object.keys(req.body).includes(key)) {
 				console.log("Missing", key);
@@ -143,7 +140,6 @@ function key_check(keys:string[]) {
 				});
 			}
 		}
-		console.log("log2");
 		const bad_id = () => res.status(400).json({err: "ID not valid"});
 		if (req.body.uid && req.body.uid.length != 24) return bad_id();
 		if (req.body.fid && req.body.fid.length != 24) return bad_id();
@@ -173,11 +169,6 @@ router.put("/food/create",
 	key_check(["uid", "title", "location", "expire"]),
 
 	async (req : Request, res : Response) => {
-		console.log("MULTER");
-		console.log("FILE", req.file);
-		console.log("BODY", req.body);
-		//res.end("redirect");
-
 		const result = await createFood(req);
 		if (result.error) {
 			res.status(500).json({
@@ -240,10 +231,7 @@ router.post("/food/delete", key_check(["uid", "fid"]),
 router.get("/image/:filename", (req, res) => {
 	const {filename} = req.params;
 	const filePath = `./images/${filename}`;
-	//const filePath = "./images/1685712180906.jpg";
-	console.log("FILE SELECTED", filePath);
 	const ext = path.extname(filename);
-	console.log("EXT", ext);
 
 	fs.readFile(filePath, (err, data) => {
 		if (err) {
