@@ -1,10 +1,10 @@
 import { create } from "zustand";
 
 type GeolocationStore = {
-	location: string | null;
+	location: any | null;
 	error: string | null;
 	loading: boolean;
-	setLocation: (location: string) => void;
+	setLocation: (location: any) => void;
 	setError: (error: string) => void;
 	setLoading: (loading: boolean) => void;
   };

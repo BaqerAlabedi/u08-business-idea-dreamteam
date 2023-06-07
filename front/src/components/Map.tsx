@@ -2,7 +2,7 @@ import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
 import { useEffect, useState } from "react";
 import { GeolocationStore } from "../storage/GeolocationStore";
 
-export default function Map(data: unknown) {
+export default function Map(data: any) {
 	const { setLocation, setError, setLoading } = GeolocationStore();
 	const [placeIds, setPlaceIds] = useState<string[]>([]);
 	const [markerPositions, setMarkerPositions] = useState<google.maps.LatLngLiteral[]>([]);
@@ -49,7 +49,7 @@ export default function Map(data: unknown) {
 
 
 		const placeId: string[] = Object.values(data)
-			.flatMap((item: { location: unknown }[]) => item.map((res: { location: unknown }) => res.location))
+			.flatMap((item: { location: any }[]) => item.map((res: { location: any }) => res.location))
 			.filter((location: any) => location !== null);
 		setPlaceIds(placeId);
 
