@@ -20,7 +20,7 @@ export interface UserId {
 
 function EditProfile() {
 	const navigate = useNavigate();
-	const {storeUser} = useStoreUser();
+	const {storeUser, setStoreUser} = useStoreUser();
 	const [showModal, setShowModal] = useState(false);
 	const [errorMessage, setErrorMessage] = useState("");
 	const [result, setResult] = useState<UserId>({
@@ -61,6 +61,7 @@ function EditProfile() {
 		if(storeUser) {
 			try {
 				await deleteOneUser( storeUser);
+				setStoreUser("");
 				navigate("/");
 			} catch (error) {
 				setErrorMessage("Try again, something went wrong");
