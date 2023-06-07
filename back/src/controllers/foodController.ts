@@ -1,7 +1,7 @@
 import { User } from "../models/user";
 import { Request } from "express";
-//const url = "https://u08.onrender.com/";
-const url = "http://localhost:4000/";
+const url = "https://u08.onrender.com/";
+//const url = "http://localhost:4000/";
 
 const readAllFoods = async () => {
 	try {
