@@ -23,10 +23,17 @@ Genom vår applikation bidrar vi till att minska matsvinnet i hushållen. Att m�
 
 ## Litet exempel på användning:
 
+Först kommer vi till index-sidan där registrering och inloggning krävs både för säljare och köpare.
+
 ![](bildmappen/skärm.png)
 
+Väl inloggad kommer man till sin profil. Här kan man se sina egna uppgifter, ändra och ta bort sin egen profil, samt se eventuella annonser man lagt upp.
 
+![](bildmappen/profile.png)
 
+Trycker vi på Grannskapsrätten så kommer vi till själva dashboarden där man kan se alla produkter och annonser som inte tillhör en själv.
+
+![](bildmappen/dashboard.png)
 
 ## Länkar till eventuell övrig dokumentation/referensmaterial:
 
