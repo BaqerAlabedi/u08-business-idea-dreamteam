@@ -1,5 +1,7 @@
 import { User } from "../models/user";
 import { Request } from "express";
+//const url = "https://u08.onrender.com/";
+const url = "http://localhost:4000/";
 
 const readAllFoods = async () => {
 	try {
@@ -40,6 +42,8 @@ const createFood = async (data: Request) => {
 	try {
 		const uid = data.body.uid;
 		delete data.body.id;
+		if (data.file) data.body.img = url + "image/" + data.file.filename;
+
 		const food = await User.findOneAndUpdate(
 			{_id: uid}, {$push: {foods: data.body}}, {new: true}
 		);

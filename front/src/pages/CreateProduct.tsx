@@ -14,7 +14,7 @@ function CreateProduct() {
 	const {storeUser} = useStoreUser();
 	const [selectedTags, setSelectedTags] = useState<string[]>([]);
 	const [hideInput, setHideInput] = useState(false);
-	const [formData, setFormData] = useState({
+	const [formData, setFormData] = useState<any>({
 		uid: storeUser,
 		title: "",
 		desc: "",
@@ -36,7 +36,7 @@ function CreateProduct() {
 			updatedTags = updatedTags.filter((tag) => tag !== id);
 		}
 		setSelectedTags(updatedTags);
-		setFormData((prevFormData) => ({
+		setFormData((prevFormData: any) => ({
 			...prevFormData,
 			tags: updatedTags,
 		}));
@@ -53,7 +53,7 @@ function CreateProduct() {
 		setHideInput(event.target.checked);
 		const { id, checked } = event.target;
 
-		setFormData((prevFormData) => ({
+		setFormData((prevFormData: any) => ({
 			...prevFormData,
 			[id]: checked,
 		}));
@@ -63,16 +63,16 @@ function CreateProduct() {
 		const { id, value } = event.target;
 		const fileInput = document.getElementById("img") as HTMLInputElement;
 
-		if (id == "img" && fileInput && fileInput.files) {
-			//new_form_data.set(id, fileInput.files[0]);
-			//console.log("FORM IMG", new_form_data.getAll(id));
-			setFormData((prevFormData) => ({
-				...prevFormData,
-				img: fileInput.files[0],
-			}));
-			return;
+		if (id === "img" && fileInput && fileInput.files && fileInput.files.length > 0) {
+			const file = fileInput.files[0];
+			if (file) {
+				setFormData((prevFormData: any) => ({
+					...prevFormData,
+					img: file,
+				}));
+			} return;
 		}else {
-			setFormData((prevFormData) => ({
+			setFormData((prevFormData: any) => ({
 				...prevFormData,
 				[id]: value,
 			}));
@@ -86,7 +86,7 @@ function CreateProduct() {
 
 	const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
 		const { value } = event.target;
-		setFormData((prevFormData) => ({
+		setFormData((prevFormData: { expire: any[]; }) => ({
 			...prevFormData,
 			expire: [value, prevFormData.expire[1]],
 		}));
@@ -94,7 +94,7 @@ function CreateProduct() {
 
 	const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const { value } = event.target;
-		setFormData((prevFormData) => ({
+		setFormData((prevFormData: { expire: any[]; }) => ({
 			...prevFormData,
 			expire: [prevFormData.expire[0], value],
 		}));
@@ -105,7 +105,7 @@ function CreateProduct() {
 		const new_form_data = new FormData();
 		try {
 			console.log(formData);
-			for (let key in formData) {
+			for (const key in formData) {
 				console.log("KeyLoop", key);
 				new_form_data.append(key, formData[key]);
 			}
