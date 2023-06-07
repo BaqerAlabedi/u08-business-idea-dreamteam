@@ -4,7 +4,7 @@ import { GeolocationStore } from "../storage/GeolocationStore";
 
 
 export default function Map() {
-	const { location, error, loading, setLocation, setError, setLoading } = GeolocationStore();
+	const { setLocation, setError, setLoading } = GeolocationStore();
 
 	useEffect(() => {
 		setLoading(true);

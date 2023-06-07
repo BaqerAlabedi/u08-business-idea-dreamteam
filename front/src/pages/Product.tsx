@@ -17,7 +17,7 @@ export interface FoodResponse {
 		free: boolean,
 		price: number,
 		img: string,
-		expire: [string, number],
+		expire: [string, string],
 		tags: string[],
 		created: number,
 		sold_to: boolean,
@@ -30,17 +30,8 @@ function Product(){
 	const { productID } = useParams<ProductParam>();
 	const [userEmail, setUserEmail] = useState("");
 
-	function getTimeAgo(time:number) {
-		const timeDiff = Date.now() - time;
-		const minutes = Math.floor(timeDiff / 60000); // 1 minute = 60000 milliseconds
-		const hours = Math.floor(minutes / 60);
 
-		if (hours > 0) {
-			return `${hours} h sen`;
-		} else {
-			return `${minutes} m sen`;
-		}
-	}
+
 	useEffect(() => {
 		if(productID) {
 			const fetchData = async () => {
@@ -101,7 +92,7 @@ function Product(){
 						<section>
 							<div className="flex justify-between lg:flex-col lg:text-right">
 								<p>Utgångsdatum:</p>
-								<p className={(data.expire[1]) < Date.now() ? "font-semibold text-red-600" : "font-semibold"}>{getTimeAgo(data.expire[1])}</p>
+								<p className={Date.parse(data.expire[1]) < Date.now() ? "font-semibold text-red-600" : "font-semibold"}>{data.expire[1]}</p>
 							</div>
 							{/* <div className="flex justify-between my-5 lg:flex-col lg:text-right">
 								<p>Annons lades ut:</p>

@@ -6,10 +6,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { createOneProduct } from "../functions/api";
 import useStoreUser from "../storage/UserStorage";
+import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 
 function CreateProduct() {
 	const navigate = useNavigate();
 	//const new_form_data = new FormData();
+	const apiKey = import.meta.env.VITE_MAPS_API_KEY;
+	const [value, setValue] = useState<any>();
 	const categoryTags = ["Vegan", "Soppa", "Middag", "Hemmagjord"];
 	const {storeUser} = useStoreUser();
 	const [selectedTags, setSelectedTags] = useState<string[]>([]);
@@ -25,6 +28,7 @@ function CreateProduct() {
 		tags: [""],
 	});
 	const [errorMessage, setErrorMessage] = useState("");
+
 
 	const handleTagCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const { id, checked } = event.target;
@@ -59,9 +63,17 @@ function CreateProduct() {
 		}));
 	};
 
+
 	const handleInputChange = (event: React.ChangeEvent<HTMLInputElement|HTMLTextAreaElement>) => {
 		const { id, value } = event.target;
 		const fileInput = document.getElementById("img") as HTMLInputElement;
+    
+    if (id === "location"){
+      setFormData((prevFormData) =>({
+			...prevFormData,
+			location: value.value.place_id
+		}));
+    }
 
 		if (id === "img" && fileInput && fileInput.files && fileInput.files.length > 0) {
 			const file = fileInput.files[0];
@@ -179,12 +191,19 @@ function CreateProduct() {
 					</div>
 
 					<div className="flex flex-col gap-4">
-						<Input
-							onChange={handleInputChange}
-							inputID="location"
-							labelText="Address"
-							require
+						<label htmlFor="googleLocation">Address</label>
+						<GooglePlacesAutocomplete
+							apiKey={apiKey}
+							selectProps={{
+								inputId: "googleLocation",
+								placeholder: "Ange en address",
+								value,
+								onChange: setValue,
+							}}
 						/>
+
+						<input hidden type="text" id="location"></input>
+
 						<Input
 							onChange={handleInputChange}
 							type="file"
