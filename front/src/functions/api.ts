@@ -20,6 +20,7 @@ interface RegisterProps {
 	password_confirmation: string,
 }
 
+
 interface ProductUpdateProps {
     title: string,
     desc: string,
