@@ -1,8 +1,22 @@
 import express, { Request, Response, NextFunction } from "express";
 import {readAllUsers, readOneUser, registerUser, loginUser, updateUser, deleteUser} from "../controllers/userController";
 import {readAllFoods, readOneFood, createFood, updateFood, deleteOneFood} from "../controllers/foodController";
+import multer from "multer";
+import path from "path";
+import fs from "fs";
 
 const router = express.Router();
+const storage = multer.diskStorage({
+	destination: "./images",
+	filename: function (req, file, cb) {
+		const ext = path.extname(file.originalname);
+		cb(null, Date.now() + ext);
+	}
+});
+const upload = multer({ storage });
+//const upload = multer({dest: "images/"}); // w/out storage
+
+/* User */
 
 router.get("/users", [], async (req : Request, res : Response) => {
 	const result = await readAllUsers();
@@ -54,8 +68,6 @@ router.post("/login", async (req : Request, res : Response) => {
 	}
 });
 
-
-
 router.post("/user", async (req : Request, res : Response) => {
 	const result = await readOneUser(req);
 
@@ -106,7 +118,6 @@ router.post("/user/delete", async (req : Request, res : Response) => {
 	}
 });
 
-
 /* Foods */
 
 // Middleware
@@ -121,12 +132,18 @@ router.use("/foods", (req : Request, res : Response, next : NextFunction) => {
 });
 
 function key_check(keys:string[]) {
-	return function (req : Request, res : Response, next : NextFunction) {
+	return function (req:Request, res:Response, next:NextFunction) {
+		console.log("BODY", req.body);
+		console.log("log");
 		for (const key of keys) {
-			if (!Object.keys(req.body).includes(key)) return res.status(400).json({
-				err: `Req missing field '${key}'`
-			});
+			if (!Object.keys(req.body).includes(key)) {
+				console.log("Missing", key);
+				return res.status(400).json({
+					err: `Req missing field '${key}'`
+				});
+			}
 		}
+		console.log("log2");
 		const bad_id = () => res.status(400).json({err: "ID not valid"});
 		if (req.body.uid && req.body.uid.length != 24) return bad_id();
 		if (req.body.fid && req.body.fid.length != 24) return bad_id();
@@ -151,8 +168,16 @@ router.get("/foods", async (req : Request, res : Response) => {
 	}
 });
 
-router.put("/food/create", key_check(["uid", "title", "desc", "location", "img", "expire"]),
+router.put("/food/create",
+	upload.single("img"),
+	key_check(["uid", "title", "location", "expire"]),
+
 	async (req : Request, res : Response) => {
+		console.log("MULTER");
+		console.log("FILE", req.file);
+		console.log("BODY", req.body);
+		//res.end("redirect");
+
 		const result = await createFood(req);
 		if (result.error) {
 			res.status(500).json({
@@ -209,5 +234,37 @@ router.post("/food/delete", key_check(["uid", "fid"]),
 			});
 		}
 	});
+
+/* Image */
+
+router.get("/image/:filename", (req, res) => {
+	const {filename} = req.params;
+	const filePath = `./images/${filename}`;
+	//const filePath = "./images/1685712180906.jpg";
+	console.log("FILE SELECTED", filePath);
+	const ext = path.extname(filename);
+	console.log("EXT", ext);
+
+	fs.readFile(filePath, (err, data) => {
+		if (err) {
+			return res.status(404).send("File not found");
+		}
+		let CType = "";
+		switch (ext) {
+		case "jpeg":
+		case ".jpg":
+			CType = "image/jpeg"; break;
+		case ".png":
+			CType = "image/png"; break;
+		case ".webp":
+			CType = "image/webp"; break;
+		default:
+			CType = "application/octet-stream";
+		}
+		res.setHeader("Content-Type", CType);
+		//res.setHeader("Content-Disposition", `attachment; filename="${filename}"`);
+		res.send(data);
+	});
+});
 
 export {router as Router};

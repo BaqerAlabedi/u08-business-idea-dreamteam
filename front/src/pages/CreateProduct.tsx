@@ -10,23 +10,23 @@ import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 
 function CreateProduct() {
 	const navigate = useNavigate();
+	//const new_form_data = new FormData();
 	const apiKey = import.meta.env.VITE_MAPS_API_KEY;
 	const [value, setValue] = useState<any>();
 	const categoryTags = ["Vegan", "Soppa", "Middag", "Hemmagjord"];
 	const {storeUser} = useStoreUser();
 	const [selectedTags, setSelectedTags] = useState<string[]>([]);
 	const [hideInput, setHideInput] = useState(false);
-	const [formData, setFormData] = useState({
+	const [formData, setFormData] = useState<any>({
+		uid: storeUser,
 		title: "",
 		desc: "",
 		location: "",
 		free: false,
 		price: 0,
-		img: "",
 		expire: ["", ""],
 		tags: [""],
 	});
-
 	const [errorMessage, setErrorMessage] = useState("");
 
 
@@ -39,50 +39,66 @@ function CreateProduct() {
 		} else {
 			updatedTags = updatedTags.filter((tag) => tag !== id);
 		}
-
 		setSelectedTags(updatedTags);
-		setFormData((prevFormData) => ({
+		setFormData((prevFormData: any) => ({
 			...prevFormData,
 			tags: updatedTags,
 		}));
+		/*
+		new_form_data.delete("tag");
+		for (let i = 0; i < updatedTags.length; i++) {
+			new_form_data.append("tag", updatedTags[i]);
+		}
+		console.log("tag", new_form_data.getAll("tag"));
+		*/
 	};
 
 	const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setHideInput(event.target.checked);
 		const { id, checked } = event.target;
-		setFormData((prevFormData) => ({
+
+		setFormData((prevFormData: any) => ({
 			...prevFormData,
 			[id]: checked,
 		}));
 	};
 
-	const handleLocation = () => {
-		setFormData((prevFormData) =>({
+
+	const handleInputChange = (event: React.ChangeEvent<HTMLInputElement|HTMLTextAreaElement>) => {
+		const { id, value } = event.target;
+		const fileInput = document.getElementById("img") as HTMLInputElement;
+    
+    if (id === "location"){
+      setFormData((prevFormData) =>({
 			...prevFormData,
 			location: value.value.place_id
 		}));
+    }
+
+		if (id === "img" && fileInput && fileInput.files && fileInput.files.length > 0) {
+			const file = fileInput.files[0];
+			if (file) {
+				setFormData((prevFormData: any) => ({
+					...prevFormData,
+					img: file,
+				}));
+			} return;
+		}else {
+			setFormData((prevFormData: any) => ({
+				...prevFormData,
+				[id]: value,
+			}));
+		}/*
+		new_form_data.set(id, value);
+		for (const pair of new_form_data.entries()) {
+			console.log(`${pair[0]}: ${pair[1]}`);
+		}*/
+		setErrorMessage("");
 	};
 
-	const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const { id, value } = event.target;
-		setErrorMessage("");
-		setFormData((prevFormData) => ({
-			...prevFormData,
-			[id]: value,
-		}));
-	};
-
-	const handleTextareaChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-		const { id, value } = event.target;
-		setErrorMessage("");
-		setFormData((prevFormData) => ({
-			...prevFormData,
-			[id]: value,
-		}));
-	};
 	const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
 		const { value } = event.target;
-		setFormData((prevFormData) => ({
+		setFormData((prevFormData: { expire: any[]; }) => ({
 			...prevFormData,
 			expire: [value, prevFormData.expire[1]],
 		}));
@@ -90,7 +106,7 @@ function CreateProduct() {
 
 	const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const { value } = event.target;
-		setFormData((prevFormData) => ({
+		setFormData((prevFormData: { expire: any[]; }) => ({
 			...prevFormData,
 			expire: [prevFormData.expire[0], value],
 		}));
@@ -98,14 +114,25 @@ function CreateProduct() {
 
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		handleLocation();
-		if(formData.location){
-			try {
-				await createOneProduct(formData, storeUser);
-				navigate("/profile");
-			} catch (error) {
-				setErrorMessage("Try again, something went wrong");
+		const new_form_data = new FormData();
+		try {
+			console.log(formData);
+			for (const key in formData) {
+				console.log("KeyLoop", key);
+				new_form_data.append(key, formData[key]);
 			}
+			for (const pair of new_form_data.entries()) {
+				console.log("FormData Pair ("+ pair[0] + ": "+ pair[1]+")");
+			}
+
+			console.log("FORM UID", new_form_data.getAll("uid"));
+			console.log("FORM title", new_form_data.getAll("title"));
+			console.log("FORM IMG", new_form_data.getAll("img"));
+
+			await createOneProduct(new_form_data);
+			navigate("/profile");
+		} catch (error) {
+			setErrorMessage("Try again, something went wrong");
 		}
 	};
 
@@ -127,7 +154,7 @@ function CreateProduct() {
 				</h2>
 			</div>
 			<div className="flex justify-center items-center">
-				<form onSubmit={handleSubmit} className="lg:flex min-[320px]:block">
+				<form onSubmit={handleSubmit} className="lg:flex min-[320px]:block" encType="multipart/form-data">
 					<div className="lg:mr-20">
 						<Input
 							onChange={handleInputChange}
@@ -143,7 +170,7 @@ function CreateProduct() {
 								name="desc"
 								rows={6}
 								maxLength={300}
-								onChange={handleTextareaChange}
+								onChange={handleInputChange}
 							></textarea>
 						</div>
 						<label htmlFor="">Kategori</label>

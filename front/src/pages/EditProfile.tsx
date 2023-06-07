@@ -15,8 +15,6 @@ export interface UserId {
 	img: string;
   }
 
-
-
 function EditProfile() {
 	const navigate = useNavigate();
 	const {storeUser} = useStoreUser();
