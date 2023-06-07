@@ -60,7 +60,7 @@ export default function Dashboard(this: unknown) {
 
 	return (
 		<>
-			<Map data={data}></Map>
+			{Object.keys(data).length && <Map data={data}></Map>}
 
 			<Search
 				name="Sök efter plats..."
