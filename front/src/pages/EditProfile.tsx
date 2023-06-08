@@ -1,10 +1,12 @@
 import Input from "../components/Input";
 import Button from "../components/Button";
 import { BsArrowLeft } from "react-icons/bs";
-import { MdKeyboardArrowLeft } from "react-icons/md";
+import { MdKeyboardArrowLeft, MdError} from "react-icons/md";
 import { useEffect, useState } from "react";
-import { getOneUser, updateOneUser } from "../functions/api";
+import { getOneUser, updateOneUser, deleteOneUser } from "../functions/api";
 import { Link, useNavigate } from "react-router-dom";
+import Modal from "../components/Modal";
+import useStoreUser from "../storage/UserStorage";
 
 export interface UserId {
 	_id: string;
@@ -14,10 +16,11 @@ export interface UserId {
 	img: string;
   }
 
-
-
 function EditProfile() {
 	const navigate = useNavigate();
+	const {storeUser, setStoreUser} = useStoreUser();
+	const [showModal, setShowModal] = useState(false);
+	const [errorMessage, setErrorMessage] = useState("");
 	const [result, setResult] = useState<UserId>({
 		_id: "",
 		first_name: "",
@@ -29,8 +32,8 @@ function EditProfile() {
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const data = await getOneUser("hejh");
-				setResult(data.user);
+				const data = await getOneUser(storeUser);
+				setResult(data.data);
 			} catch (error) {
 				console.error(error);
 			}
@@ -39,11 +42,43 @@ function EditProfile() {
 		fetchData();
 	}, []);
 
+
+
+	const handleClick = () => {
+		setShowModal(true);
+	};
+
+	const handleClose = () => {
+		setShowModal(false);
+	};
+
+	const handleDelete = async (event: React.MouseEvent<HTMLElement>) => {
+		event.preventDefault();
+		if(storeUser) {
+			try {
+				await deleteOneUser( storeUser);
+				setStoreUser("");
+				navigate("/");
+			} catch (error) {
+				setErrorMessage("Try again, something went wrong");
+			}
+		}
+	};
+	const actionBar = (
+		<div>
+			<Button red onClick={handleDelete}>Radera</Button>
+		</div>
+	);
+	const modal = <Modal onClose={handleClose} actionBar={actionBar}>
+		<p className="text-center">Är du säker på att du vill radera din profil?</p>
+	</Modal>;
+
+
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 
 		try {
-			await updateOneUser(result);
+			await updateOneUser(result, storeUser);
 			navigate("/profile");
 		} catch (error) {
 			return console.log("Try again, something went wrong");
@@ -79,7 +114,7 @@ function EditProfile() {
 			</div>
 			<div className="min-[800px]:flex justify-center items-start">
 				<div className="flex justify-center min-[800px]:mx-20">
-					<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAM1BMVEXk5ueutLeqsbTn6eqpr7PJzc/j5ebf4eLZ3N2wtrnBxsjN0NLGysy6v8HT1tissra8wMNxTKO9AAAFDklEQVR4nO2d3XqDIAxAlfivoO//tEOZWzvbVTEpic252W3PF0gAIcsyRVEURVEURVEURVEURVEURVEURVEURVEURVEURflgAFL/AirAqzXO9R7XNBVcy9TbuMHmxjN6lr92cNVVLKEurVfK/zCORVvW8iUBnC02dj+Wpu0z0Y6QlaN5phcwZqjkOkK5HZyPAjkIjSO4fIdfcOwFKkJlX4zPu7Ha1tIcwR3wWxyFhRG6g4Je0YpSPDJCV8a2Sv2zd1O1x/2WMDZCwljH+clRrHfWCLGK8REMiql//2si5+DKWKcWeAGcFMzzNrXC/0TUwQ2s6+LhlcwjTMlYsUIQzPOCb7YBiyHopyLXIEKPEkI/TgeuiidK/R9FniUDOjRDpvm0RhqjMyyXNjDhCfIMYl1gGjIMIuYsnGEYRMRZOMMunaLVwpWRW008v6fYKDIzxCwVAeNSO90BJW6emelYBRF/kHpYGVaoxTDAaxOFsfP9y8hpJ4xd7gOcij7JNGQ1EYFgkPJa1jQEiYZXRaRINKxSDUW9n+FT82lSKadkiru9/4XPqSLWOekGPoY05TAvLm9orm+YWuwHoBHkZKijNBJGmeb61eL6Ff/6q7bLr7yvv3vKGhpDRjvgjGaPz+gUg6YgcvpyAR2FIZ9U6nEEyZRTovmEU32KichpGn7C17XrfyH9gK/c0CMP05HZIM2uf9sEveizKveBy9/6Qt7o89ne33D525cfcIMW6ab+TMEukQbQbu+xu7X3A9bChmWaCeAkG17bpntwXgWxHaMzGPmUaR5dQZiKqRVeUZ3047fi3nAu28h4CHxCsZAgmEH8Y27jJAhm8c+5RQzRQNVGhVFSfxOYIjp/pP7RxzjevYXVGf4eLt+BJ1vCuLuLkrgABgCGXZ2wik5uty+oBvNirI6mkzhAf4Gsb58Hcm67Jzd+KwD10BYPLL3e0MjvKrgAULnOfveF/O4N2Xb9BZom3gJes3F9X5Zze8/6Yt09b4CrqsEjUv8oFBaR2rl+6CZr2xVrp24o/WitBKuGrrpl1+bFkmK2qXTON4VpbdfLa7o7y/WdLxG7lm2Lqh2clOwTegbvc/vj2U78CwhA87Bn8G5Nk3eOb0Nsr9flz3sG78UUtue4kpv1xvjg3TMay62BMlTlP+vrOMnJsRmt/ze0jsfkPPYdAH57hK+34PeOyc8XIXu5xT2HsUkdZz+adwg8HGFfQ3K5jtDvbUiO4Di9/ywHGrL88pDizZ++oTp+an+SMX/ndymUCwmHMdO7yuOx83pUx/eEMU0AvxWndwgidAqOZ8ypCwdEfvvEo6D9HwpA8wzvmOJEqAg9ySu8g4x0Hb9hSB/BANEKJ+LbPBU0lzbAJs4xt1AoshKkUGQmiH8/jJ0gdhTTLmSegHlPE0oOdXALnqDjKYh3px//fSgSWG8UqfrrIICzYYSJXRr9BSPbpNzw7gBjKjKOYI7ReIGqQRIap5+5MdjyvuDkExvGeXSlONWZAP3/AZBwJohU7QJRGU+cTVH18ELmRPNBmibW6MT/k1b0XhdkRBvyT6SB6EYv/GvhSmRNpGngRULsAlxMCGNXp7w3FfdEbTEEDdLI9TdIKRUzUesa3I461ER8cpNT7gMRhpKmYVS9ELOgCUQsa4SsulciKiLbY+AnHD8cpuhISsnxpamI84sbDq9qYJgf8wiiOBrC7Ml7M7ZECCqKoiiKoiiKoiiKoijv5AvJxlZRyNWWLwAAAABJRU5ErkJggg=="
+					<img src=""
 						alt="placeholder"
 						className="rounded-full w-24 my-6" />
 				</div>
@@ -89,14 +124,14 @@ function EditProfile() {
 							<div className="lg:mr-20">
 								<div className="min-[800px]:flex">
 									<div className="min-[800px]:mx-2">
-										<Input placeHolder={result.first_name} inputID={"first_name"} onChange={handleInputChange} labelText={"Förnamn"}></Input>
+										<Input  placeHolder={result.first_name ? result.first_name : ""} inputID={"first_name"} onChange={handleInputChange} labelText={"Förnamn"}></Input>
 									</div>
 								</div><div className="min-[800px]:flex">
 									<div className="min-[800px]:mx-2">
-										<Input placeHolder={result.surname} inputID={"surname"} onChange={handleInputChange} labelText={"Efternamn"}></Input>
+										<Input placeHolder={result.surname ? result.surname : ""} inputID={"surname"} onChange={handleInputChange} labelText={"Efternamn"}></Input>
 									</div>
 									<div className="min-[800px]:mx-2">
-										<Input placeHolder={result.address} inputID={"address"} onChange={handleInputChange} labelText={"Adress"}></Input>
+										<Input placeHolder={result.address ? result.address : ""} inputID={"address"} onChange={handleInputChange} labelText={"Adress"}></Input>
 									</div>
 								</div><div className="flex justify-center mt-2 min-[800px]:justify-end">
 									<div className="block m-2">
@@ -110,7 +145,14 @@ function EditProfile() {
 			</div>
 			<hr className="w-full" />
 			<div className="flex justify-center my-5">
-				<Button red>Ta bort konto</Button>
+				<Button red onClick={handleClick}>Ta bort konto</Button>
+				{showModal && modal}
+				{errorMessage && (
+					<div className="flex justify-center items-center my-4 border-2 border-red-700 p-1">
+						<MdError className="text-xl mr-3 text-red-700"></MdError>
+						<p className="font-semibold">{errorMessage}</p>
+					</div>
+				)}
 			</div>
 		</div>
 	);

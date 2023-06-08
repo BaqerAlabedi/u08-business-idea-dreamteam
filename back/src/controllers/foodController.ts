@@ -1,5 +1,7 @@
 import { User } from "../models/user";
 import { Request } from "express";
+//const url = "https://u08.onrender.com/";
+const url = "http://localhost:4000/";
 
 const readAllFoods = async () => {
 	try {
@@ -21,11 +23,12 @@ const readOneFood = async (fid:string) => {
 	try {
 		const food = await User.findOne(
 			{"foods._id": fid},
-			{"foods.$": 1, _id: 0}
+			{"foods.$": 1, _id: 0, email: 1}
 		);
 		if(food){
+			// food.foods[0]["user_email"] = "food.email";
 			console.log("Found", food);
-			return {error: null, data: food.foods[0]};
+			return {error: null, data: food};
 		}
 		else {
 			throw new Error("Could not find food");
@@ -39,6 +42,8 @@ const createFood = async (data: Request) => {
 	try {
 		const uid = data.body.uid;
 		delete data.body.id;
+		if (data.file) data.body.img = url + "image/" + data.file.filename;
+
 		const food = await User.findOneAndUpdate(
 			{_id: uid}, {$push: {foods: data.body}}, {new: true}
 		);
@@ -82,7 +87,6 @@ const deleteOneFood = async (data: Request) => {
 	try {
 		const {fid, uid} = data.body;
 		const user = await User.findById(uid);
-
 		if (!user) {
 			throw new Error("User not found");
 		}

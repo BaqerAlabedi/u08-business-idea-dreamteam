@@ -1,8 +1,22 @@
 import express, { Request, Response, NextFunction } from "express";
 import {readAllUsers, readOneUser, registerUser, loginUser, updateUser, deleteUser} from "../controllers/userController";
 import {readAllFoods, readOneFood, createFood, updateFood, deleteOneFood} from "../controllers/foodController";
+import multer from "multer";
+import path from "path";
+import fs from "fs";
 
 const router = express.Router();
+const storage = multer.diskStorage({
+	destination: "./images",
+	filename: function (req, file, cb) {
+		const ext = path.extname(file.originalname);
+		cb(null, Date.now() + ext);
+	}
+});
+const upload = multer({ storage });
+//const upload = multer({dest: "images/"}); // w/out storage
+
+/* User */
 
 router.get("/users", [], async (req : Request, res : Response) => {
 	const result = await readAllUsers();
@@ -22,7 +36,6 @@ router.get("/users", [], async (req : Request, res : Response) => {
 
 router.post("/register", async (req : Request, res : Response) => {
 	const result = await registerUser(req);
-	console.log(result);
 	if(result) {
 		if(result.error) {
 			res.status(500).json({
@@ -54,9 +67,7 @@ router.post("/login", async (req : Request, res : Response) => {
 	}
 });
 
-
-
-router.get("/user", async (req : Request, res : Response) => {
+router.post("/user", async (req : Request, res : Response) => {
 	const result = await readOneUser(req);
 
 	if(result) {
@@ -90,7 +101,7 @@ router.patch("/user/update", async (req : Request, res : Response) => {
 	}
 });
 
-router.delete("/user/delete", async (req : Request, res : Response) => {
+router.post("/user/delete", async (req : Request, res : Response) => {
 	const user = await deleteUser(req);
 	if(user) {
 		if(user.error){
@@ -106,7 +117,6 @@ router.delete("/user/delete", async (req : Request, res : Response) => {
 	}
 });
 
-
 /* Foods */
 
 // Middleware
@@ -121,11 +131,14 @@ router.use("/foods", (req : Request, res : Response, next : NextFunction) => {
 });
 
 function key_check(keys:string[]) {
-	return function (req : Request, res : Response, next : NextFunction) {
+	return function (req:Request, res:Response, next:NextFunction) {
 		for (const key of keys) {
-			if (!Object.keys(req.body).includes(key)) return res.status(400).json({
-				err: `Req missing field '${key}'`
-			});
+			if (!Object.keys(req.body).includes(key)) {
+				console.log("Missing", key);
+				return res.status(400).json({
+					err: `Req missing field '${key}'`
+				});
+			}
 		}
 		const bad_id = () => res.status(400).json({err: "ID not valid"});
 		if (req.body.uid && req.body.uid.length != 24) return bad_id();
@@ -151,7 +164,10 @@ router.get("/foods", async (req : Request, res : Response) => {
 	}
 });
 
-router.put("/foods/create", key_check(["uid", "title", "desc", "location", "img", "expire"]),
+router.put("/food/create",
+	upload.single("img"),
+	key_check(["uid", "title", "location", "expire"]),
+
 	async (req : Request, res : Response) => {
 		const result = await createFood(req);
 		if (result.error) {
@@ -180,7 +196,7 @@ router.get("/food/:fid", key_check([]), async (req : Request, res : Response) =>
 	}
 });
 
-router.patch("/foods/update", key_check(["fid", "title", "location", "img"]),
+router.patch("/food/update", key_check(["fid", "title", "location", "img"]),
 	async (req : Request, res : Response) => {
 		const result = await updateFood(req);
 		if (result.error) {
@@ -195,7 +211,7 @@ router.patch("/foods/update", key_check(["fid", "title", "location", "img"]),
 		}
 	});
 
-router.delete("/foods/delete", key_check(["uid", "fid"]),
+router.post("/food/delete", key_check(["uid", "fid"]),
 	async (req : Request, res : Response) => {
 		const result = await deleteOneFood(req);
 		if (result.error) {
@@ -209,5 +225,34 @@ router.delete("/foods/delete", key_check(["uid", "fid"]),
 			});
 		}
 	});
+
+/* Image */
+
+router.get("/image/:filename", (req, res) => {
+	const {filename} = req.params;
+	const filePath = `./images/${filename}`;
+	const ext = path.extname(filename);
+
+	fs.readFile(filePath, (err, data) => {
+		if (err) {
+			return res.status(404).send("File not found");
+		}
+		let CType = "";
+		switch (ext) {
+		case "jpeg":
+		case ".jpg":
+			CType = "image/jpeg"; break;
+		case ".png":
+			CType = "image/png"; break;
+		case ".webp":
+			CType = "image/webp"; break;
+		default:
+			CType = "application/octet-stream";
+		}
+		res.setHeader("Content-Type", CType);
+		//res.setHeader("Content-Disposition", `attachment; filename="${filename}"`);
+		res.send(data);
+	});
+});
 
 export {router as Router};

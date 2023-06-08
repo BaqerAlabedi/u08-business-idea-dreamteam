@@ -16,57 +16,57 @@ import EditProfile from "./pages/EditProfile";
 import EditProduct from "./pages/EditProduct";
 import CreateProduct from "./pages/CreateProduct";
 import Login from "./pages/login";
-
+import PageNotFound from "./components/PageNotFound";
 
 
 const router = createBrowserRouter([
 	{
 		path: "/",
 		element: <App></App>,
-		// errorElement: <ErrorPage />,
+		errorElement: <PageNotFound/>,
 		children: [
 			{
 				path: "",
 				element: <Index/>,
 			},
 			{
-				path: "/login",
+				path: "login",
 				element: <Login/>,
 			},
 			{
-				path: "/register",
+				path: "register",
 				element: <Register/>,
 			},
 			{
-				path: "/dashboard",
+				path: "dashboard",
 				element: <Dashboard/>,
 			},
 			{
-				path: "/product/:productID",
+				path: "product/:productID",
 				element: <Product/>,
 			},
 			{
-				path: "/profile",
+				path: "profile",
 				element: <Profile/>,
 			},
 			{
-				path: "/profile/edit",
+				path: "profile/edit",
 				element: <EditProfile/>,
 			},
 			{
-				path: "/product/edit/:productID",
+				path: "product/edit/:productID",
 				element: <EditProduct/>,
 			},
 			{
-				path: "/product/create",
+				path: "product/create",
 				element: <CreateProduct/>,
 			},
 			{
-				path: "/conversation",
+				path: "conversation",
 				element: <Conversation/>,
 			},
 			{
-				path: "/conversation/:chatID",
+				path: "conversation/:chatID",
 				element: <Chat/>,
 			},
 		],

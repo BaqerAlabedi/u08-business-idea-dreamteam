@@ -4,19 +4,22 @@ import Button from "../components/Button";
 import Input from "../components/Input";
 import { MdError } from "react-icons/md";
 import { userRegister } from "../functions/api";
+import useStoreUser from "../storage/UserStorage";
 
 function Register() {
 	const navigate = useNavigate();
+	const {setStoreUser} = useStoreUser();
+
 
 	const [formData, setFormData] = useState({
 		email: "",
 		first_name: "",
 		surname: "",
 		password: "",
-		password_confirmed: ""
+		password_confirmation: ""
 	});
 
-	const { email, first_name, surname, password, password_confirmed } = formData;
+	const { email, first_name, surname, password, password_confirmation } = formData;
 
 	const [errorMessage, setErrorMessage] = useState("");
 
@@ -24,17 +27,19 @@ function Register() {
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 
-		if (password !== password_confirmed) {
+		if (password !== password_confirmation) {
 			return setErrorMessage("Passwords do not match");
 		}
 
-		if (!email || !first_name || !surname || !password || !password_confirmed) {
+		if (!email || !first_name || !surname || !password || !password_confirmation) {
 			return setErrorMessage("Please fill in all fields");
 		}
+		console.log(formData);
 
 		try {
-			await userRegister(formData);
-			navigate("/dashboard");
+			const data = await userRegister(formData);
+			setStoreUser(data.uid);
+			navigate("/profile");
 		} catch (error) {
 			return setErrorMessage("Try again, something went wrong");
 		}
@@ -98,14 +103,14 @@ function Register() {
 						<Input
 							type="password"
 							minLength={4}
-							inputID="password_confirmed"
+							inputID="password_confirmation"
 							labelText="Bekräfta lösenord"
 							opacity={1}
 							placeHolder=""
-							value={password_confirmed}
+							value={password_confirmation}
 							onChange={handleInputChange}
 						/>
-						<Button>Login</Button>
+						<Button>Registrera</Button>
 					</form>
 					{errorMessage && (
 						<div className="flex justify-center items-center my-4 border-2 border-red-700 p-1">

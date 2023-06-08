@@ -5,7 +5,7 @@ import * as EmailValidator from "email-validator";
 
 const readAllUsers = async () => {
 	try {
-		const users = await User.find({});
+		const users = await User.find({}, {_id: true, first_name: true, surname: true, email: true, foods: true} );
 		if(!users) {
 			throw new Error("User not found");
 		}
@@ -32,7 +32,7 @@ const readOneUser = async (data: Request) => {
 		{
 			throw new Error("Invalid User ID");
 		}
-		const user = await User.findById(data.body.uid, {first_name: true, surname: true, email: true, foods: true,_id: false});
+		const user = await User.findById(data.body.uid, {address: true, first_name: true, surname: true, email: true, foods: true, _id: false});
 		return {error: null, data: user};
 	} catch (error: unknown) {
 		if(error instanceof Error){

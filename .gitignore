@@ -2,9 +2,11 @@ node_modules
 dist
 dist-ssr
 *.local
+.env
 
 .vscode/*
 .idea
+.env
 .DS_Store
 *.suo
 *.ntvs*

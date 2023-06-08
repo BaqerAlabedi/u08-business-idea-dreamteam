@@ -67,24 +67,26 @@ app.get("/users/:userID/info", async (req, res) => {
 
 // Login -> skicka in email och password
 app.post("/login", async (req, res) => {
-	const { email, pass } = req.body
+	const { email, password } = req.body
     res.status(200).json({
         "message": "success login",
+		"uid": "hejejhshna12",
 		"email": email,
-		"password": pass
+		"password": password
     });
 })
 
 // Register -> skicka in email, förnamn, efternamn och password
 app.post("/register", async (req, res) => {
-	const { email, firstname, surname, pass, pass_confirmed } = req.body
+	const { email, firstname, surname, password, password_confirmed } = req.body
     res.status(201).json({
         "message": "Registration successfull",
+		"uid": "he3y1w32344k4h42",
 		"email": email,
-		"password": pass,
+		"password": password,
 		"firstname": firstname,
 		"surname": surname,
-		"pass_confirmed": pass_confirmed
+		"pass_confirmed": password_confirmed
     })
 }) 
 
@@ -135,10 +137,45 @@ app.get("/products", async (req, res) => {
 			"location": [23.456, 78.901],
 			"free": true,
 			"price": 0,
-			"img": "fourth.jpg",
+			"img": "https://cdn.pixabay.com/photo/2022/06/07/20/52/curry-7249247_960_720.jpg",
 			"expire": ["Expiry date", Date.now()],
-			"tags": ["beverage", "refreshment"],
+			"tags": ["beverage", "refreshment", "vegan"],
 			"sold_to": false,
+		},{
+			"_id": "EEEE",
+			"title": "Food title",
+			"desc": "Lorem ipsum",
+			"location": [45.123, 47.232],
+			"free": false,
+			"price": 20,
+			"img": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c",
+			"expire": ["Tillagningsdatum", Date.now()],
+			"tags": ["vegan", "middag", "hemmagjord", "soppa"],
+			"sold_to": false,
+		},
+		{
+			"_id": "FFFF",
+			"title": "Another title",
+			"desc": "Another description",
+			"location": [12.345, 67.890],
+			"free": true,
+			"price": 0,
+			"img": "https://img.freepik.com/free-photo/buddha-bowl-dish-with-vegetables-legumes-top-view_1150-42589.jpg",
+			"expire": ["Expiration date", Date.now()],
+			"tags": ["fruit", "snack", "vegan"],
+			"sold_to": false,
+		},
+		{
+			"_id": "GGGG",
+			"title": "Third title",
+			"desc": "Third description",
+			"location": [98.765, 43.210],
+			"free": false,
+			"price": 10,
+			"img": "https://images.unsplash.com/photo-1504674900247-0877df9cc836",
+			"expire": ["Best before", Date.now()],
+			"tags": ["dessert", "chocolate", "vegan"],
+			"sold_to": "2333333333333333",
 		}
 	 ]
     })

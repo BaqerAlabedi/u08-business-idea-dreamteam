@@ -2,14 +2,19 @@ import { useState } from "react";
 import { HiMagnifyingGlass } from "react-icons/hi2";
 import { BsFilter } from "react-icons/bs";
 
-const Search = (props: { name: string | undefined, filter?: true } ) => {
+export const Search = (props: { name?: string | undefined, reset?: (arg0:string) => void, filtered?: true, onClick?: (arg0:string) => void } ) => {
 	const [visible, setVisible] = useState(false);
 
 	return (
 		<div className="search">
 			<div className="flex justify-center align-center">
-				{props.filter && (
-					<button type='button' className="px-3 py-1" onClick={() => setVisible(!visible)}>
+				{props.filtered && (
+					<button type='button' className="px-3 py-1" onClick={() => {
+						setVisible(!visible);
+						if (props.reset) {
+							props.reset("resetFilter");
+						}
+					}}>
 						<BsFilter size={25}></BsFilter>
 					</button>
 				)}
@@ -25,18 +30,70 @@ const Search = (props: { name: string | undefined, filter?: true } ) => {
 			{visible && (
 				<>
 					<div className="flex justify-center">
-						<ul className="flex">
+						<ul className="flex flex-wrap justify-center lg:mb-3">
 							<li>
-								<button className="mx-2 mt-2 mb-5 px-6 rounded-lg font-medium text-black border-2 border-teal-700 hover:bg-teal-700 hover:text-white">test</button>
+								<input type="button" className="mx-2 mt-2 px-6 rounded-lg font-medium text-black border-2 border-teal-700 hover:bg-teal-700 hover:text-white"
+									onClick={() => {
+										if (props.onClick) {
+											props.onClick("tilltugg");
+										}
+									}} value="Tilltugg"/>
 							</li>
 							<li>
-								<button className="mx-2 mt-2 mb-5 px-6 rounded-lg font-medium text-black border-2 border-teal-700 hover:bg-teal-700 hover:text-white">test</button>
+								<input type="button" className="mx-2 mt-2 px-6 rounded-lg font-medium text-black border-2 border-teal-700 hover:bg-teal-700 hover:text-white"
+									onClick={() => {
+										if (props.onClick) {
+											props.onClick("förrätt");
+										}
+									}} value="Förrätt"/>
 							</li>
 							<li>
-								<button className="mx-2 mt-2 mb-5 px-6 rounded-lg font-medium text-black border-2 border-teal-700 hover:bg-teal-700 hover:text-white">test</button>
+								<input type="button" className="mx-2 mt-2 px-6 rounded-lg font-medium text-black border-2 border-teal-700 hover:bg-teal-700 hover:text-white"
+									onClick={() => {
+										if (props.onClick) {
+											props.onClick("soppa");
+										}
+									}} value="Soppa"/>
 							</li>
 							<li>
-								<button className="mx-2 mt-2 mb-5 px-6 rounded-lg font-medium text-black border-2 border-teal-700 hover:bg-teal-700 hover:text-white">test</button>
+								<input type="button" className="mx-2 mt-2 px-6 rounded-lg font-medium text-black border-2 border-teal-700 hover:bg-teal-700 hover:text-white"
+									onClick={() => {
+										if (props.onClick) {
+											props.onClick("sallad");
+										}
+									}} value="Sallad"/>
+							</li>
+							<li>
+								<input type="button" className="mx-2 mt-2 px-6 rounded-lg font-medium text-black border-2 border-teal-700 hover:bg-teal-700 hover:text-white"
+									onClick={() => {
+										if (props.onClick) {
+											props.onClick("huvudrätt");
+										}
+									}} value="Huvudrätt"/>
+							</li>
+							<li>
+								<input type="button" className="mx-2 mt-2 px-6 rounded-lg font-medium text-black border-2 border-teal-700 hover:bg-teal-700 hover:text-white"
+									onClick={() => {
+										if (props.onClick) {
+											props.onClick("vegetariskt");
+										}
+									}} value="Vegetariskt"/>
+							</li>
+							<li>
+								<input type="button" className="mx-2 mt-2 px-6 rounded-lg font-medium text-black border-2 border-teal-700 hover:bg-teal-700 hover:text-white"
+									onClick={() => {
+										if (props.onClick) {
+											props.onClick("vegansk");
+										}
+									}} value="Vegansk"/>
+							</li>
+							<li>
+								<input type="button" className="mx-2 mt-2 px-6 rounded-lg font-medium text-black border-2 border-teal-700 hover:bg-teal-700 hover:text-white"
+									onClick={() => {
+										if (props.onClick) {
+											props.onClick("dessert");
+										}
+									}} value="Dessert"/>
 							</li>
 						</ul>
 					</div>
@@ -45,5 +102,4 @@ const Search = (props: { name: string | undefined, filter?: true } ) => {
 		</div>
 	);
 };
-
 export default Search;

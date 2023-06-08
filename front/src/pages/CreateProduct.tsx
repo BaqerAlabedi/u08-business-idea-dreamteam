@@ -5,25 +5,28 @@ import { MdKeyboardArrowLeft, MdError } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { createOneProduct } from "../functions/api";
+import useStoreUser from "../storage/UserStorage";
+import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 
 function CreateProduct() {
 	const navigate = useNavigate();
-
-	const categoryTags = ["Vegan", "Soppa", "Middag", "Hemmagjord"];
+	const apiKey = import.meta.env.VITE_MAPS_API_KEY;
+	const [value, setValue] = useState<any>();
+	const categoryTags = ["tilltugg", "förrätt", "soppa", "sallad", "huvudrätt", "vegetariskt", "vegansk", "dessert"];
+	const {storeUser} = useStoreUser();
 	const [selectedTags, setSelectedTags] = useState<string[]>([]);
 	const [hideInput, setHideInput] = useState(false);
-	const [formData, setFormData] = useState({
+	const [formData, setFormData] = useState<any>({
+		uid: storeUser,
 		title: "",
 		desc: "",
-		location: "",
 		free: false,
 		price: 0,
-		img: "",
 		expire: ["", ""],
-		tags: [""]
+		tags: [""],
 	});
-
 	const [errorMessage, setErrorMessage] = useState("");
+
 
 	const handleTagCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const { id, checked } = event.target;
@@ -34,9 +37,8 @@ function CreateProduct() {
 		} else {
 			updatedTags = updatedTags.filter((tag) => tag !== id);
 		}
-
 		setSelectedTags(updatedTags);
-		setFormData((prevFormData) => ({
+		setFormData((prevFormData: any) => ({
 			...prevFormData,
 			tags: updatedTags,
 		}));
@@ -46,32 +48,41 @@ function CreateProduct() {
 		setHideInput(event.target.checked);
 		const { id, checked } = event.target;
 
-		setFormData((prevFormData) => ({
+		setFormData((prevFormData: any) => ({
 			...prevFormData,
 			[id]: checked,
 		}));
 	};
 
-	const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+
+	const handleInputChange = (event: React.ChangeEvent<HTMLInputElement|HTMLTextAreaElement>) => {
 		const { id, value } = event.target;
+		const fileInput = document.getElementById("img") as HTMLInputElement;
+
+		if (id === "img" && fileInput && fileInput.files && fileInput.files.length > 0) {
+			const file = fileInput.files[0];
+			if (file) {
+				setFormData((prevFormData: any) => ({
+					...prevFormData,
+					img: file,
+				}));
+			} return;
+		}else {
+			setFormData((prevFormData: any) => ({
+				...prevFormData,
+				[id]: value,
+			}));
+		}/*
+		new_form_data.set(id, value);
+		for (const pair of new_form_data.entries()) {
+			console.log(`${pair[0]}: ${pair[1]}`);
+		}*/
 		setErrorMessage("");
-		setFormData((prevFormData) => ({
-			...prevFormData,
-			[id]: value,
-		}));
 	};
 
-	const handleTextareaChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-		const { id, value } = event.target;
-		setErrorMessage("");
-		setFormData((prevFormData) => ({
-			...prevFormData,
-			[id]: value,
-		}));
-	};
 	const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
 		const { value } = event.target;
-		setFormData((prevFormData) => ({
+		setFormData((prevFormData: { expire: any[]; }) => ({
 			...prevFormData,
 			expire: [value, prevFormData.expire[1]],
 		}));
@@ -79,7 +90,7 @@ function CreateProduct() {
 
 	const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const { value } = event.target;
-		setFormData((prevFormData) => ({
+		setFormData((prevFormData: { expire: any[]; }) => ({
 			...prevFormData,
 			expire: [prevFormData.expire[0], value],
 		}));
@@ -87,9 +98,14 @@ function CreateProduct() {
 
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-
+		const new_form_data = new FormData();
 		try {
-			await createOneProduct(formData);
+			for (const key in formData) {
+				new_form_data.append(key, formData[key]);
+			}
+			new_form_data.append("location", value.value.place_id);
+
+			await createOneProduct(new_form_data);
 			navigate("/profile");
 		} catch (error) {
 			setErrorMessage("Try again, something went wrong");
@@ -114,7 +130,7 @@ function CreateProduct() {
 				</h2>
 			</div>
 			<div className="flex justify-center items-center">
-				<form onSubmit={handleSubmit} className="lg:flex min-[320px]:block">
+				<form onSubmit={handleSubmit} className="lg:flex min-[320px]:block" encType="multipart/form-data">
 					<div className="lg:mr-20">
 						<Input
 							onChange={handleInputChange}
@@ -130,12 +146,12 @@ function CreateProduct() {
 								name="desc"
 								rows={6}
 								maxLength={300}
-								onChange={handleTextareaChange}
+								onChange={handleInputChange}
 							></textarea>
 						</div>
 						<label htmlFor="">Kategori</label>
 						{categoryTags.map((tag: string) => (
-							<div key={tag} className="my-2">
+							<div key={tag} className="my-2 capitalize">
 								<input
 									className="text-sm"
 									type="checkbox"
@@ -151,12 +167,19 @@ function CreateProduct() {
 					</div>
 
 					<div className="flex flex-col gap-4">
-						<Input
-							onChange={handleInputChange}
-							inputID="location"
-							labelText="Address"
-							require
+						<label htmlFor="googleLocation">Address</label>
+						<GooglePlacesAutocomplete
+							apiKey={apiKey}
+							selectProps={{
+								inputId: "googleLocation",
+								placeholder: "Ange en address",
+								value,
+								onChange: setValue,
+							}}
 						/>
+
+						<input hidden type="text" id="location"></input>
+
 						<Input
 							onChange={handleInputChange}
 							type="file"
