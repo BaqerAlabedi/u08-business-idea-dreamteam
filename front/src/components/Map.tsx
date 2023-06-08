@@ -2,8 +2,9 @@ import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
 import { useEffect, useState } from "react";
 import { GeolocationStore } from "../storage/GeolocationStore";
 
+
 export default function Map(data: any) {
-	const { setLocation, setError, setLoading } = GeolocationStore();
+	const { location, setLocation, setError, setLoading } = GeolocationStore();
 	const [placeIds, setPlaceIds] = useState<string[]>([]);
 	const [markerPositions, setMarkerPositions] = useState<google.maps.LatLngLiteral[]>([]);
 
@@ -12,7 +13,8 @@ export default function Map(data: any) {
 	});
 
 	const processPlaceIds = () => {
-		const geocoder = new google.maps.Geocoder();
+
+		const geocoder = new window.google.maps.Geocoder();
 
 		placeIds.forEach((placeId) => {
 			geocoder.geocode({ placeId: placeId }, (results: google.maps.GeocoderResult[] | any, status: google.maps.GeocoderStatus) => {
@@ -25,7 +27,11 @@ export default function Map(data: any) {
 		});
 	};
 
+	if (!markerPositions.length && isLoaded) processPlaceIds();
+
 	useEffect(() => {
+		if (Object.values(data)) console.log("DATA");
+
 		setLoading(true);
 
 		navigator.geolocation.getCurrentPosition(
@@ -41,28 +47,23 @@ export default function Map(data: any) {
 				setLoading(false);
 			}
 		);
-
 		if (!navigator.geolocation) {
 			setError("Geolocation is not supported by your browser");
 			setLoading(false);
 		}
 
+		console.log(location);
 
-		const placeId: any[] = Object.values(data)
+		const placeId: any[] = Object.values(data);
 		const positionId = placeId.flatMap((item: { location: any }[]) => item.map((res: { location: any }) => res.location))
 			.filter((location: any) => location !== null);
 		setPlaceIds(positionId);
-
-		if (placeIds.length > 0) {
-			processPlaceIds();
-		}
-
 	}, []);
 
 	if (!isLoaded) return <div>Loading...</div>;
 
 	return (
-		<GoogleMap zoom={10} center={{ lat: 59.33, lng: 18.06 }} mapContainerClassName="w-screen h-96">
+		<GoogleMap zoom={10} center={(location) ? location : { lat: 59.33, lng: 18.06 }} mapContainerClassName="w-screen h-96">
 			{markerPositions.map((position, index) => (
 				<Marker key={index} position={position} />
 			))}

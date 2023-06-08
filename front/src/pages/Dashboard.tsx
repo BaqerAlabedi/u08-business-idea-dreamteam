@@ -60,7 +60,7 @@ export default function Dashboard(this: unknown) {
 
 	return (
 		<>
-			<Map data={data}></Map>
+			{Object.keys(data).length && <Map data={data}></Map>}
 
 			<Search
 				name="Sök efter plats..."
@@ -102,6 +102,7 @@ export default function Dashboard(this: unknown) {
 						{ (idx !== 0 && idx % 3 === 0) && <><section><Advertisement/></section></> }
 					</React.Fragment>
 				)}
+
 			</section>}
 
 			<Link to={"/product/create"} className="my-4 flex flex-col items-center"><Button>Lägg upp egen annons</Button></Link>
